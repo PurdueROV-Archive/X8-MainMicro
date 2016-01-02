@@ -37,7 +37,7 @@ void initEverythig(void)
  	//must be included to initially configure the library
 	HAL_Init();
 
-	/* Configure the system clock to 100 MHz */
+	/* Configure the system clock */
 	SystemClock_Config();
 
 	initDebugLeds();
@@ -46,13 +46,14 @@ void initEverythig(void)
 
 	MX_DMA_Init();
 
-	initCan();
+
 
 	initI2C();
-
-	initPwm();
+	initCan();
+	//initPwm();
 }
 
+/* checked! */
 void initPwm(void)
 {
 	GPIO_InitTypeDef GPIO_InitStruct;
@@ -111,6 +112,7 @@ void initPwm(void)
 
 }
 
+/* checked! */
 void initI2C(void)
 {
 	GPIO_InitTypeDef GPIO_InitStruct;
@@ -126,6 +128,9 @@ void initI2C(void)
     GPIO_InitStruct.Speed = GPIO_SPEED_HIGH;
     GPIO_InitStruct.Alternate = GPIO_AF4_I2C1;
     HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+
+
+
 
     /* Peripheral clock enable */
     __I2C1_CLK_ENABLE();
@@ -200,51 +205,51 @@ void initCan(void)
     GPIO_InitStruct.Pull = GPIO_NOPULL;
     GPIO_InitStruct.Speed = GPIO_SPEED_HIGH;
     GPIO_InitStruct.Alternate = GPIO_AF9_CAN2;
-    HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+	  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
-  	/* Peripheral interrupt init*/
-    HAL_NVIC_SetPriority(CAN2_RX0_IRQn, 0, 0);
-    HAL_NVIC_EnableIRQ(CAN2_RX0_IRQn);
-    HAL_NVIC_SetPriority(CAN2_RX1_IRQn, 0, 0);
-    HAL_NVIC_EnableIRQ(CAN2_RX1_IRQn);
+        // Peripheral interrupt it
+     /* HAL_NVIC_SetPriority(CAN2_RX0_IRQn, 0, 0);
+      HAL_NVIC_EnableIRQ(CAN2_RX0_IRQn);
+      HAL_NVIC_SetPriority(CAN2_RX1_IRQn, 0, 0);
+      HAL_NVIC_EnableIRQ(CAN2_RX1_IRQn);
 
-    hcan2.Instance = CAN2;
-  	hcan2.Init.Prescaler = 16;
-  	hcan2.Init.Mode = CAN_MODE_NORMAL;
-  	hcan2.Init.SJW = CAN_SJW_1TQ;
-  	hcan2.Init.BS1 = CAN_BS1_1TQ;
-  	hcan2.Init.BS2 = CAN_BS2_1TQ;
-  	hcan2.Init.TTCM = DISABLE;
-  	hcan2.Init.ABOM = DISABLE;
-  	hcan2.Init.AWUM = DISABLE;
-  	hcan2.Init.NART = DISABLE;
-  	hcan2.Init.RFLM = DISABLE;
-  	hcan2.Init.TXFP = DISABLE;
-  	HAL_CAN_Init(&hcan2);
+      hcan2.Instance = CAN2;
+        hcan2.Init.Prescaler = 16;
+        hcan2.Init.Mode = CAN_MODE_NORMAL;
+        hcan2.Init.SJW = CAN_SJW_1TQ;
+        hcan2.Init.BS1 = CAN_BS1_1TQ;
+        hcan2.Init.BS2 = CAN_BS2_1TQ;
+        hcan2.Init.TTCM = DISABLE;
+        hcan2.Init.ABOM = DISABLE;
+        hcan2.Init.AWUM = DISABLE;
+        hcan2.Init.NART = DISABLE;
+        hcan2.Init.RFLM = DISABLE;
+        hcan2.Init.TXFP = DISABLE;
+        HAL_CAN_Init(&hcan2);
 
-  	//configures the fileter for the can communication
-  	CAN_FilterConfTypeDef  sFilterConfig;
+        //configures the fileter for the can communication
+        CAN_FilterConfTypeDef  sFilterConfig;
 
-  	sFilterConfig.FilterMode = CAN_FILTERMODE_IDMASK;
-    sFilterConfig.FilterScale = CAN_FILTERSCALE_32BIT;
-    sFilterConfig.FilterIdHigh = 0x0000;
-    sFilterConfig.FilterIdLow = 0x0000;
-    sFilterConfig.FilterMaskIdHigh = 0x0000;
-    sFilterConfig.FilterMaskIdLow = 0x0000;
-    sFilterConfig.FilterFIFOAssignment = 0;
-    sFilterConfig.FilterActivation = ENABLE;
-    sFilterConfig.BankNumber = 14;
+        sFilterConfig.FilterMode = CAN_FILTERMODE_IDMASK;
+      sFilterConfig.FilterScale = CAN_FILTERSCALE_32BIT;
+      sFilterConfig.FilterIdHigh = 0x0000;
+      sFilterConfig.FilterIdLow = 0x0000;
+      sFilterConfig.FilterMaskIdHigh = 0x0000;
+      sFilterConfig.FilterMaskIdLow = 0x0000;
+      sFilterConfig.FilterFIFOAssignment = 0;
+      sFilterConfig.FilterActivation = ENABLE;
+      sFilterConfig.BankNumber = 14;
 
-    HAL_CAN_ConfigFilter(&hcan2, &sFilterConfig);
+      HAL_CAN_ConfigFilter(&hcan2, &sFilterConfig);
 
-    //sets up the communication information
-    hcan2.pTxMsg->StdId = CAN_ID;  //the id of this microboard
-    
-    hcan2.pTxMsg->RTR = CAN_RTR_DATA;
-    hcan2.pTxMsg->IDE = CAN_ID_STD;
+      //sets up the communication information
+      hcan2.pTxMsg->StdId = CAN_ID;  //the id of this microboard
+
+      hcan2.pTxMsg->RTR = CAN_RTR_DATA;
+      hcan2.pTxMsg->IDE = CAN_ID_STD;
 
 
-  	HAL_CAN_Receive_IT(&hcan2, CAN_FIFO0);
+        HAL_CAN_Receive_IT(&hcan2, CAN_FIFO0);*/
 }
 
 void HAL_MspInit(void)

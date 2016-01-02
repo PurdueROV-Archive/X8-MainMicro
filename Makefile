@@ -248,7 +248,9 @@ $(PROJECT).hex: $(PROJECT).elf
 
 
 clean:
-	@rm $(BUILD_DIR)/*
+	@rm $(BUILD_DIR)/*.hex
+	@rm $(BUILD_DIR)/*.elf
+	@rm $(BUILD_DIR)/*.map
 	@echo " ### Cleaned build directory"
 
 burn:

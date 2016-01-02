@@ -6,7 +6,6 @@ void NMI_Handler(void)
 {
 } 
 
-
 void HardFault_Handler(void)
 {
   /* Go to infinite loop when Hard Fault exception occurs */
@@ -14,7 +13,6 @@ void HardFault_Handler(void)
   {
   }
 }
-
 
 void MemManage_Handler(void)
 {
@@ -24,7 +22,6 @@ void MemManage_Handler(void)
   }
 }
 
-
 void BusFault_Handler(void)
 {
   /* Go to infinite loop when Bus Fault exception occurs */
@@ -32,7 +29,6 @@ void BusFault_Handler(void)
   {
   }
 }
-
 
 void UsageFault_Handler(void)
 {
