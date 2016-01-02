@@ -1,5 +1,5 @@
 //put all of your #includes into main.h file
-#include "main.h" 
+#include "main.h"
 
 /*CAN2 GPIO Configuration    
     PB5  ------> CAN2_RX
@@ -28,24 +28,17 @@
 int main(void) {
 	initEverythig();
 
-	uint8_t aTxBuffer[1] = {1};
+
 
 	while (1) {
 
 
-		if(HAL_I2C_Master_Transmit_DMA(&hi2c1, (uint16_t)2, (uint8_t*)aTxBuffer, 1) != HAL_OK)
-		{
-			HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_11);
-		}
-
-
-		HAL_Delay(400);
 
 	}
 }
 /* This function is where messages from CAN
    communication are received */
-/*void HAL_CAN_RxCpltCallback(CAN_HandleTypeDef* CanHandle)
+void HAL_CAN_RxCpltCallback(CAN_HandleTypeDef* CanHandle)
 {
 	//example on how to use this in callback function
 	if ((CanHandle->pRxMsg)->StdId == 0x11 && (CanHandle->pRxMsg)->IDE == CAN_ID_STD)
@@ -53,7 +46,7 @@ int main(void) {
 
 
 	}
-}*/
+}
 
 
 

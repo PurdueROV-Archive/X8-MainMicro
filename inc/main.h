@@ -5,6 +5,8 @@
 #include "stm32f4xx_hal.h"
 #include "stm32f4xx_it.h"
 #include "stm32f4xx.h"
+#include <stdint.h>
+#include <stm32f407xx.h>
 #include "init.h"
 
 #define CAN_ID 0x13
