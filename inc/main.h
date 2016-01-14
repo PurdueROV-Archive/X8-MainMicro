@@ -1,7 +1,7 @@
 #ifndef __MAIN_H
 #define __MAIN_H
 
-/* Includes ------------------------------------------------------------------*/
+/* Includes ------------------*/
 #include "stm32f4xx_hal.h"
 #include "stm32f4xx_it.h"
 #include "stm32f4xx.h"
@@ -9,7 +9,12 @@
 #include <stm32f407xx.h>
 #include "init.h"
 
+
+#define POW_CAN_ID	0x11
+#define APP_CAN_ID 	0x12
 #define CAN_ID 0x13
+
+
 
 #define Main_Camera_Servo_PWM_Pin GPIO_PIN_0
 #define Main_Camera_Servo_PWM_GPIO_Port GPIOA

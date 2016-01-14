@@ -7,6 +7,8 @@ TIM_MasterConfigTypeDef sMasterConfig;
 TIM_OC_InitTypeDef sConfigOC;
 
 CAN_HandleTypeDef hcan2;
+static CanTxMsgTypeDef        TxMessage;
+static CanRxMsgTypeDef        RxMessage;
 
 DAC_HandleTypeDef hdac;
 
@@ -18,11 +20,16 @@ DMA_HandleTypeDef hdma_i2c1_rx;
 DMA_HandleTypeDef hdma_i2c1_tx;
 
 
+UART_HandleTypeDef huart1;
+DMA_HandleTypeDef hdma_usart1_rx;
+DMA_HandleTypeDef hdma_usart1_tx;
+
+
 TIM_HandleTypeDef htim2;
 TIM_HandleTypeDef htim5;
 
 //this function will call all of the other initialization functions
-void initEverythig(void)
+void initEverything(void)
 {
 	/* GPIO Ports Clock Enable */
  	__GPIOA_CLK_ENABLE();
@@ -46,11 +53,96 @@ void initEverythig(void)
 
 	MX_DMA_Init();
 
+	MX_GPIO_Init();
+	MX_USART1_UART_Init();
+
 
 
 	initI2C();
 	initCan();
-	//initPwm();
+	initPwm();
+}
+
+/* USART1 init function */
+void MX_USART1_UART_Init(void)
+{
+
+	huart1.Instance = USART1;
+	huart1.Init.BaudRate = 115200;
+	huart1.Init.WordLength = UART_WORDLENGTH_8B;
+	huart1.Init.StopBits = UART_STOPBITS_1;
+	huart1.Init.Parity = UART_PARITY_NONE;
+	huart1.Init.Mode = UART_MODE_TX_RX;
+	huart1.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+	huart1.Init.OverSampling = UART_OVERSAMPLING_16;
+	HAL_UART_Init(&huart1);
+
+}
+
+void MX_GPIO_Init(void)
+{
+
+	/* GPIO Ports Clock Enable */
+			__GPIOA_CLK_ENABLE();
+
+}
+
+
+
+void HAL_UART_MspInit(UART_HandleTypeDef* huart)
+{
+
+	GPIO_InitTypeDef GPIO_InitStruct;
+	if(huart->Instance==USART1)
+	{
+				__USART1_CLK_ENABLE();
+
+		/**USART1 GPIO Configuration
+        PA9     ------> USART1_TX
+        PA10     ------> USART1_RX
+        */
+		GPIO_InitStruct.Pin = GPIO_PIN_9|GPIO_PIN_10;
+		GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+		GPIO_InitStruct.Pull = GPIO_PULLUP;
+		GPIO_InitStruct.Speed = GPIO_SPEED_HIGH;
+		GPIO_InitStruct.Alternate = GPIO_AF7_USART1;
+		HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+		/* Peripheral DMA init*/
+
+		hdma_usart1_rx.Instance = DMA2_Stream2;
+		hdma_usart1_rx.Init.Channel = DMA_CHANNEL_4;
+		hdma_usart1_rx.Init.Direction = DMA_PERIPH_TO_MEMORY;
+		hdma_usart1_rx.Init.PeriphInc = DMA_PINC_DISABLE;
+		hdma_usart1_rx.Init.MemInc = DMA_MINC_ENABLE;
+		hdma_usart1_rx.Init.PeriphDataAlignment = DMA_PDATAALIGN_BYTE;
+		hdma_usart1_rx.Init.MemDataAlignment = DMA_MDATAALIGN_BYTE;
+		hdma_usart1_rx.Init.Mode = DMA_NORMAL;
+		hdma_usart1_rx.Init.Priority = DMA_PRIORITY_LOW;
+		hdma_usart1_rx.Init.FIFOMode = DMA_FIFOMODE_DISABLE;
+		HAL_DMA_Init(&hdma_usart1_rx);
+
+		__HAL_LINKDMA(huart,hdmarx,hdma_usart1_rx);
+
+		hdma_usart1_tx.Instance = DMA2_Stream7;
+		hdma_usart1_tx.Init.Channel = DMA_CHANNEL_4;
+		hdma_usart1_tx.Init.Direction = DMA_MEMORY_TO_PERIPH;
+		hdma_usart1_tx.Init.PeriphInc = DMA_PINC_DISABLE;
+		hdma_usart1_tx.Init.MemInc = DMA_MINC_ENABLE;
+		hdma_usart1_tx.Init.PeriphDataAlignment = DMA_PDATAALIGN_BYTE;
+		hdma_usart1_tx.Init.MemDataAlignment = DMA_MDATAALIGN_BYTE;
+		hdma_usart1_tx.Init.Mode = DMA_NORMAL;
+		hdma_usart1_tx.Init.Priority = DMA_PRIORITY_LOW;
+		hdma_usart1_tx.Init.FIFOMode = DMA_FIFOMODE_DISABLE;
+		HAL_DMA_Init(&hdma_usart1_tx);
+
+		__HAL_LINKDMA(huart,hdmatx,hdma_usart1_tx);
+
+		/* Peripheral interrupt init*/
+		HAL_NVIC_SetPriority(USART1_IRQn, 0, 0);
+		HAL_NVIC_EnableIRQ(USART1_IRQn);
+	}
+
 }
 
 /* checked! */
@@ -180,11 +272,21 @@ void MX_DMA_Init(void)
   /* DMA controller clock enable */
   __DMA1_CLK_ENABLE();
 
-  /* DMA interrupt init */
-  HAL_NVIC_SetPriority(DMA1_Stream0_IRQn, 0, 0);
-  HAL_NVIC_EnableIRQ(DMA1_Stream0_IRQn);
-  HAL_NVIC_SetPriority(DMA1_Stream6_IRQn, 0, 0);
-  HAL_NVIC_EnableIRQ(DMA1_Stream6_IRQn);
+  	/* DMA interrupt init */
+	HAL_NVIC_SetPriority(DMA1_Stream0_IRQn, 0, 0);
+  	HAL_NVIC_EnableIRQ(DMA1_Stream0_IRQn);
+	HAL_NVIC_SetPriority(DMA1_Stream6_IRQn, 0, 0);
+	HAL_NVIC_EnableIRQ(DMA1_Stream6_IRQn);
+
+  	//USART DMA initialization
+			__DMA2_CLK_ENABLE();
+
+	/* DMA interrupt init */
+	HAL_NVIC_SetPriority(DMA2_Stream2_IRQn, 0, 0);
+	HAL_NVIC_EnableIRQ(DMA2_Stream2_IRQn);
+	HAL_NVIC_SetPriority(DMA2_Stream7_IRQn, 0, 0);
+	HAL_NVIC_EnableIRQ(DMA2_Stream7_IRQn);
+
 
 }
 
@@ -208,39 +310,55 @@ void initCan(void)
 	  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
         // Peripheral interrupt it
-     /* HAL_NVIC_SetPriority(CAN2_RX0_IRQn, 0, 0);
+     HAL_NVIC_SetPriority(CAN2_RX0_IRQn, 0, 0);
       HAL_NVIC_EnableIRQ(CAN2_RX0_IRQn);
       HAL_NVIC_SetPriority(CAN2_RX1_IRQn, 0, 0);
       HAL_NVIC_EnableIRQ(CAN2_RX1_IRQn);
 
       hcan2.Instance = CAN2;
-        hcan2.Init.Prescaler = 16;
+
+
+		hcan2.pTxMsg = &TxMessage;
+		hcan2.pRxMsg = &RxMessage;
+
+        hcan2.Init.Prescaler = 2;
         hcan2.Init.Mode = CAN_MODE_NORMAL;
         hcan2.Init.SJW = CAN_SJW_1TQ;
-        hcan2.Init.BS1 = CAN_BS1_1TQ;
-        hcan2.Init.BS2 = CAN_BS2_1TQ;
+        hcan2.Init.BS1 = CAN_BS1_6TQ;
+        hcan2.Init.BS2 = CAN_BS2_8TQ;
         hcan2.Init.TTCM = DISABLE;
         hcan2.Init.ABOM = DISABLE;
         hcan2.Init.AWUM = DISABLE;
         hcan2.Init.NART = DISABLE;
         hcan2.Init.RFLM = DISABLE;
         hcan2.Init.TXFP = DISABLE;
-        HAL_CAN_Init(&hcan2);
+
+
+
+		if(HAL_CAN_Init(&hcan2) != HAL_OK)
+		{
+
+		}
 
         //configures the fileter for the can communication
         CAN_FilterConfTypeDef  sFilterConfig;
 
-        sFilterConfig.FilterMode = CAN_FILTERMODE_IDMASK;
-      sFilterConfig.FilterScale = CAN_FILTERSCALE_32BIT;
-      sFilterConfig.FilterIdHigh = 0x0000;
-      sFilterConfig.FilterIdLow = 0x0000;
-      sFilterConfig.FilterMaskIdHigh = 0x0000;
-      sFilterConfig.FilterMaskIdLow = 0x0000;
-      sFilterConfig.FilterFIFOAssignment = 0;
-      sFilterConfig.FilterActivation = ENABLE;
-      sFilterConfig.BankNumber = 14;
 
-      HAL_CAN_ConfigFilter(&hcan2, &sFilterConfig);
+		sFilterConfig.FilterNumber = 0;
+        sFilterConfig.FilterMode = CAN_FILTERMODE_IDMASK;
+      	sFilterConfig.FilterScale = CAN_FILTERSCALE_32BIT;
+		sFilterConfig.FilterIdHigh = 0x0000;
+		sFilterConfig.FilterIdLow = 0x0000;
+		sFilterConfig.FilterMaskIdHigh = 0x0000;
+		sFilterConfig.FilterMaskIdLow = 0x0000;
+      	sFilterConfig.FilterFIFOAssignment = 0;
+      	sFilterConfig.FilterActivation = ENABLE;
+      	sFilterConfig.BankNumber = 0;
+
+      	if(HAL_CAN_ConfigFilter(&hcan2, &sFilterConfig) != HAL_OK)
+		{
+
+		}
 
       //sets up the communication information
       hcan2.pTxMsg->StdId = CAN_ID;  //the id of this microboard
@@ -248,8 +366,16 @@ void initCan(void)
       hcan2.pTxMsg->RTR = CAN_RTR_DATA;
       hcan2.pTxMsg->IDE = CAN_ID_STD;
 
+		hcan2.pTxMsg->DLC = 1;
+		hcan2.pTxMsg->Data[0] = 1;
 
-        HAL_CAN_Receive_IT(&hcan2, CAN_FIFO0);*/
+
+
+        if(HAL_CAN_Receive_IT(&hcan2, CAN_FIFO0) != HAL_OK)
+		{
+
+		}
+
 }
 
 void HAL_MspInit(void)
@@ -257,6 +383,7 @@ void HAL_MspInit(void)
   HAL_NVIC_SetPriorityGrouping(NVIC_PRIORITYGROUP_4);
 
   HAL_NVIC_SetPriority(SysTick_IRQn, 0, 0);
+
 }
 
 //initialize the debugging leds
@@ -350,41 +477,58 @@ void LedToggle(int ledNum)
 //configures the system clcok
 void SystemClock_Config(void)
 {
-  RCC_ClkInitTypeDef RCC_ClkInitStruct;
-  RCC_OscInitTypeDef RCC_OscInitStruct;
+	RCC_OscInitTypeDef RCC_OscInitStruct;
 
-  /* Enable Power Control clock */
-  __HAL_RCC_PWR_CLK_ENABLE();
-  
+			__PWR_CLK_ENABLE();
 
-  __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE2);
-  
-  /* Enable HSI Oscillator and activate PLL with HSI as source */
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
-  RCC_OscInitStruct.HSIState = RCC_HSI_ON;
-  RCC_OscInitStruct.HSICalibrationValue = 0x10;
-  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
-  RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSI;
-  RCC_OscInitStruct.PLL.PLLM = 16;
-  RCC_OscInitStruct.PLL.PLLN = 400;
-  RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV4;
-  RCC_OscInitStruct.PLL.PLLQ = 7;
-  if(HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  
-  /* Select PLL as system clock source and configure the HCLK, PCLK1 and PCLK2 
-     clocks dividers */
-  RCC_ClkInitStruct.ClockType = (RCC_CLOCKTYPE_SYSCLK | RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2);
-  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
-  RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
-  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;  
-  RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;  
-  if(HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_3) != HAL_OK)
-  {
-    Error_Handler();
-  }
+	__HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE1);
+
+	RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
+	RCC_OscInitStruct.HSIState = RCC_HSI_ON;
+	RCC_OscInitStruct.HSICalibrationValue = 16;
+	RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
+	HAL_RCC_OscConfig(&RCC_OscInitStruct);
+
+	HAL_SYSTICK_Config(HAL_RCC_GetHCLKFreq()/1000);
+
+	HAL_SYSTICK_CLKSourceConfig(SYSTICK_CLKSOURCE_HCLK);
+
+	/* SysTick_IRQn interrupt configuration */
+	HAL_NVIC_SetPriority(SysTick_IRQn, 0, 0);
+}
+
+//sets up the pins for can to be alternate functions
+void HAL_CAN_MspInit(CAN_HandleTypeDef* hcan)
+{
+
+	GPIO_InitTypeDef GPIO_InitStruct;
+	if(hcan->Instance==CAN2)
+	{
+
+
+		/* Peripheral clock enable */
+		__CAN2_CLK_ENABLE();
+		__CAN1_CLK_ENABLE();
+
+
+
+		/**CAN1 GPIO Configuration
+        PD0     ------> CAN1_RX
+        PD1     ------> CAN1_TX
+        */
+		GPIO_InitStruct.Pin = GPIO_PIN_5|GPIO_PIN_6;
+		GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+		GPIO_InitStruct.Pull = GPIO_NOPULL;
+		GPIO_InitStruct.Speed = GPIO_SPEED_HIGH;
+		GPIO_InitStruct.Alternate = GPIO_AF9_CAN2;
+		HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+
+		/* Peripheral interrupt init*/
+		HAL_NVIC_SetPriority(CAN2_RX0_IRQn, 0, 0);
+		HAL_NVIC_EnableIRQ(CAN2_RX0_IRQn);
+		HAL_NVIC_SetPriority(CAN2_RX1_IRQn, 0, 0);
+		HAL_NVIC_EnableIRQ(CAN2_RX1_IRQn);
+	}
 }
 
 //function used to handle errors
