@@ -32,12 +32,25 @@
 
 /* 	USEFULL FUNCTIONS
 
-	RED = ?; BLUE = ?; GREEN = ?; YELLOW = ?
+	RED; BLUE; GREEN; ORANGE
 
 	void LedOn(int ledNum);
 	void LedOff(int ledNum);
 	void LedToggle(int ledNum);
 */
+
+/*	
+	Example how to send can code 
+		
+	CanHandle.pTxMsg->DLC = 3; //sets the size of the message in bytes. Max 8 bytes per message
+
+	//sets the information that is sent over the message
+	CanHandle.pTxMsg->Data[0] = 5;
+    CanHandle.pTxMsg->Data[1] = 246;
+    CanHandle.pTxMsg->Data[2] = 17;
+
+	HAL_CAN_Transmit(&hcan2, 10);  //sends the message
+*/		
 
 int main(void) {
 
