@@ -50,7 +50,7 @@
     CanHandle.pTxMsg->Data[2] = 17;
 
 	HAL_CAN_Transmit(&hcan2, 10);  //sends the message
-*/		
+*/
 
 int main(void) {
 

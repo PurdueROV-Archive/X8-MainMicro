@@ -13,9 +13,9 @@ extern DAC_HandleTypeDef hdac;
 
 extern ETH_HandleTypeDef heth;
 
-extern DMA_HandleTypeDef hdma_usart1_rx;
-extern DMA_HandleTypeDef hdma_usart1_tx;
-extern UART_HandleTypeDef huart1;
+extern DMA_HandleTypeDef hdma_usart3_rx;
+extern DMA_HandleTypeDef hdma_usart3_tx;
+extern UART_HandleTypeDef huart3;
 
 extern I2C_HandleTypeDef hi2c1;
 extern I2C_HandleTypeDef hi2c3;
@@ -33,7 +33,7 @@ void Error_Handler(void);
 
 
 void MX_GPIO_Init(void);
-void MX_USART1_UART_Init(void);
+void MX_USART3_UART_Init(void);
 
 /* initializes timer settings for pwm */
 void initPwm(void);

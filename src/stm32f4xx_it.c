@@ -90,17 +90,20 @@ void CAN2_RX1_IRQHandler(void)
   HAL_CAN_IRQHandler(&hcan2);
 }
 
-void USART1_IRQHandler(void)
+
+
+void DMA1_Stream1_IRQHandler(void)
 {
-  HAL_UART_IRQHandler(&huart1);
+  HAL_DMA_IRQHandler(&hdma_usart3_rx);
 }
 
-void DMA2_Stream2_IRQHandler(void)
+
+void DMA1_Stream3_IRQHandler(void)
 {
-  HAL_DMA_IRQHandler(&hdma_usart1_rx);
+  HAL_DMA_IRQHandler(&hdma_usart3_tx);
 }
 
-void DMA2_Stream7_IRQHandler(void)
+void USART3_IRQHandler(void)
 {
-  HAL_DMA_IRQHandler(&hdma_usart1_tx);
+  HAL_UART_IRQHandler(&huart3);
 }
