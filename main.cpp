@@ -59,7 +59,10 @@ int main(void) {
 
 
 	while (1) {
-
+		LedOn(GREEN);
+		HAL_Delay(100);
+		LedOff(GREEN);
+		HAL_Delay(100);
 	}
 }
 
