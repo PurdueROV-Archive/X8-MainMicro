@@ -1,33 +1,6 @@
 #include "matricies.h"
 
-typedef struct{
-    int Lx;
-    int Ly;
-    int Ly;
-    int Rx;
-    int Ry;
-    int Rz;
-    bool transposed;
-}vect6;
 
-typedef struct{
-    vect6 t1;
-    vect6 t2;
-    vect6 t3;
-    vect6 t4;
-    vect6 t5;
-    vect6 t6;
-    vect6 t7;
-    vect6 t8;
-    bool transposed;
-}matrix8_6;
-
-typedef struct{
-    int x;
-    int y;
-    int z;
-    bool transposed;
-}vect3;
 
 void transpose(vect6 vec)
 {
@@ -46,7 +19,16 @@ void transpose(vect6 vec)
 
 int dot(vect6 a, vect6 b)
 {
-    if (a.transposed == b.transposed) {
-        return a.Lx * b.Lx + a.Ly * b.Ly + a.Lz * b.Lz + a.Rx * b.Rx + a.Ry * b.Ry + 
-        
+    if (a.transposed == b.transposed)
+        return a.Lx * b.Lx + a.Ly * b.Ly + a.Lz * b.Lz + a.Rx * b.Rx + a.Ry * b.Ry + a.Rz * b.Rz;
+    else
+        throw 1;    
+}
+
+vect3 cross(vect3 a, vect3 b)
+{
+    vect3 result;
+    result.x = 
+    result.y = 
+    result.z = 
 }
