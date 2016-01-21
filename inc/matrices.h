@@ -33,4 +33,4 @@ typedef struct{
 
 vect3 cross(vect3, vect3);
 int dot(vect3, vect3);
-
+int dot(vect6, vect6);
