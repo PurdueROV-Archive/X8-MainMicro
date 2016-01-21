@@ -18,7 +18,6 @@ typedef struct{
     vect6 t6;
     vect6 t7;
     vect6 t8;
-    bool transposed;
 }matrix8_6;
 
 typedef struct{
