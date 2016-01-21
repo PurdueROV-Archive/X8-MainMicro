@@ -44,9 +44,13 @@ void initEverythig(void)
 
 	HAL_MspInit();
 
+  HAL_I2C_Init();
+
+  MX_GPIO_Init();
+
 	MX_DMA_Init();
 
-
+  initPrint();  // For debug purposes...
 
 	initI2C();
 	initCan();
@@ -257,6 +261,16 @@ void HAL_MspInit(void)
   HAL_NVIC_SetPriorityGrouping(NVIC_PRIORITYGROUP_4);
 
   HAL_NVIC_SetPriority(SysTick_IRQn, 0, 0);
+}
+
+/** Pinout Configuration
+*/
+void MX_GPIO_Init(void)
+{
+
+  /* GPIO Ports Clock Enable */
+  __GPIOB_CLK_ENABLE();
+
 }
 
 //initialize the debugging leds
