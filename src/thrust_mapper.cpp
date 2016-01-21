@@ -14,11 +14,6 @@
 
 ThrustMapper::ThrustMapper()
 {
-	
-}
-
-
-void ThrustMapper::initThrustersContainer(void)
-{
 
 }
+
