@@ -28,6 +28,10 @@ void DMA1_Stream6_IRQHandler(void);
 void CAN2_RX0_IRQHandler(void);
 void CAN2_RX1_IRQHandler(void);
 
+void USART3_IRQHandler(void);
+void DMA1_Stream1_IRQHandler(void);
+void DMA1_Stream3_IRQHandler(void);
+
 #ifdef __cplusplus
 }
 #endif
