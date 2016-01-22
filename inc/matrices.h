@@ -1,3 +1,5 @@
+#ifndef __MATRICES__H
+#define __MATRICES__H
 typedef struct{
     int x;
     int y;
@@ -49,3 +51,7 @@ vect6 div6(vect6, int);
 
 vect3 vect3Make(int, int, int);
 vect6 vect6Make(int, int, int, int, int, int);
+
+
+
+#endif

@@ -1,4 +1,4 @@
-#include "matricies.h"
+#include "matrices.h"
 
 int dot(vect6 a, vect6 b)
 {
@@ -102,7 +102,7 @@ vect3 vect3Make(int a, int b, int c)
 vect6 vect6Make(int a, int b, int c, int d, int e, int f)
 {
     vect6 result;
-    vect6.L = vect3Make(a, b, c);
-    vect6.R = vect3Make(d, e, f);
+    result.L = vect3Make(a, b, c);
+    result.R = vect3Make(d, e, f);
     return result;
 }
