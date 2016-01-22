@@ -90,3 +90,19 @@ vect6 div6(vect6 a, int factor)
     return result;
 }
 
+vect3 vect3Make(int a, int b, int c)
+{
+    vect3 result;
+    result.x = a;
+    result.y = b;
+    result.z = c;
+    return result;
+}
+
+vect6 vect6Make(int a, int b, int c, int d, int e, int f)
+{
+    vect6 result;
+    vect6.L = vect3Make(a, b, c);
+    vect6.R = vect3Make(d, e, f);
+    return result;
+}

@@ -46,3 +46,6 @@ vect6 mul6(vect6, int);
 
 vect3 div(vect3, int);
 vect6 div6(vect6, int);
+
+vect3 vect3Make(int, int, int);
+vect6 vect6Make(int, int, int, int, int, int);

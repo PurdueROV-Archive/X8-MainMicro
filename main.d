@@ -37,9 +37,9 @@ main.o: main.cpp inc/main.h \
  STM32Cube_FW_F4_V1.9.0/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h \
  STM32Cube_FW_F4_V1.9.0/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h \
  STM32Cube_FW_F4_V1.9.0/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_usart.h \
- inc/stm32f4xx_it.h inc/main.h \
+ inc/stm32f4xx_it.h inc/main.h inc/print.h \
  STM32Cube_FW_F4_V1.9.0/Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h \
- inc/init.h inc/print.h
+ inc/init.h
 
 inc/main.h:
 
@@ -123,8 +123,8 @@ inc/stm32f4xx_it.h:
 
 inc/main.h:
 
+inc/print.h:
+
 STM32Cube_FW_F4_V1.9.0/Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h:
 
 inc/init.h:
-
-inc/print.h:
