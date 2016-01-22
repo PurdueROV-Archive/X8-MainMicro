@@ -33,4 +33,16 @@ typedef struct{
 
 vect3 cross(vect3, vect3);
 int dot(vect3, vect3);
-int dot(vect6, vect6);
+int dot6(vect6, vect6);
+
+vect3 add(vect3, vect3);
+vect6 add6(vect6, vect6);
+
+vect3 sub(vect3, vect3);
+vect6 sub6(vect6, vect6);
+
+vect3 mul(vect3, int);
+vect6 mul6(vect6, int);
+
+vect3 div(vect3, int);
+vect6 div6(vect6, int);
