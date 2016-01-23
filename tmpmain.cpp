@@ -9,7 +9,8 @@ matrix8_6 pivM(void);
 
 int main(void)
 {
-//	vect3 a = vect3Make(1,2,3);
+//    printf("Vector cross and add test:\n");
+//	  vect3 a = vect3Make(1,2,3);
 //    vect3 b = vect3Make(4,5,6);
 //    printf("a cross b: \n");
 //    vect3 c = cross(a,b);
@@ -18,16 +19,28 @@ int main(void)
 //    vect3 d = add(a,b);
 //    printVector(d);
     
-    printf("MatMul test:\n");
+//    printf("MatMul 86x61 test:\n");
+//    vect6 F = vect6Make(1,1,0,1,0,1);
+//    matrix8_6 m = pivM();
+//    vect8 thrusts = matMul_86x61(m, F);
+//    printVector8(thrusts);
+//    printf("\n");
+
+    printf("MatMul 22x22 test:\n");
+    matrix2_2 a, b;
+    a.one = vect2Make(1,2);
+    a.two = vect2Make(3,4);
     
-    vect6 F = vect6Make(1,1,0,1,0,1);
-    matrix8_6 m = pivM();
-    vect8 thrusts = matMul(m, F);
-    printVector8(thrusts);
-    printf("\n");
+    b.one = vect2Make(1,2);
+    b.two = vect2Make(3,4);
+    
+    matrix2_2 c = matMul_22x22(a,b);
+    printf("Matrix 2x2:\n%5d %5d\n%5d %5d\n",c.one.a, c.one.b, c.two.a, c.two.b);
     
     return 0;
 }
+
+matrix2_2 invert2_2(matrix2_2)
 
 void printVector(vect3 v)
 {
