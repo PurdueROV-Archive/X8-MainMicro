@@ -33,6 +33,17 @@ typedef struct{
     vect3 t8;
 }matrix8_3;
 
+typedef struct{
+    int a;
+    int b;
+    int c;
+    int d;
+    int e;
+    int f;
+    int g;
+    int h;
+}vect8;
+
 vect3 cross(vect3, vect3);
 int dot(vect3, vect3);
 int dot6(vect6, vect6);
@@ -52,6 +63,6 @@ vect6 div6(vect6, int);
 vect3 vect3Make(int, int, int);
 vect6 vect6Make(int, int, int, int, int, int);
 
-
+vect8 matMul(matrix8_6, vect6);
 
 #endif
