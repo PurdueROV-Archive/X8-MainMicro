@@ -6,37 +6,9 @@
 
 typedef struct {
 
-	// t1_l = thruster1_location = (x,y,z) dist (m) from center of mass.
-	vect3 t1;
-	vect3 t2;
-	vect3 t3;
-	vect3 t4;
-	vect3 t5;
-	vect3 t6;
-	vect3 t7;
-	vect3 t8;
-
-} ThrusterLocationData;
-
-typedef struct {
-
-	// t1_r = thruster1_rotation = (x-axis-angle, y-axis-angle, z-axis-angle) degrees, from...?
-	vect3 t1;
-	vect3 t2;
-	vect3 t3;
-	vect3 t4;
-	vect3 t5;
-	vect3 t6;
-	vect3 t7;
-	vect3 t8;
-
-} ThrusterRotationData;
-
-typedef struct {
-
 	MapperMatrixIndex currentMapperMatrix = ALL;
 
-	matrix8_6 mapperMatrices[] = {
+	matrix8_6 matrices[] = {
 		matrix8_6 all,
 		matrix8_6 minus_t1,
 		matrix8_6 minus_t2,
@@ -68,14 +40,15 @@ class ThrustMapper
 {	
 	public:
 		ThrustMapper(void);
-		matrix8_3 calculateThrustMap(vect6 target_vector);
+		void calculateThrustMap(vect6 target_vector);
 		void changeMapperMatrix(int* enabled_thrusters);
-		vect6 desired_force_vector;
-		matrix8_3 thrust_map; //??? Not sure what size the resultant thrustmap should look like.
+		vect6 getCurrentForceVector(void);
+		void nullForceVector(void);
+		vect8 thrust_map;
 
 	private:
-		ThrusterLocationData locations;
-		ThrusterRotationData rotations;
+		vect6 desired_force_vector;
+		vect3 pivotPosition;
 		ThrustMapperMatrices mapper_matrices;
 
 };
