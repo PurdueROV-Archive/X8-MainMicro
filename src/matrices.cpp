@@ -1,6 +1,11 @@
+/*
+Created by Jason King
+January 2016
+Purdue IEEE ROV
+*/
 #include "matrices.h"
 
-int dot(vect6 a, vect6 b)
+int dot6(vect6 a, vect6 b)
 {
     //return a.L.x * b.L.x + a.L.y * b.L.y + a.L.z * b.L.z + a.R.x * b.R.x + a.R.y * b.R.y + a.R.z * b.R.z; 
     return dot(a.L,b.L) + dot(a.R,b.R);
@@ -9,6 +14,11 @@ int dot(vect6 a, vect6 b)
 int dot(vect3 a, vect3 b)
 {
     return a.x * b.x + a.y * b.y + a.z * b.z;
+}
+
+int dot2(vect2 a, vect2 b)
+{
+    return a.a * b.a + a.b * b.b;
 }
 
 vect3 cross(vect3 a, vect3 b)
@@ -107,16 +117,43 @@ vect6 vect6Make(int a, int b, int c, int d, int e, int f)
     return result;
 }
 
-vect8 matMul(matrix8_6 mat, vect6 v)
+vect2 vect2Make(int a, int b)
+{
+    vect2 result;
+    result.a = a;
+    result.b = b;
+    return result;
+}
+
+vect8 matMul_86x61(matrix8_6 mat, vect6 v)
 {
     vect8 result;
-    result.a = dot(mat.t1, v);
-    result.b = dot(mat.t2, v);
-    result.c = dot(mat.t3, v);
-    result.d = dot(mat.t4, v);
-    result.e = dot(mat.t5, v);
-    result.f = dot(mat.t6, v);
-    result.g = dot(mat.t7, v);
-    result.h = dot(mat.t8, v);
+    result.a = dot6(mat.t1, v);
+    result.b = dot6(mat.t2, v);
+    result.c = dot6(mat.t3, v);
+    result.d = dot6(mat.t4, v);
+    result.e = dot6(mat.t5, v);
+    result.f = dot6(mat.t6, v);
+    result.g = dot6(mat.t7, v);
+    result.h = dot6(mat.t8, v);
+    return result;
+}
+
+vect3 matMul_33x31(matrix3_3 m,vect3 v)
+{
+    vect3 result;
+    result.x = dot(m.a, v);
+    result.y = dot(m.b, v);
+    result.z = dot(m.c, v);
+    return result;
+}
+
+matrix2_2 matMul_22x22(matrix2_2 a, matrix2_2 b)
+{
+    matrix2_2 result;
+    result.one.a = dot2(a.one, vect2Make(b.one.a, b.two.a));
+    result.one.b = dot2(a.one, vect2Make(b.one.b, b.two.b));
+    result.two.a = dot2(a.two, vect2Make(b.one.a, b.two.a));
+    result.two.b = dot2(a.two, vect2Make(b.one.b, b.two.b));
     return result;
 }
