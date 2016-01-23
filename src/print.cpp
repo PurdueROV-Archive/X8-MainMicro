@@ -1,5 +1,3 @@
-#include "main.h"
-
 #include "print.h"
 
 /* UART handler declaration */

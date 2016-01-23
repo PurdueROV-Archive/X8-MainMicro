@@ -17,6 +17,18 @@ ThrustMapper::ThrustMapper(void)
 	/*
 	 *	Initialize mapper matrices here
 	 */
+	mapper_matrices.currentMapperMatrix = ALL;
+
+	mapper_matrices.matrices[0] = mapper_matrices.all;
+	mapper_matrices.matrices[1] = mapper_matrices.minus_t1;
+	mapper_matrices.matrices[2] = mapper_matrices.minus_t2;
+	mapper_matrices.matrices[3] = mapper_matrices.minus_t3;
+	mapper_matrices.matrices[4] = mapper_matrices.minus_t4;
+	mapper_matrices.matrices[5] = mapper_matrices.minus_t5;
+	mapper_matrices.matrices[6] = mapper_matrices.minus_t6;
+	mapper_matrices.matrices[7] = mapper_matrices.minus_t7;
+	mapper_matrices.matrices[8] = mapper_matrices.minus_t8;
+
 	mapper_matrices.matrices[0].t1 = vect6Make(0,0,0,0,0,0);
 	mapper_matrices.matrices[0].t2 = vect6Make(0,0,0,0,0,0);
 	mapper_matrices.matrices[0].t3 = vect6Make(0,0,0,0,0,0);
@@ -134,8 +146,11 @@ void ThrustMapper::adjustPivotPosition(vect3 loc)
 void ThrustMapper::calculateThrustMap(void)
 {
 	// Calculations:
-	desired_force_vector += cross(pivotPosition, desired_force_vector.R);
-	thrust_map = matMul(mapper_matrices.matrices[mapper_matrices.currentMapperMatrix], desired_force_vector);
+	vect3 cross_result = cross(pivotPosition, desired_force_vector.R);
+	desired_force_vector.L.x += cross_result.x;
+	desired_force_vector.L.y += cross_result.y;
+	desired_force_vector.L.z += cross_result.z;
+	thrust_map = matMul_86x61(mapper_matrices.matrices[mapper_matrices.currentMapperMatrix], desired_force_vector);
 }
 
 void ThrustMapper::calculateThrustMap(vect6 target_vector)
@@ -143,8 +158,11 @@ void ThrustMapper::calculateThrustMap(vect6 target_vector)
 	desired_force_vector = target_vector;
 
 	// Calculations:
-	desired_force_vector += cross(pivotPosition, desired_force_vector.R);
-	thrust_map = matMul(mapper_matrices.matrices[mapper_matrices.currentMapperMatrix], desired_force_vector);
+	vect3 cross_result = cross(pivotPosition, desired_force_vector.R);
+	desired_force_vector.L.x += cross_result.x;
+	desired_force_vector.L.y += cross_result.y;
+	desired_force_vector.L.z += cross_result.z;
+	thrust_map = matMul_86x61(mapper_matrices.matrices[mapper_matrices.currentMapperMatrix], desired_force_vector);
 }
 
 // Only accepts an array of 8 ints. These ints correspond to whether each of the 8 thrusters are enabled.
@@ -184,7 +202,7 @@ void ThrustMapper::changeMapperMatrix(char enabled_thrusters)
  	}
 }
 
-vect6 getCurrentForceVector(void)
+vect6 ThrustMapper::getCurrentForceVector(void)
 {
 	return desired_force_vector;
 }

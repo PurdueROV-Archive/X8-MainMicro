@@ -12,7 +12,9 @@ OBJECTS = main.o \
 		 src/stm32f4xx_it.o \
 		src/init.o \
 		src/pressure.o \
-		src/matrices.o
+		src/matrices.o \
+		src/print.o \
+		src/thrust_mapper.o
 
 
 
