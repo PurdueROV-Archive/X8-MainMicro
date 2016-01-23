@@ -11,7 +11,8 @@ BUILD_DIR = build
 OBJECTS = main.o \
 		 src/stm32f4xx_it.o \
 		src/init.o \
-		src/pressure.o
+		src/pressure.o \
+		src/matrices.o
 
 
 
@@ -216,7 +217,7 @@ CC_FLAGS += -DNDEBUG -Os
 
 #the actual portion of the make file
 
-.PHONY: all compile clean burn dfu
+.PHONY: all compile clean burn dfu test
 
 all: compile
 
@@ -262,3 +263,6 @@ burn:
 dfu:
 	@echo " ### Flashing $(BUILD_DIR)/$(PROJECT).bin to device with dfu-util...\n"
 	@dfu-util -a 0 --dfuse-address 0x08000000 -D $(BUILD_DIR)/$(PROJECT).bin
+
+test:
+	gcc -Wall -I./inc/ tmpmain.cpp ./src/matrices.cpp -o test

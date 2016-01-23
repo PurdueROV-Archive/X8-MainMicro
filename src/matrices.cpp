@@ -1,4 +1,4 @@
-#include "matricies.h"
+#include "matrices.h"
 
 int dot(vect6 a, vect6 b)
 {
@@ -102,7 +102,21 @@ vect3 vect3Make(int a, int b, int c)
 vect6 vect6Make(int a, int b, int c, int d, int e, int f)
 {
     vect6 result;
-    vect6.L = vect3Make(a, b, c);
-    vect6.R = vect3Make(d, e, f);
+    result.L = vect3Make(a, b, c);
+    result.R = vect3Make(d, e, f);
+    return result;
+}
+
+vect8 matMul(matrix8_6 mat, vect6 v)
+{
+    vect8 result;
+    result.a = dot(mat.t1, v);
+    result.b = dot(mat.t2, v);
+    result.c = dot(mat.t3, v);
+    result.d = dot(mat.t4, v);
+    result.e = dot(mat.t5, v);
+    result.f = dot(mat.t6, v);
+    result.g = dot(mat.t7, v);
+    result.h = dot(mat.t8, v);
     return result;
 }
