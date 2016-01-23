@@ -5,6 +5,9 @@ void printVector(vect3);
 void printVector6(vect6);
 void printMatrix8_6(matrix8_6);
 void printVector8(vect8);
+void printMatrix2_2(matrix2_2);
+matrix2_2 invert2_2(matrix2_2);
+
 matrix8_6 pivM(void);
 
 int main(void)
@@ -35,12 +38,31 @@ int main(void)
     b.two = vect2Make(3,4);
     
     matrix2_2 c = matMul_22x22(a,b);
-    printf("Matrix 2x2:\n%5d %5d\n%5d %5d\n",c.one.a, c.one.b, c.two.a, c.two.b);
+    
+    matrix2_2 invC = invert2_2(c);
+    matrix2_2 d = matMul_22x22(c,invC);
+    printMatrix2_2(c);
+    printMatrix2_2(invC);
+    printMatrix2_2(d);
     
     return 0;
 }
 
-matrix2_2 invert2_2(matrix2_2)
+matrix2_2 invert2_2(matrix2_2 m)
+{
+    matrix2_2 result;
+    int det = m.one.a * m.two.b - m.one.b * m.two.a;//ad-bc
+    result.one.a = m.two.b*1024/det;
+    result.two.b = m.one.a*1024/det;
+    result.one.b = -m.one.b*1024/det;
+    result.two.a = -m.two.a*1024/det;
+    return result;
+}
+
+void printMatrix2_2(matrix2_2 m)
+{
+    printf("Matrix 2x2:\n%5d %5d\n%5d %5d\n",m.one.a, m.one.b, m.two.a, m.two.b);
+}
 
 void printVector(vect3 v)
 {
