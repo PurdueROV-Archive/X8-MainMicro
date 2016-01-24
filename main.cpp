@@ -1,5 +1,6 @@
 //put all of your #includes into main.h file
 #include "main.h"
+#include "print.h"
 
 /*CAN2 GPIO Configuration    
     PB5  ------> CAN2_RX
@@ -27,7 +28,7 @@
 /*USART1 GPIO Configuration
     PA9     ------> USART1_TX
     PA10     ------> USART1_RX  
-    	* UART_HandleTypeDef huart1;		*/
+    	* UART_HandleTypeDef huart3;		*/
 
 
 /* 	USEFULL FUNCTIONS

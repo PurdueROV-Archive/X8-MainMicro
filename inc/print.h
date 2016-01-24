@@ -8,7 +8,7 @@
 /* UART handler declaration */
 extern UART_HandleTypeDef UartHandle;
 
-void initPrint(void);
+void initPrint(UART_HandleTypeDef handler);
 
 void printInt(int num);
 void printDouble(double num);
