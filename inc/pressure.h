@@ -1,32 +1,105 @@
 #ifndef X8_PRESSURE
 #define X8_PRESSURE
 
-/* puts all of the #includes and # defines that you need here */
+/* put all of the #includes and # defines that you need here */
+
+#include "stm32f4xx_hal.h"
+#include "stm32f4xx_hal_def.h"
+#include "stm32f4xx_hal_dma.h"
+#include "stm32f4xx_hal_i2c.h"
+
+// Define units for conversions. 
+enum temperature_units
+{
+    CELSIUS,
+    FAHRENHEIT,
+};
+
+// Define measurement type.
+enum measurement
+{   
+    PRESSURE = 0x00,
+    TEMPERATURE = 0x10
+};
+
+// Define constants for Conversion precision
+enum precision
+{
+    ADC_256  = 0x00,
+    ADC_512  = 0x02,
+    ADC_1024 = 0x04,
+    ADC_2048 = 0x06,
+    ADC_4096 = 0x08
+};
+
+// Define address choices for the device (I2C mode)
+enum ms5803_addr
+{
+    ADDRESS_HIGH = (0x76 << 1),
+    ADDRESS_LOW  = (0x77 << 1)
+};
+
+//Commands
+#define CMD_RESET 0x1E // reset command 
+#define CMD_ADC_READ 0x00 // ADC read command 
+#define CMD_ADC_CONV 0x40 // ADC conversion command 
+
+#define CMD_PROM 0xA0 // Coefficient location
+
+#define I2C_DMA_ERROR   1
+#define I2C_DMA_OK      0
 
 
-class pressure {
+class pressure
+{
+    public: 
+        pressure(ms5803_addr addr);//PinName p_sda, PinName p_scl); 
+        int reset(void);    //Reset device
+        uint8_t begin(void); // Collect coefficients from sensor
 
+        I2C_HandleTypeDef hi2c1;
+        DMA_HandleTypeDef hdma_i2c1_rx;
+        DMA_HandleTypeDef hdma_i2c1_tx;
+        
+        // Return calculated temperature from sensor
+        float getTemperature(temperature_units units, precision _precision);
+        // Return calculated pressure from sensor
+        float getPressure(precision _precision);
 
-public:
-	/* Put function declarations that the user will
-	   want to use from the class here */
+        double sealevel(double P, double A);
+        double altitude(double P, double A);
 
+    private:
+        
+        int32_t _temperature_actual;
+        int32_t _pressure_actual;
 
-/*constructor */
-pressure(void);
+        //I2C *i2c;
+        I2C_HandleTypeDef hi2c;
 
-/*	Example class function
+    
+        int _address;       // Variable used to store I2C device address.
+        uint16_t coefficient[8];// Coefficients;
+        
+        void getMeasurements(precision _precision);
 
-int otherFunction(other_input_parameters);*/
+        int sendCommand(uint8_t command);  // General I2C send command function
+        uint32_t getADCconversion(measurement _measurement, precision _precision);  // Retrieve ADC result
 
+        void sensorWait(double time); // General delay function see: delay()
+        int I2Cread(int address, char* data, int length);
 
-private: 
-	/* Put function delcarations or functions that 
-	the class will use but the user will not have 
-	access to */
+        double pow(double base, double power);	// General math function to perform exponential expressions.
+        double root(double base, double power);
+        double abs(double num);
+        uint8_t sign(double num);
+        double mod(double num1, double num2);
 
-	//int temp_variable;  this variable can only be accessed by the specific object
-
+        void MX_I2C1_Init(void);
+        void MX_DMA_Init(void);
+        void HAL_MspInit(void);
+        void HAL_I2C_MspInit(I2C_HandleTypeDef* hi2c);
 };
 
 #endif
+

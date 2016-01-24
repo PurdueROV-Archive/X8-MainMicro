@@ -1,6 +1,7 @@
 /*This folder will be used to hold all code used to initialize pins */
 
 #include "init.h"
+//#include "print.h"
 #include "stm32f4xx_hal.h"
 
 TIM_MasterConfigTypeDef sMasterConfig;
@@ -51,12 +52,13 @@ void initEverything(void)
 
 	HAL_MspInit();
 
-	MX_DMA_Init();
+  //HAL_I2C_Init();
 
-	MX_GPIO_Init();
+	MX_DMA_Init();
+	//MX_GPIO_Init();
 	MX_USART3_UART_Init();
 
-
+  //initPrint();  // For debug purposes...
 
 	initI2C();
 	initCan();
@@ -79,13 +81,6 @@ void MX_USART3_UART_Init(void)
 
 }
 
-void MX_GPIO_Init(void)
-{
-
-	/* GPIO Ports Clock Enable */
-			__GPIOA_CLK_ENABLE();
-
-}
 
 
 
@@ -399,6 +394,8 @@ void HAL_MspInit(void)
   HAL_NVIC_SetPriority(SysTick_IRQn, 0, 0);
 
 }
+
+
 
 //initialize the debugging leds
 void initDebugLeds(void)
