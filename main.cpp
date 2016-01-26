@@ -58,9 +58,30 @@ int main(void) {
 	//initializes all of the pins!
 	initEverything();
 
+	//sets the size of the message in bytes. Max 8 bytes per message
+	hcan2.pTxMsg->DLC = 8;
+	//sets the information that is sent over the message
+	hcan2.pTxMsg->Data[0] = 0;
+	hcan2.pTxMsg->Data[1] = 1;
+	hcan2.pTxMsg->Data[2] = 0;
+	hcan2.pTxMsg->Data[3] = 1;
+	hcan2.pTxMsg->Data[4] = 0;
+	hcan2.pTxMsg->Data[5] = 1;
+	hcan2.pTxMsg->Data[6] = 0;
+	hcan2.pTxMsg->Data[7] = 1;
+
 
 	while (1) {
 
+		LedToggle(BLUE);
+        HAL_Delay(500);
+		//first message
+		//hcan2.pTxMsg->DLC = 1;
+		//hcan2.pTxMsg->Data[i] = 0;
+		//second and third
+
+		HAL_CAN_Transmit(&hcan2, 100); //second
+		//HAL_CAN_Transmit(&hcan2, 100); //third
 	}
 }
 
