@@ -157,3 +157,14 @@ matrix2_2 matMul_22x22(matrix2_2 a, matrix2_2 b)
     result.two.b = dot2(a.two, vect2Make(b.one.b, b.two.b));
     return result;
 }
+
+matrix2_2 invert2_2(matrix2_2 m)
+{
+    matrix2_2 result;
+    int det = m.one.a * m.two.b - m.one.b * m.two.a;//ad-bc
+    result.one.a = m.two.b*1024/det;
+    result.two.b = m.one.a*1024/det;
+    result.one.b = -m.one.b*1024/det;
+    result.two.a = -m.two.a*1024/det;
+    return result;
+}
