@@ -6,7 +6,6 @@ void printVector6(vect6);
 void printMatrix8_6(matrix8_6);
 void printVector8(vect8);
 void printMatrix2_2(matrix2_2);
-matrix2_2 invert2_2(matrix2_2);
 
 matrix8_6 pivM(void);
 
@@ -46,17 +45,6 @@ int main(void)
     printMatrix2_2(d);
     
     return 0;
-}
-
-matrix2_2 invert2_2(matrix2_2 m)
-{
-    matrix2_2 result;
-    int det = m.one.a * m.two.b - m.one.b * m.two.a;//ad-bc
-    result.one.a = m.two.b*1024/det;
-    result.two.b = m.one.a*1024/det;
-    result.one.b = -m.one.b*1024/det;
-    result.two.a = -m.two.a*1024/det;
-    return result;
 }
 
 void printMatrix2_2(matrix2_2 m)
