@@ -1,5 +1,9 @@
+
 //put all of your #includes into main.h file
 #include "main.h"
+#include "overseer.h"
+
+
 
 /*CAN2 GPIO Configuration    
     PB5  ------> CAN2_RX
@@ -52,8 +56,11 @@
 	HAL_CAN_Transmit(&hcan2, 10);  //sends the message
 */
 
-int main(void) {
+Overseer overseer = Overseer();
 
+int main(void) {
+    volatile uint_fast8_t RampTicker;
+    
 	//initializes all of the pins!
 	initEverything();
 
@@ -63,6 +70,11 @@ int main(void) {
 		HAL_Delay(100);
 		LedOff(GREEN);
 		HAL_Delay(100);
+        if (RampTicker >= 20)
+        {
+            overseer.doRamping();
+            RampTicker = 0;
+        }
 	}
 }
 

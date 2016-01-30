@@ -35,12 +35,16 @@ class Overseer
 		int checkForUpdate(void);
 		void calculateAndPush(void);
 		void updateFromThrusters(void);
+        void doRamping(void);
 		int flag_NewData;
 
 	private:
 		ThrustersContainer thrusters;
 		ThrustMapper thrustMapper;
 		vect6 target_force;
+        vect6 Tset;
+        vect6 Tcurrent;
+        
 
 };
 
