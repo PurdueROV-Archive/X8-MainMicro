@@ -20,6 +20,11 @@ typedef struct {
 
 } ThrustersContainer;
 
+// DEFINES:
+
+#define NO_NEW_DATA 0
+#define NEW_DATA 1
+
 // OVERSEER CLASS
 
 class Overseer
@@ -27,11 +32,15 @@ class Overseer
 	public:
 		Overseer();
 		void update(vect6 force, vect3 pivotPos, char on_off);
+		int checkForUpdate(void);
+		void calculateAndPush(void);
 		void updateFromThrusters(void);
+		int flag_NewData;
 
 	private:
 		ThrustersContainer thrusters;
 		ThrustMapper thrustMapper;
+		vect6 target_force;
 
 };
 

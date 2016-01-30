@@ -33,7 +33,7 @@ typedef struct {
 	matrix8_6 minus_t8;
 
 	// Array for the above matrices:
-	matrix8_6 * matrices;
+	matrix8_6 matrices[9];
 
 } ThrustMapperMatrices;
 
