@@ -158,7 +158,7 @@ void ThrustMapper::calculateThrustMap(void)
 
 void ThrustMapper::calculateThrustMap(vect6 target_vector)
 {
-	desired_force_vector = target_vector;
+	desired_force_vector = div(target_vector,1024);
 
 	// Calculations:
 	vect3 cross_result = cross(pivotPosition, desired_force_vector.R);
