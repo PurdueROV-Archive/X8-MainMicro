@@ -167,6 +167,11 @@ void ThrustMapper::calculateThrustMap(vect6 target_vector)
 	thrust_map = matMul_86x61(mapper_matrices.matrices[mapper_matrices.currentMapperMatrix], desired_force_vector);
 }
 
+void scaleNewtonsToInt()
+{
+	thrust_map
+}
+
 // Only accepts an array of 8 ints. These ints correspond to whether each of the 8 thrusters are enabled.
 void ThrustMapper::changeMapperMatrix(char enabled_thrusters)
 {

@@ -45,6 +45,7 @@ class ThrustMapper
 		void adjustPivotPosition(vect3 loc);
 		void calculateThrustMap(void);
 		void calculateThrustMap(vect6 target_vector);
+		void scaleNewtonsToInt(void);
 		void changeMapperMatrix(char enabled_thrusters);
 		vect6 getCurrentForceVector(void);
 		void calcZeroForceVector(void);
