@@ -20,14 +20,14 @@
 		* TIM_CHANNEL_1
 
     PA3  ------> TIM5_CH4
-		* Alternate camera servo  
+		* Alternate camera servo
 		* TIM_OC_InitTypeDef sConfigOC;
 		* TIM_HandleTypeDef htim5
 		* TIM_CHANNEL_4						*/
 
 /*USART1 GPIO Configuration
-    PA9     ------> USART1_TX
-    PA10     ------> USART1_RX  
+    PB10     ------> USART3_TX
+    PB11     ------> USART3_RX
     	* UART_HandleTypeDef huart3;		*/
 
 
@@ -40,9 +40,9 @@
 	void LedToggle(int ledNum);
 */
 
-/*	
-	Example how to send can code 
-		
+/*
+	Example how to send can code
+
 	CanHandle.pTxMsg->DLC = 3; //sets the size of the message in bytes. Max 8 bytes per message
 
 	//sets the information that is sent over the message
@@ -53,6 +53,8 @@
 	HAL_CAN_Transmit(&hcan2, 10);  //sends the message
 */
 
+uint8_t buffer[2] = {'A', 'B'};
+
 int main(void) {
 
 	//initializes all of the pins!
@@ -60,7 +62,11 @@ int main(void) {
 
 
 	while (1) {
-
+		if(HAL_UART_Transmit_DMA(&huart3, (uint8HAL_UART_Receive_DMA(&huart3, (uint8_t*)buffer, 2);_t*)buffer, 2) == HAL_OK)
+		{
+			LedToggle(GREEN);
+		}
+		HAL_Delay(500);
 	}
 }
 
@@ -78,10 +84,11 @@ void HAL_CAN_RxCpltCallback(CAN_HandleTypeDef* CanHandle){
 
 //this is run when the a serial message is sent
 void HAL_UART_TxCpltCallback(UART_HandleTypeDef *UartHandle){
-
+	LedToggle(BLUE);
 }
 
 //this is run when a serial message is received
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *UartHandle){
-
+	HAL_UART_Receive_DMA(&huart3, (uint8_t*)buffer, 2);
+	LedToggle(RED);
 }
