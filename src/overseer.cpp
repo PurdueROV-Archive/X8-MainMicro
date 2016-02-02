@@ -57,3 +57,16 @@ void Overseer::updateFromThrusters(void)
 	// Update Current
 	// Update Voltage
 }
+
+void Overseer::doRamping(void)
+{
+    //do any motor ramping which needs to occur here
+    
+    
+    //pseudo code
+    //if Tset > T
+        //T = T + min(1024,residual)
+    //else
+        //T = T - min(1024,residual)
+    
+}
