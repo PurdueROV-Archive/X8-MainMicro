@@ -25,7 +25,8 @@ typedef struct {
 	// Last Force vector calculated from the PID controller (from the last time getOutput was called).
 	vect3 lastForce;
 	// Integral data & sum
-	float integralData[INTEGRAL_RECORDING_SIZE];
+	Fixed1WayQueue integralData;
+	Fixed1WayQueue integralDataTSDiff;
 	float integralSum;
 
 	float CObias = 0;

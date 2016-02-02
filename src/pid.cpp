@@ -4,7 +4,8 @@
 
 PIDController::PIDController(void)
 {
-
+	data.integralData(INTEGRAL_RECORDING_SIZE);
+	data.integralDataTSDiff(INTEGRAL_RECORDING_SIZE);
 }
 
 void PIDController::stop(void)
@@ -48,6 +49,8 @@ vect3 getOutput(void)
 	if (data.ON_OFF == OFF)
 		return data.rot_ref;
 	vect3 force;
+
+	data.integralSum = 
 
 	force = consts.CObias + consts.controllerGain * (data.rot_ref - data.rot_est) + (consts.controllerGain / resetTime) * 
 
