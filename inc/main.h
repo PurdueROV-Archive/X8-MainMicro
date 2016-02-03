@@ -29,4 +29,25 @@
 #define Sonar_Pwm_Pin GPIO_PIN_5
 #define Sonar_Pwm_GPIO_Port GPIOA
 
+//Buffer Size for Ethernet
+#define Serial_Buffer_Size 16
+
+struct Serial_Recive {
+    int16_t thrusters[12];
+    char PumpESC;
+    char Leds;
+    char PIDControl;
+    char thruster;
+    uint16_t PIDTuning[3];
+    int8_t PIDPivot;
+    int8_t Sonar;
+};
+
+
+struct Serial_Send {
+
+};
+
+
+
 #endif /* __MAIN_H */

@@ -54,11 +54,19 @@
 */
 
 uint8_t buffer[2] = {'A', 'B'};
+uint8_t serialInBuffer[Serial_Buffer_Size] = {'z', 'y', 'x', 'w', 't', 'r', 's', '\0'};
+uint8_t serialOutBuffer[Serial_Buffer_Size] = {'h', 'e', 'l', 'l', 'l', 'o', 'M', 'a', 't', 't', 'C', 'M', 'o', 'l', 'o', '\0'};
+
+
+
+
 
 int main(void) {
 
 	//initializes all of the pins!
 	initEverything();
+
+	HAL_UART_Receive_DMA(&huart3, (uint8_t*)serialInBuffer, Serial_Buffer_Size);
 
 	//sets the size of the message in bytes. Max 8 bytes per message
 	hcan2.pTxMsg->DLC = 8;
@@ -74,16 +82,20 @@ int main(void) {
 
 
 	while (1) {
+		if(HAL_UART_Transmit_DMA(&huart3, (uint8_t*)serialOutBuffer, Serial_Buffer_Size) == HAL_OK)
+		{
+			HAL_UART_Transmit_DMA(&huart3, (uint8_t*)serialOutBuffer, Serial_Buffer_Size);
+			//HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
+		}
 
-
-		LedToggle(BLUE);
+		//LedToggle(BLUE);
         HAL_Delay(500);
 		//first message
 		//hcan2.pTxMsg->DLC = 1;
 		//hcan2.pTxMsg->Data[i] = 0;
 		//second and third
 
-		HAL_CAN_Transmit(&hcan2, 100); //second
+		//HAL_CAN_Transmit(&hcan2, 100); //second
 		//HAL_CAN_Transmit(&hcan2, 100); //third
 
 	}
@@ -108,6 +120,9 @@ void HAL_UART_TxCpltCallback(UART_HandleTypeDef *UartHandle){
 
 //this is run when a serial message is received
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *UartHandle){
-	HAL_UART_Receive_DMA(&huart3, (uint8_t*)buffer, 2);
+	HAL_UART_Receive_DMA(&huart3, (uint8_t*)buffer, 8);
+
+
+
 	LedToggle(RED);
 }
