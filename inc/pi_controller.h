@@ -3,14 +3,17 @@
 
 // INCLUDES:
 
+#include "matrices.h"
 #include <math.h>
 
 // STRUCTS:
 
 typedef struct {
 
-	const float controllerGain = 0;
-	const float resetTime = 0;
+	// Proportional Constant = controller gain
+	double P;
+	// Integral Constant = controller gain / reset time
+	double I;
 
 } PIDConstants;
 
@@ -24,12 +27,12 @@ typedef struct {
 	vect3 rot_est_vel;
 	// Last Force vector calculated from the PID controller (from the last time getOutput was called).
 	vect3 lastForce;
-	// Integral data & sum
-	Fixed1WayQueue integralData;
-	Fixed1WayQueue integralDataTSDiff;
-	float integralSum;
+	// Integral sum
+	vect3 integralSum;
+	long lastTime;
+	long timeDiff;
 
-	float CObias = 0;
+	vect3 CObias;
 
 } PIDInputData;
 
@@ -41,6 +44,8 @@ typedef struct {
 #define OFF 0
 #endif
 
+#define P_INIT_VALUE 0
+#define I_INIT_VALUE 0
 #define INTEGRAL_RECORDING_SIZE 100
 
 // CLASS:
@@ -54,12 +59,14 @@ class PIDController
 		void stop(void);
 		void start(void);
 		void setNewRotation(vect3 rot_ref);
-		void sensorInput(vect3 rot_est, vect3 rot_est_vel);
+		void setNewP(double newP);
+		void setNewI(double newI);
+		void sensorInput(vect3 rot_est, vect3 rot_est_vel, long timems);
 		vect3 getOutput(void);
 
 	private:
 
-		int ON_OFF = ON;
+		int ON_OFF;
 		PIDConstants consts;
 		PIDInputData data;
 

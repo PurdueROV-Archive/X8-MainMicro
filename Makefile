@@ -15,7 +15,8 @@ OBJECTS = main.o \
 		src/matrices.o \
 		src/print.o \
 		src/thrust_mapper.o \
-		src/overseer.o
+		src/overseer.o \
+		src/pi_controller.o
 
 
 

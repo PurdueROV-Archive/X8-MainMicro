@@ -171,7 +171,7 @@ void ThrustMapper::calculateThrustMap(vect6 target_vector)
 
 void scaleNewtonsToInt()
 {
-	thrust_map
+	//thrust_map
 }
 
 // Only accepts an array of 8 ints. These ints correspond to whether each of the 8 thrusters are enabled.
