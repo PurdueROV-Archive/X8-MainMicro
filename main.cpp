@@ -72,7 +72,6 @@ int main(void) {
 	hcan2.pTxMsg->Data[7] = 1;
 	 */
 
-
 	while (1) {
 
 		LedToggle(BLUE);
@@ -119,6 +118,8 @@ int main(void) {
 		hcan2.pTxMsg->Data[7] = 1;
 
 		HAL_CAN_Transmit(&hcan2, 100); //thrusters 5-8
+
+		HAL_CAN_Receive_IT(&hcan2, CAN_FIFO0);
 	}
 }
 
@@ -126,9 +127,26 @@ int main(void) {
 void HAL_CAN_RxCpltCallback(CAN_HandleTypeDef* CanHandle){
 
 	//example on how to use this in callback function
-	if ((CanHandle->pRxMsg)->StdId == 0x11 && (CanHandle->pRxMsg)->IDE == CAN_ID_STD){
+	if ((CanHandle->pRxMsg)->StdId == POW_CAN_ID && (CanHandle->pRxMsg)->IDE == CAN_ID_STD){
+
+		if ((CanHandle->pRxMsg)->DLC == 8) {
+			LedToggle(ORANGE);
+		}
+
+		bool motor_status = true;
+		for (int i = 0; i < (CanHandle->pRxMsg)->DLC; i++) {
+			motor_status = motor_status && ((CanHandle->pRxMsg)->Data[i] == MOTOR_OK);
+		}
+
+		if (motor_status) {
+			LedOn(RED);
+		} else {
+			LedOff(RED);
+		}
 
 	}
+	uint8_t buffer[3] = {'1','2','3'};
+	HAL_UART_Transmit_DMA(&huart3, buffer, 3);
 
 	//restarts the interrupt
 	HAL_CAN_Receive_IT(CanHandle, CAN_FIFO0);

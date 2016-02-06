@@ -29,4 +29,6 @@
 #define Sonar_Pwm_Pin GPIO_PIN_5
 #define Sonar_Pwm_GPIO_Port GPIOA
 
+#define MOTOR_OK 0xAB
+
 #endif /* __MAIN_H */
