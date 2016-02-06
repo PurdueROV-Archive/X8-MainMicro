@@ -29,6 +29,11 @@
 
 
     void PacketIn::recieve() {
+        //LED(BLUE);
+        LedOn(ORANGE);
+        //for (int i = 0; i < SERIAL_BUFFER_SIZE; i++) {
+        this->recieveBuffer[5] = (uint8_t) 'H';
+        //}
         if (PacketIn::checksum(recieveBuffer)) {
 
             thrusters[0] = recieveBuffer[2];
@@ -87,6 +92,7 @@
     }
 
     uint8_t * PacketIn::getArray() {
+        //recieveBuffer[1] = (uint8_t) 'h';
         return (uint8_t *) recieveBuffer;
     }
 

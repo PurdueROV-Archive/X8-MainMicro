@@ -16,14 +16,14 @@
 class PacketIn {
 public :
     void recieve();
-    char recieveBuffer[SERIAL_BUFFER_SIZE];
+
     uint8_t * getArray();
     PacketIn();
     int16_t * getThrusters();
 
 private :
 
-
+    char recieveBuffer[SERIAL_BUFFER_SIZE];
 
 
     char checksum(char *bytes);

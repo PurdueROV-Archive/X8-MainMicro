@@ -67,7 +67,7 @@ PIController piController;
 vect6 force_output;
 int16_t * force_input;
 
-PacketIn packet;
+PacketIn *packet;
 
 int main(void) {
     //volatile uint_fast8_t RampTicker;
@@ -78,7 +78,8 @@ int main(void) {
 	HAL_UART_Receive_DMA(&huart3, (uint8_t*)serialInBuffer, SERIAL_BUFFER_SIZE);
 
 
-	PacketIn packet();
+	packet = new PacketIn();
+	HAL_UART_Receive_DMA(&huart3, packet->getArray(), SERIAL_BUFFER_SIZE);
 
 	// IMU init
     IMU imu = IMU(&hi2c1);
@@ -100,11 +101,15 @@ int main(void) {
 	hcan2.pTxMsg->Data[6] = 0;
 	hcan2.pTxMsg->Data[7] = 1;
 
-
+	//packet->recieve();
 	while (1) {
-		if(HAL_UART_Transmit_DMA(&huart3, (uint8_t*)serialOutBuffer, SERIAL_BUFFER_SIZE) == HAL_OK)
+
+
+
+		if(HAL_UART_Transmit_DMA(&huart3, packet->getArray(), SERIAL_BUFFER_SIZE) == HAL_OK)
 		{
-			HAL_UART_Transmit_DMA(&huart3, (uint8_t*)serialOutBuffer, SERIAL_BUFFER_SIZE);
+			//LedOn(ORANGE);
+			//HAL_UART_Transmit_DMA(&huart3, packet->getArray(), SERIAL_BUFFER_SIZE);
 			//HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
 		}
 
@@ -149,16 +154,16 @@ void HAL_CAN_RxCpltCallback(CAN_HandleTypeDef* CanHandle){
 
 //this is run when the a serial message is sent
 void HAL_UART_TxCpltCallback(UART_HandleTypeDef *UartHandle){
-	LedToggle(BLUE);
+	//LedToggle(BLUE);
 }
 
 //this is run when a serial message is received
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *UartHandle){
-	HAL_UART_Receive_DMA(&huart3, (uint8_t *)packet.getArray(), SERIAL_BUFFER_SIZE);
+	HAL_UART_Receive_DMA(&huart3, (uint8_t *)packet->getArray(), SERIAL_BUFFER_SIZE);
 
-	packet.recieve();
+	packet->recieve();
 
-	force_input = packet.getThrusters();
+	force_input = packet->getThrusters();
 	force_output = vect6Make(force_input[0], force_input[1], force_input[2], force_input[3], force_input[4], force_input[5]);
 	piController.setNewRotation(force_output.R);
 
