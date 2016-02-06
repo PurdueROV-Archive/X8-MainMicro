@@ -62,7 +62,7 @@ uint8_t serialInBuffer[SERIAL_BUFFER_SIZE] = {'z', 'y', 'x', 'w', 't', 'r', 's',
 uint8_t serialOutBuffer[SERIAL_BUFFER_SIZE] = {'h', 'e', 'l', 'l', 'l', 'o', 'M', 'a', 't', 't', 'C', 'M', 'o', 'l', 'o', '\0'};
 
 
-PacketIn packet;
+PacketIn *packet;
 
 int main(void) {
     volatile uint_fast8_t RampTicker;
@@ -71,13 +71,8 @@ int main(void) {
 	//initializes all of the pins!
 	initEverything();
 
-	HAL_UART_Receive_DMA(&huart3, (uint8_t*)serialInBuffer, SERIAL_BUFFER_SIZE);
-
-
-	PacketIn packet();
-
-
-
+	packet = new PacketIn();
+	HAL_UART_Receive_DMA(&huart3, packet->getArray(), SERIAL_BUFFER_SIZE);
 
 	//sets the size of the message in bytes. Max 8 bytes per message
 	hcan2.pTxMsg->DLC = 8;
@@ -91,11 +86,15 @@ int main(void) {
 	hcan2.pTxMsg->Data[6] = 0;
 	hcan2.pTxMsg->Data[7] = 1;
 
-
+	//packet->recieve();
 	while (1) {
-		if(HAL_UART_Transmit_DMA(&huart3, (uint8_t*)serialOutBuffer, SERIAL_BUFFER_SIZE) == HAL_OK)
+		packet->recieve();
+
+
+		if(HAL_UART_Transmit_DMA(&huart3, packet->getArray(), SERIAL_BUFFER_SIZE) == HAL_OK)
 		{
-			HAL_UART_Transmit_DMA(&huart3, (uint8_t*)serialOutBuffer, SERIAL_BUFFER_SIZE);
+			//LedOn(ORANGE);
+			//HAL_UART_Transmit_DMA(&huart3, packet->getArray(), SERIAL_BUFFER_SIZE);
 			//HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
 		}
 
@@ -135,15 +134,15 @@ void HAL_CAN_RxCpltCallback(CAN_HandleTypeDef* CanHandle){
 
 //this is run when the a serial message is sent
 void HAL_UART_TxCpltCallback(UART_HandleTypeDef *UartHandle){
-	LedToggle(BLUE);
+	//LedToggle(BLUE);
 }
 
 //this is run when a serial message is received
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *UartHandle){
-	HAL_UART_Receive_DMA(&huart3, (uint8_t *)packet.getArray(), SERIAL_BUFFER_SIZE);
+	HAL_UART_Receive_DMA(&huart3, (uint8_t *)packet->getArray(), SERIAL_BUFFER_SIZE);
 
 
-	packet.recieve();
+	packet->recieve();
 
 
 

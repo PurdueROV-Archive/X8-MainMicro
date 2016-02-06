@@ -29,6 +29,9 @@
 
 
     void PacketIn::recieve() {
+        //LED(BLUE);
+        LedOn(ORANGE);
+        recieveBuffer[0] = 9;
         if (PacketIn::checksum(recieveBuffer)) {
 
             thrusters[0] = recieveBuffer[2];
