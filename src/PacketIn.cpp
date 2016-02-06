@@ -32,7 +32,7 @@
         //LED(BLUE);
         LedOn(ORANGE);
         //for (int i = 0; i < SERIAL_BUFFER_SIZE; i++) {
-        this->recieveBuffer[5] = (uint8_t) 'H';
+        this->recieveBuffer[2] = (uint8_t) 'S';
         //}
         if (PacketIn::checksum(recieveBuffer)) {
 
