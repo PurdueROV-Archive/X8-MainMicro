@@ -88,7 +88,7 @@ int main(void) {
 
 	//packet->recieve();
 	while (1) {
-		packet->recieve();
+
 
 
 		if(HAL_UART_Transmit_DMA(&huart3, packet->getArray(), SERIAL_BUFFER_SIZE) == HAL_OK)
