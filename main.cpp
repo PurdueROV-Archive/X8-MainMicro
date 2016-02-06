@@ -1,8 +1,11 @@
+
 //put all of your #includes into main.h file
 #include "main.h"
 #include "print.h"
 #include "PacketIn.h"
 #include "PacketOut.h"
+#include "overseer.h"
+
 /*CAN2 GPIO Configuration    
     PB5  ------> CAN2_RX
     PB6  ------> CAN2_TX 
@@ -59,11 +62,12 @@ uint8_t serialInBuffer[SERIAL_BUFFER_SIZE] = {'z', 'y', 'x', 'w', 't', 'r', 's',
 uint8_t serialOutBuffer[SERIAL_BUFFER_SIZE] = {'h', 'e', 'l', 'l', 'l', 'o', 'M', 'a', 't', 't', 'C', 'M', 'o', 'l', 'o', '\0'};
 
 
-
 PacketIn packet;
 
 int main(void) {
-
+    volatile uint_fast8_t RampTicker;
+	Overseer overseer = Overseer();
+    
 	//initializes all of the pins!
 	initEverything();
 
@@ -105,6 +109,15 @@ int main(void) {
 		//HAL_CAN_Transmit(&hcan2, 100); //second
 		//HAL_CAN_Transmit(&hcan2, 100); //third
 
+		LedOn(GREEN);
+		HAL_Delay(100);
+		LedOff(GREEN);
+		HAL_Delay(100);
+        if (RampTicker >= 20)
+        {
+            overseer.doRamping();
+            RampTicker = 0;
+        }
 	}
 }
 
