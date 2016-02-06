@@ -1,6 +1,9 @@
 //put all of your #includes into main.h file
 #include "main.h"
-//#include "print.h"
+
+#include "print.h"
+#include "PacketIn.h"
+#include "PacketOut.h"
 
 /*CAN2 GPIO Configuration    
     PB5  ------> CAN2_RX
@@ -20,14 +23,14 @@
 		* TIM_CHANNEL_1
 
     PA3  ------> TIM5_CH4
-		* Alternate camera servo  
+		* Alternate camera servo
 		* TIM_OC_InitTypeDef sConfigOC;
 		* TIM_HandleTypeDef htim5
 		* TIM_CHANNEL_4						*/
 
 /*USART1 GPIO Configuration
-    PA9     ------> USART1_TX
-    PA10     ------> USART1_RX  
+    PB10     ------> USART3_TX
+    PB11     ------> USART3_RX
     	* UART_HandleTypeDef huart3;		*/
 
 
@@ -40,9 +43,9 @@
 	void LedToggle(int ledNum);
 */
 
-/*	
-	Example how to send can code 
-		
+/*
+	Example how to send can code
+
 	CanHandle.pTxMsg->DLC = 3; //sets the size of the message in bytes. Max 8 bytes per message
 
 	//sets the information that is sent over the message
@@ -53,10 +56,24 @@
 	HAL_CAN_Transmit(&hcan2, 10);  //sends the message
 */
 
+uint8_t buffer[2] = {'A', 'B'};
+uint8_t serialInBuffer[SERIAL_BUFFER_SIZE] = {'z', 'y', 'x', 'w', 't', 'r', 's', '\0'};
+uint8_t serialOutBuffer[SERIAL_BUFFER_SIZE] = {'h', 'e', 'l', 'l', 'l', 'o', 'M', 'a', 't', 't', 'C', 'M', 'o', 'l', 'o', '\0'};
+
+
+
+PacketIn packet;
+
 int main(void) {
 
 	//initializes all of the pins!
 	initEverything();
+
+	HAL_UART_Receive_DMA(&huart3, (uint8_t*)serialInBuffer, SERIAL_BUFFER_SIZE);
+
+
+	PacketIn packet();
+
 
 	/*
 	//sets the size of the message in bytes. Max 8 bytes per message
@@ -73,8 +90,13 @@ int main(void) {
 	 */
 
 	while (1) {
+		if(HAL_UART_Transmit_DMA(&huart3, (uint8_t*)serialOutBuffer, SERIAL_BUFFER_SIZE) == HAL_OK)
+		{
+			HAL_UART_Transmit_DMA(&huart3, (uint8_t*)serialOutBuffer, SERIAL_BUFFER_SIZE);
+			//HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
+		}
 
-		LedToggle(BLUE);
+		//LedToggle(BLUE);
         HAL_Delay(500);
 		//initialize and send header message
 		hcan2.pTxMsg->DLC = 1;
@@ -120,6 +142,7 @@ int main(void) {
 		HAL_CAN_Transmit(&hcan2, 100); //thrusters 5-8
 
 		HAL_CAN_Receive_IT(&hcan2, CAN_FIFO0);
+
 	}
 }
 
@@ -154,10 +177,17 @@ void HAL_CAN_RxCpltCallback(CAN_HandleTypeDef* CanHandle){
 
 //this is run when the a serial message is sent
 void HAL_UART_TxCpltCallback(UART_HandleTypeDef *UartHandle){
-
+	LedToggle(BLUE);
 }
 
 //this is run when a serial message is received
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *UartHandle){
+	HAL_UART_Receive_DMA(&huart3, (uint8_t *)packet.getArray(), SERIAL_BUFFER_SIZE);
 
+
+	packet.recieve();
+
+
+
+	LedToggle(RED);
 }
