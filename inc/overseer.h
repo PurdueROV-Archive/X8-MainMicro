@@ -25,6 +25,9 @@ typedef struct {
 #define NO_NEW_DATA 0
 #define NEW_DATA 1
 
+#define MAX(x,y) (x > y) ? x : y
+#define MIN(x,y) (x > y) ? y : x
+
 // OVERSEER CLASS
 
 class Overseer
