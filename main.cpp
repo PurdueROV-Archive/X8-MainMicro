@@ -4,7 +4,9 @@
 #include "print.h"
 #include "PacketIn.h"
 #include "PacketOut.h"
-#include "overseer.h"
+#include "matrices.h"
+#include "imu.h"
+#include "pi_controller.h"
 
 /*CAN2 GPIO Configuration    
     PB5  ------> CAN2_RX
@@ -61,12 +63,14 @@ uint8_t buffer[2] = {'A', 'B'};
 uint8_t serialInBuffer[SERIAL_BUFFER_SIZE] = {'z', 'y', 'x', 'w', 't', 'r', 's', '\0'};
 uint8_t serialOutBuffer[SERIAL_BUFFER_SIZE] = {'h', 'e', 'l', 'l', 'l', 'o', 'M', 'a', 't', 't', 'C', 'M', 'o', 'l', 'o', '\0'};
 
+PIController piController;
+vect6 force_output;
+int16_t * force_input;
 
 PacketIn packet;
 
 int main(void) {
-    volatile uint_fast8_t RampTicker;
-	Overseer overseer = Overseer();
+    //volatile uint_fast8_t RampTicker;
     
 	//initializes all of the pins!
 	initEverything();
@@ -76,7 +80,12 @@ int main(void) {
 
 	PacketIn packet();
 
+	// IMU init
+    IMU imu = IMU(&hi2c1);
 
+    // PIController inits
+	PIController piController = PIController();
+	piController.start();
 
 
 	//sets the size of the message in bytes. Max 8 bytes per message
@@ -99,6 +108,11 @@ int main(void) {
 			//HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
 		}
 
+		imu.retrieve();
+		piController.sensorInput(vect3Make((int) (imu.getX() * 10000), (int) (imu.getY() * 10000), (int) (imu.getZ() * 10000)), 
+			vect3Make(0,0,0), HAL_GetTick());
+		force_output.R = piController.getOutput();
+
 		//LedToggle(BLUE);
         HAL_Delay(500);
 		//first message
@@ -109,7 +123,7 @@ int main(void) {
 		//HAL_CAN_Transmit(&hcan2, 100); //second
 		//HAL_CAN_Transmit(&hcan2, 100); //third
 
-		LedOn(GREEN);
+		/*LedOn(GREEN);
 		HAL_Delay(100);
 		LedOff(GREEN);
 		HAL_Delay(100);
@@ -117,7 +131,7 @@ int main(void) {
         {
             overseer.doRamping();
             RampTicker = 0;
-        }
+        }*/
 	}
 }
 
@@ -142,10 +156,11 @@ void HAL_UART_TxCpltCallback(UART_HandleTypeDef *UartHandle){
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *UartHandle){
 	HAL_UART_Receive_DMA(&huart3, (uint8_t *)packet.getArray(), SERIAL_BUFFER_SIZE);
 
-
 	packet.recieve();
 
-
+	force_input = packet.getThrusters();
+	force_output = vect6Make(force_input[0], force_input[1], force_input[2], force_input[3], force_input[4], force_input[5]);
+	piController.setNewRotation(force_output.R);
 
 	LedToggle(RED);
 }

@@ -1,10 +1,10 @@
-#ifndef X8_PRESSURE
-#define X8_PRESSURE
+#ifndef X8_IMU
+#define X8_IMU
 
 /* puts all of the #includes and # defines that you need here */
 #include "main.h"
 
-class imu {
+class IMU {
 
 
 public:
@@ -13,7 +13,7 @@ public:
 
 
 /*constructor */
-    imu(I2C_HandleTypeDef* handler);
+    IMU(I2C_HandleTypeDef* handler);
 
     void retrieve(void);
 

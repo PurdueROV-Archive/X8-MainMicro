@@ -10,7 +10,7 @@
 #include <stm32f407xx.h>
 #include "init.h"
 
-extern volatile uint_fast8_t RampTicker;
+//extern volatile uint_fast8_t RampTicker;
 
 
 

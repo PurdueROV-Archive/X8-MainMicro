@@ -1,10 +1,11 @@
-#ifndef PID_CONTROLLER
-#define PID_CONTROLLER
+#ifndef PI_CONTROLLER
+#define PI_CONTROLLER
 
 // INCLUDES:
 
 #include "matrices.h"
 #include <math.h>
+#include <stdint.h>
 
 // STRUCTS:
 
@@ -29,8 +30,8 @@ typedef struct {
 	vect3 lastForce;
 	// Integral sum
 	vect3 integralSum;
-	long lastTime;
-	long timeDiff;
+	uint32_t lastTime;
+	uint32_t timeDiff;
 
 	vect3 CObias;
 
@@ -50,18 +51,18 @@ typedef struct {
 
 // CLASS:
 
-class PIDController
+class PIController
 {
 
 	public:
 
-		PIDController(void);
+		PIController(void);
 		void stop(void);
 		void start(void);
 		void setNewRotation(vect3 rot_ref);
 		void setNewP(double newP);
 		void setNewI(double newI);
-		void sensorInput(vect3 rot_est, vect3 rot_est_vel, long timems);
+		void sensorInput(vect3 rot_est, vect3 rot_est_vel, uint32_t timems);
 		vect3 getOutput(void);
 
 	private:
