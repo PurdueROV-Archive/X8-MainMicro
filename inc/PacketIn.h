@@ -10,7 +10,7 @@
 #include "main.h"
 
 
-#define SERIAL_BUFFER_SIZE 30
+#define SERIAL_BUFFER_SIZE  30
 
 
 class PacketIn {
