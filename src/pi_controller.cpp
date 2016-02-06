@@ -3,7 +3,7 @@
 // CLASS METHODS:
 
 // Constructor:
-PIDController::PIDController(void) 
+PIController::PIController(void) 
 {
 	data.rot_ref = vect3Make(0,0,0);
 	data.rot_est = vect3Make(0,0,0);
@@ -21,14 +21,14 @@ PIDController::PIDController(void)
 
 
 // Call this every time that the PI controller should stop affecting the force vector.
-void PIDController::stop(void)
+void PIController::stop(void)
 {
 	ON_OFF = OFF;
 }
 
 // Call every time the PI Controller will be started or restarted.
 // This method ensures that all variables are set to what they should be to be restarted.
-void PIDController::start(void)
+void PIController::start(void)
 {
 	data.rot_ref = data.rot_est;
 	data.rot_est = vect3Make(0,0,0);
@@ -43,22 +43,22 @@ void PIDController::start(void)
 
 // Sets new target rotation orientation.
 // Perform this method even when PI is off.
-void PIDController::setNewRotation(vect3 rot_ref)
+void PIController::setNewRotation(vect3 rot_ref)
 {
 	data.rot_ref = rot_ref;
 }
-void PIDController::setNewP(double newP)
+void PIController::setNewP(double newP)
 {
 	consts.P = newP;
 }
-void PIDController::setNewI(double newI)
+void PIController::setNewI(double newI)
 {
 	consts.I = newI;
 }
 
 // Sets the fusion data from the sensors to the data structure.
 // Perform this method even when PI is off.
-void PIDController::sensorInput(vect3 rot_est, vect3 rot_est_vel, long timems)
+void PIController::sensorInput(vect3 rot_est, vect3 rot_est_vel, uint32_t timems)
 {
 	data.timeDiff = timems - data.lastTime;
 	data.lastTime = timems;
@@ -79,7 +79,7 @@ void PIDController::sensorInput(vect3 rot_est, vect3 rot_est_vel, long timems)
 //			Control.
 // @note - May want to shift these computations to the sensorInput function... If data needs to be 
 //			accumulated even when the controller is off.
-vect3 PIDController::getOutput(void)
+vect3 PIController::getOutput(void)
 {
 	if (ON_OFF == OFF)
 		return data.rot_ref;
