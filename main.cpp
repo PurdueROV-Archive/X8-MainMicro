@@ -1,7 +1,8 @@
 //put all of your #includes into main.h file
 #include "main.h"
 #include "print.h"
-
+#include "PacketIn.h"
+#include "PacketOut.h"
 /*CAN2 GPIO Configuration    
     PB5  ------> CAN2_RX
     PB6  ------> CAN2_TX 
@@ -54,19 +55,25 @@
 */
 
 uint8_t buffer[2] = {'A', 'B'};
-uint8_t serialInBuffer[Serial_Buffer_Size] = {'z', 'y', 'x', 'w', 't', 'r', 's', '\0'};
-uint8_t serialOutBuffer[Serial_Buffer_Size] = {'h', 'e', 'l', 'l', 'l', 'o', 'M', 'a', 't', 't', 'C', 'M', 'o', 'l', 'o', '\0'};
+uint8_t serialInBuffer[SERIAL_BUFFER_SIZE] = {'z', 'y', 'x', 'w', 't', 'r', 's', '\0'};
+uint8_t serialOutBuffer[SERIAL_BUFFER_SIZE] = {'h', 'e', 'l', 'l', 'l', 'o', 'M', 'a', 't', 't', 'C', 'M', 'o', 'l', 'o', '\0'};
 
 
 
-
+PacketIn packet;
 
 int main(void) {
 
 	//initializes all of the pins!
 	initEverything();
 
-	HAL_UART_Receive_DMA(&huart3, (uint8_t*)serialInBuffer, Serial_Buffer_Size);
+	HAL_UART_Receive_DMA(&huart3, (uint8_t*)serialInBuffer, SERIAL_BUFFER_SIZE);
+
+
+	PacketIn packet();
+
+
+
 
 	//sets the size of the message in bytes. Max 8 bytes per message
 	hcan2.pTxMsg->DLC = 8;
@@ -82,9 +89,9 @@ int main(void) {
 
 
 	while (1) {
-		if(HAL_UART_Transmit_DMA(&huart3, (uint8_t*)serialOutBuffer, Serial_Buffer_Size) == HAL_OK)
+		if(HAL_UART_Transmit_DMA(&huart3, (uint8_t*)serialOutBuffer, SERIAL_BUFFER_SIZE) == HAL_OK)
 		{
-			HAL_UART_Transmit_DMA(&huart3, (uint8_t*)serialOutBuffer, Serial_Buffer_Size);
+			HAL_UART_Transmit_DMA(&huart3, (uint8_t*)serialOutBuffer, SERIAL_BUFFER_SIZE);
 			//HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
 		}
 
@@ -120,7 +127,10 @@ void HAL_UART_TxCpltCallback(UART_HandleTypeDef *UartHandle){
 
 //this is run when a serial message is received
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *UartHandle){
-	HAL_UART_Receive_DMA(&huart3, (uint8_t*)buffer, 8);
+	HAL_UART_Receive_DMA(&huart3, (uint8_t *)packet.getArray(), SERIAL_BUFFER_SIZE);
+
+
+	packet.recieve();
 
 
 

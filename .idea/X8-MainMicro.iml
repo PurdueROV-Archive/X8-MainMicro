@@ -2,8 +2,10 @@
 <module type="CPP_MODULE" version="4">
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$">
-      <sourceFolder url="file://$MODULE_DIR$/src/stm32f4xx_it.c" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/PacketIn.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/pressure.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/stm32f4xx_it.c" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/PacketOut.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/init.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/main.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/cubemx_init_starter_code/starterCode/Src/main.c" isTestSource="false" />
@@ -21,15 +23,15 @@
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/FreeRTOS/Source/include/queue.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/FreeRTOS/Source/include/mpu_wrappers.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/FreeRTOS/Source/include/list.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/FreeRTOS/Source/include/portable.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/FreeRTOS/Source/include/timers.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/FreeRTOS/Source/include/StackMacros.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/FreeRTOS/Source/include/croutine.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/FreeRTOS/Source/include/task.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/FreeRTOS/Source/include/deprecated_definitions.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/FreeRTOS/Source/event_groups.c" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/FreeRTOS/Source/tasks.c" isTestSource="false" />
@@ -80,9 +82,9 @@
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/FatFs/src/integer.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/FatFs/src/drivers/sd_diskio.c" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/FatFs/src/drivers/usbh_diskio.c" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/FatFs/src/drivers/sdram_diskio.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/FatFs/src/drivers/sram_diskio.c" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/FatFs/src/drivers/sram_diskio.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/FatFs/src/drivers/sram_diskio.c" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/FatFs/src/drivers/sdram_diskio.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/FatFs/src/drivers/sdram_diskio.c" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/FatFs/src/drivers/sd_diskio.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/FatFs/src/drivers/usbh_diskio.h" isTestSource="false" />
@@ -133,9 +135,9 @@
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/LwIP/src/api/tcpip.c" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/LwIP/src/api/sockets.c" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/LwIP/src/include/lwip/tcp.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/LwIP/src/include/lwip/api.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/LwIP/src/include/lwip/stats.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/LwIP/src/include/lwip/lwip_timers.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/LwIP/src/include/lwip/netbuf.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/LwIP/src/include/lwip/tcpip.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/LwIP/src/include/lwip/pbuf.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/LwIP/src/include/lwip/arch.h" isTestSource="false" />
@@ -146,8 +148,8 @@
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/LwIP/src/include/lwip/dhcp.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/LwIP/src/include/lwip/snmp_msg.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/LwIP/src/include/lwip/sys.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/LwIP/src/include/lwip/netbuf.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/LwIP/src/include/lwip/debug.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/LwIP/src/include/lwip/tcp_impl.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/LwIP/src/include/lwip/api.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/LwIP/src/include/lwip/netif.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/LwIP/src/include/lwip/api_msg.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/LwIP/src/include/lwip/netifapi.h" isTestSource="false" />
@@ -156,27 +158,27 @@
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/LwIP/src/include/lwip/def.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/LwIP/src/include/lwip/netdb.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/LwIP/src/include/lwip/sio.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/LwIP/src/include/lwip/tcp_impl.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/LwIP/src/include/lwip/opt.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/LwIP/src/include/lwip/snmp.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/LwIP/src/include/lwip/udp.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/LwIP/src/include/lwip/sockets.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/LwIP/src/include/lwip/snmp_structs.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/LwIP/src/include/lwip/debug.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/LwIP/src/include/lwip/memp.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/LwIP/src/include/lwip/memp_std.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/LwIP/src/include/posix/netdb.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/LwIP/src/include/posix/sys/socket.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/LwIP/src/include/netif/slipif.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/LwIP/src/include/netif/etharp.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/LwIP/src/include/netif/ppp_oe.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/LwIP/src/include/posix/netdb.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/LwIP/src/include/posix/sys/socket.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/LwIP/src/include/ipv4/lwip/autoip.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/LwIP/src/include/ipv4/lwip/inet.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/LwIP/src/include/ipv4/lwip/ip.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/LwIP/src/include/ipv4/lwip/igmp.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/LwIP/src/include/ipv4/lwip/icmp.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/LwIP/src/include/ipv4/lwip/ip_frag.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/LwIP/src/include/ipv4/lwip/inet_chksum.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/LwIP/src/include/ipv4/lwip/igmp.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/LwIP/src/include/ipv4/lwip/ip_addr.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/LwIP/src/include/ipv4/lwip/ip.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/LwIP/src/netif/ethernetif_template.c" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/LwIP/src/netif/slipif.c" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/LwIP/src/netif/etharp.c" isTestSource="false" />
@@ -190,10 +192,9 @@
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/LwIP/src/netif/ppp/ipcp.c" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/LwIP/src/netif/ppp/vj.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/LwIP/src/netif/ppp/ppp_impl.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/LwIP/src/netif/ppp/magic.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/LwIP/src/netif/ppp/ppp.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/LwIP/src/netif/ppp/vj.c" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/LwIP/src/netif/ppp/pppdebug.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/LwIP/src/netif/ppp/magic.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/LwIP/src/netif/ppp/chpms.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/LwIP/src/netif/ppp/ppp.c" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/LwIP/src/netif/ppp/pap.h" isTestSource="false" />
@@ -207,6 +208,7 @@
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/LwIP/src/netif/ppp/chap.c" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/LwIP/src/netif/ppp/auth.c" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/LwIP/src/netif/ppp/md5.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/LwIP/src/netif/ppp/pppdebug.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/LwIP/system/arch/bpstruct.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/LwIP/system/arch/cpu.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/LwIP/system/arch/perf.h" isTestSource="false" />
@@ -261,15 +263,15 @@
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/PolarSSL/library/havege.c" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/PolarSSL/library/blowfish.c" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/PolarSSL/include/polarssl/x509write.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/PolarSSL/include/polarssl/sha2.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/PolarSSL/include/polarssl/entropy.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/PolarSSL/include/polarssl/asn1.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/PolarSSL/include/polarssl/asn1write.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/PolarSSL/include/polarssl/version.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/PolarSSL/include/polarssl/bignum.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/PolarSSL/include/polarssl/des.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/PolarSSL/include/polarssl/camellia.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/PolarSSL/include/polarssl/md.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/PolarSSL/include/polarssl/rsa.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/PolarSSL/include/polarssl/pkcs12.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/PolarSSL/include/polarssl/pkcs11.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/PolarSSL/include/polarssl/sha1.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/PolarSSL/include/polarssl/ssl.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/PolarSSL/include/polarssl/certs.h" isTestSource="false" />
@@ -284,19 +286,19 @@
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/PolarSSL/include/polarssl/cipher_wrap.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/PolarSSL/include/polarssl/error.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/PolarSSL/include/polarssl/debug.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/PolarSSL/include/polarssl/pkcs11.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/PolarSSL/include/polarssl/bn_mul.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/PolarSSL/include/polarssl/md2.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/PolarSSL/include/polarssl/havege.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/PolarSSL/include/polarssl/bn_mul.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/PolarSSL/include/polarssl/md5.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/PolarSSL/include/polarssl/xtea.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/PolarSSL/include/polarssl/timing.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/PolarSSL/include/polarssl/entropy.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/PolarSSL/include/polarssl/pkcs12.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/PolarSSL/include/polarssl/sha4.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/PolarSSL/include/polarssl/openssl.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/PolarSSL/include/polarssl/camellia.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/PolarSSL/include/polarssl/sha2.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/PolarSSL/include/polarssl/pkcs5.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/PolarSSL/include/polarssl/md4.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/PolarSSL/include/polarssl/des.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/PolarSSL/include/polarssl/arc4.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/PolarSSL/include/polarssl/base64.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/PolarSSL/include/polarssl/pem.h" isTestSource="false" />
@@ -350,18 +352,18 @@
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/PolarSSL/doxygen/input/doc_encdec.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/PolarSSL/doxygen/input/doc_ssltls.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/PolarSSL/doxygen/input/doc_mainpage.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/PolarSSL/doxygen/input/doc_rng.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/PolarSSL/doxygen/input/doc_tcpip.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/PolarSSL/doxygen/input/doc_hashing.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/LibJPEG/include/transupp.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/PolarSSL/doxygen/input/doc_tcpip.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/PolarSSL/doxygen/input/doc_rng.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/LibJPEG/include/jdct.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/LibJPEG/include/jversion.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/LibJPEG/include/jmorecfg_template.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/LibJPEG/include/jerror.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/LibJPEG/include/cdjpeg.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/LibJPEG/include/transupp.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/LibJPEG/include/cderror.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/LibJPEG/include/jerror.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/LibJPEG/include/jpegint.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/LibJPEG/include/jmemsys.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/LibJPEG/include/jdct.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/LibJPEG/include/cdjpeg.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/LibJPEG/include/jinclude.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/LibJPEG/include/jpeglib.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/Third_Party/LibJPEG/include/jconfig_template.h" isTestSource="false" />
@@ -468,9 +470,9 @@
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STM32_USB_Device_Library/Class/MSC/Src/usbd_msc_scsi.c" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STM32_USB_Device_Library/Class/MSC/Src/usbd_msc_data.c" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STM32_USB_Device_Library/Class/MSC/Src/usbd_msc_storage_template.c" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STM32_USB_Device_Library/Class/MSC/Inc/usbd_msc_storage_template.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STM32_USB_Device_Library/Class/MSC/Inc/usbd_msc.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STM32_USB_Device_Library/Class/MSC/Inc/usbd_msc_bot.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STM32_USB_Device_Library/Class/MSC/Inc/usbd_msc.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STM32_USB_Device_Library/Class/MSC/Inc/usbd_msc_storage_template.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STM32_USB_Device_Library/Class/MSC/Inc/usbd_msc_scsi.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STM32_USB_Device_Library/Class/MSC/Inc/usbd_msc_data.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STM32_USB_Device_Library/Class/CustomHID/Src/usbd_customhid_if_template.c" isTestSource="false" />
@@ -510,104 +512,104 @@
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STM32_USB_Host_Library/Class/MSC/Src/usbh_msc.c" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STM32_USB_Host_Library/Class/MSC/Src/usbh_msc_bot.c" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STM32_USB_Host_Library/Class/MSC/Src/usbh_msc_scsi.c" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STM32_USB_Host_Library/Class/MSC/Inc/usbh_msc_scsi.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STM32_USB_Host_Library/Class/MSC/Inc/usbh_msc.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STM32_USB_Host_Library/Class/MSC/Inc/usbh_msc_bot.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STM32_USB_Host_Library/Class/MSC/Inc/usbh_msc.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STM32_USB_Host_Library/Class/MSC/Inc/usbh_msc_scsi.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/OS/GUI_X_OS.c" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/OS/GUI_X.c" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/GUIDRV_Lin.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/MULTIPAGE.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/CHOOSECOLOR.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/GUI_SPRITE_Private.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/GRAPH.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/BUTTON.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/ICONVIEW.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/LISTVIEW_Private.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/FRAMEWIN_Private.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/LCD_Private.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/EDIT_Private.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/GUIDRV_Lin_Opt_8.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/DROPDOWN.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/TREEVIEW.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/GUI_JPEG_Private.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/LISTBOX_Private.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/WM_Intern.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/DIALOG_Intern.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/GUI_SetOrientationCX.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/GUITDRV_ADS7846.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/IMAGE_Private.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/LCD_ConfDefaults.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/CALENDAR.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/MESSAGEBOX.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/SCROLLBAR_Private.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/ICONVIEW_Private.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/SLIDER.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/GUI.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/WM_GUI.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/LISTBOX.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/WINDOW_Private.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/LISTVIEW.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/MULTIPAGE_Private.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/IMAGE.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/GUIDRV_Dist.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/CHECKBOX_Private.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/GUIDRV_DCache_Private.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/BUTTON_Private.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/SPINBOX.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/MULTIPAGE_Private.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/GUIDRV_FlexColor.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/GUI_Type.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/TREEVIEW_Private.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/DROPDOWN.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/RADIO_Private.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/MULTIEDIT.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/WIDGET.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/GUI_Version.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/FRAMEWIN.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/GUI_Private.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/LISTVIEW.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/GUI_SIM_Win32.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/GUI_FontIntern.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/GUIDRV_DCache.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/GUIDRV_TemplateI_Private.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/HEADER_Private.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/SCROLLBAR_Private.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/GUIDRV_FlexColor_Private.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/WM_GUI.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/DROPDOWN_Private.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/GUI_ConfDefaults.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/GUI_HOOK.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/GUIDRV_TemplateI.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/GUIDRV_NoOpt_1_8.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/WINDOW_Private.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/GUI_Version.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/LCD.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/IMAGE.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/LCD_ConfDefaults.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/GUIDRV_Lin_Opt_32.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/GUI_ARRAY.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/LISTBOX_Private.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/LCD_Protected.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/FRAMEWIN.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/TREEVIEW.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/HEADER.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/GUI_ARRAY_Private.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/RADIO.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/WM_Intern.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/SCROLLBAR.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/PROGBAR_Private.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/GUI_Type.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/LISTWHEEL_Private.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/LISTWHEEL.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/DIALOG_Intern.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/SCROLLBAR.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/TEXT_Private.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/LISTWHEEL.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/LCD.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/GUI_ConfDefaults.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/LCD_SIM.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/CHECKBOX.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/GUI_SetOrientationCX.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/LISTVIEW_Private.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/GUI_BMP_Private.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/MENU.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/CHOOSEFILE.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/WM.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/MENU_Private.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/GUIMTDRV_TangoC32.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/PROGBAR_Private.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/GUI_SPRITE_Private.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/GUI_GIF_Private.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/TREEVIEW_Private.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/GUI_SIM_Win32.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/GUIDRV_FlexColor.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/GUIDRV_Lin_Opt_16.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/GRAPH.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/HEADER.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/GUI.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/GUIDRV_Lin_Opt_24.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/GRAPH_Private.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/GUI_ARRAY_Private.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/ICONVIEW_Private.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/LCD_Protected.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/SPINBOX_Private.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/Global.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/GUI_VNC.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/PROGBAR.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/TEXT.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/GUI_SetOrientation.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/MULTIEDIT.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/SLIDER_Private.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/GUIDRV_Lin_Opt_8.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/EDIT.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/GUI_Debug.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/KNOB.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/GUI_BMP_Private.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/WIDGET.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/LISTBOX.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/GUI_JPEG_Private.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/GUIDRV_Lin_Private.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/GUIDRV_Template.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Middlewares/ST/STemWin/inc/KNOB_Private.h" isTestSource="false" />
@@ -700,6 +702,7 @@
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_can.c" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_uart.c" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cryp_ex.c" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_dsi.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_cortex.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_adc.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_sram.h" isTestSource="false" />
@@ -729,7 +732,6 @@
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pccard.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_sdmmc.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_wwdg.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc_ex.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_qspi.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_hash.h" isTestSource="false" />
@@ -745,25 +747,25 @@
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_flash.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rng.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_sdram.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_sai_ex.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_i2c_ex.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_dac.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_cec.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_lptim.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_crc.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_iwdg.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/STM32F4xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_dma_ex.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_dma.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usb.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_dsi.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc_ex.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_conf_template.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_usart.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_i2s.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_iwdg.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_sdram.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_ltdc.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_smartcard.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_gpio.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_crc.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_gpio_ex.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_can.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_dac_ex.h" isTestSource="false" />
@@ -774,16 +776,16 @@
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f411xe.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/CMSIS/Device/ST/STM32F4xx/Include/system_stm32f4xx.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f427xx.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f410tx.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f469xx.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f410rx.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f405xx.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f479xx.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f417xx.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f415xx.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f429xx.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f410rx.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f469xx.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f427xx.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f439xx.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f437xx.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f401xc.h" isTestSource="false" />
@@ -1113,20 +1115,20 @@
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/CMSIS/Include/core_sc300.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/CMSIS/Include/core_cmInstr.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/CMSIS/Include/core_cm0.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/CMSIS/Include/arm_math.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/CMSIS/Include/core_sc000.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/CMSIS/Include/core_cm4.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/CMSIS/Include/core_cm7.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/CMSIS/Include/core_cm3.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/CMSIS/Include/arm_const_structs.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/CMSIS/Include/arm_common_tables.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/CMSIS/Include/core_cmSimd.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/CMSIS/Include/core_cm3.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/CMSIS/Include/core_sc000.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/CMSIS/Include/core_cm7.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/CMSIS/Include/arm_math.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/CMSIS/Include/arm_const_structs.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/CMSIS/Include/core_cm0plus.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/STM32F401-Discovery/stm32f401_discovery_audio.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/CMSIS/Include/core_cmSimd.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/CMSIS/Include/core_cm4.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/STM32F401-Discovery/stm32f401_discovery.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/STM32F401-Discovery/stm32f401_discovery_accelerometer.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/STM32F401-Discovery/stm32f401_discovery_gyroscope.c" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/STM32F401-Discovery/stm32f401_discovery_accelerometer.c" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/STM32F401-Discovery/stm32f401_discovery.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/STM32F401-Discovery/stm32f401_discovery_audio.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/STM32F401-Discovery/stm32f401_discovery_audio.c" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/STM32F401-Discovery/stm32f401_discovery_gyroscope.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/STM32F401-Discovery/stm32f401_discovery.c" isTestSource="false" />
@@ -1170,42 +1172,42 @@
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/Components/ov2640/ov2640.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/Components/ili9341/ili9341.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/Components/ili9341/ili9341.c" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/Components/Common/tsensor.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/Components/Common/audio.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/Components/Common/accelero.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/Components/Common/camera.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/Components/Common/lcd.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/Components/Common/ts.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/Components/Common/io.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/Components/Common/magneto.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/Components/Common/idd.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/Components/Common/epd.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/Components/Common/gyro.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/Components/Common/lcd.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/Components/Common/idd.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/Components/Common/audio.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/Components/Common/tsensor.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/Components/Common/camera.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/Components/exc7200/exc7200.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/Components/exc7200/exc7200.c" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/STM32F4xx-Nucleo/stm32f4xx_nucleo.c" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/STM32F4xx-Nucleo/stm32f4xx_nucleo.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/STM324x9I_EVAL/stm324x9i_eval_sdram.c" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/STM324x9I_EVAL/stm324x9i_eval_ts.c" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/STM324x9I_EVAL/stm324x9i_eval_nor.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/STM324x9I_EVAL/stm324x9i_eval_io.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/STM324x9I_EVAL/stm324x9i_eval_audio.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/STM324x9I_EVAL/stm324x9i_eval.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/STM324x9I_EVAL/stm324x9i_eval_eeprom.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/STM324x9I_EVAL/stm324x9i_eval_audio.c" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/STM324x9I_EVAL/stm324x9i_eval.c" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/STM324x9I_EVAL/stm324x9i_eval_eeprom.c" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/STM324x9I_EVAL/stm324x9i_eval_io.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/STM324x9I_EVAL/stm324x9i_eval_sram.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/STM324x9I_EVAL/stm324x9i_eval_camera.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/STM324x9I_EVAL/stm324x9i_eval_sd.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/STM324x9I_EVAL/stm324x9i_eval_lcd.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/STM324x9I_EVAL/stm324x9i_eval_camera.c" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/STM324x9I_EVAL/stm324x9i_eval_sram.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/STM324x9I_EVAL/stm324x9i_eval_ts.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/STM324x9I_EVAL/stm324x9i_eval_lcd.c" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/STM324x9I_EVAL/stm324x9i_eval_sram.c" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/STM324x9I_EVAL/stm324x9i_eval_io.c" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/STM324x9I_EVAL/stm324x9i_eval_sd.c" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/STM324x9I_EVAL/stm324x9i_eval_sdram.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/STM324x9I_EVAL/stm324x9i_eval_ts.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/STM324x9I_EVAL/stm324x9i_eval_nor.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/STM324x9I_EVAL/stm324x9i_eval_nor.c" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/STM32446E_EVAL/stm32446e_eval_eeprom.c" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/STM32446E_EVAL/stm32446e_eval_sd.c" isTestSource="false" />
@@ -1230,14 +1232,14 @@
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/STM32469I-Discovery/stm32469i_discovery_eeprom.c" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/STM32469I-Discovery/stm32469i_discovery_ts.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/STM32469I-Discovery/stm32469i_discovery_sdram.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/STM32469I-Discovery/stm32469i_discovery_audio.c" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/STM32469I-Discovery/stm32469i_discovery_ts.c" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/STM32469I-Discovery/stm32469i_discovery_sdram.c" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/STM32469I-Discovery/stm32469i_discovery_lcd.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/STM32469I-Discovery/stm32469i_discovery_qspi.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/STM32469I-Discovery/stm32469i_discovery_audio.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/STM32469I-Discovery/stm32469i_discovery_lcd.c" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/STM32469I-Discovery/stm32469i_discovery_qspi.c" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/STM32469I-Discovery/stm32469i_discovery_audio.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/STM32469I-Discovery/stm32469i_discovery_audio.c" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/STM32469I-Discovery/stm32469i_discovery_sd.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/STM32469I-Discovery/stm32469i_discovery.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/STM32469I-Discovery/stm32469i_discovery_eeprom.h" isTestSource="false" />
@@ -1246,11 +1248,10 @@
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/STM32469I_EVAL/stm32469i_eval_audio.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/STM32469I_EVAL/stm32469i_eval_lcd.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/STM32469I_EVAL/stm32469i_eval_io.c" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/STM32469I_EVAL/stm32469i_eval_sram.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/STM32469I_EVAL/stm32469i_eval_sd.c" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/STM32469I_EVAL/stm32469i_eval.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/STM32469I_EVAL/stm32469i_eval_audio.c" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/STM32469I_EVAL/stm32469i_eval_ts.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/STM32469I_EVAL/stm32469i_eval_sram.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/STM32469I_EVAL/stm32469i_eval_nor.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/STM32469I_EVAL/stm32469i_eval.c" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/STM32469I_EVAL/stm32469i_eval_nor.c" isTestSource="false" />
@@ -1261,9 +1262,10 @@
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/STM32469I_EVAL/stm32469i_eval_sdram.c" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/STM32469I_EVAL/stm32469i_eval_camera.c" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/STM32469I_EVAL/stm32469i_eval_qspi.c" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/STM32469I_EVAL/stm32469i_eval_camera.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/STM32469I_EVAL/stm32469i_eval_ts.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/STM32469I_EVAL/stm32469i_eval_sd.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/STM32469I_EVAL/stm32469i_eval_eeprom.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/STM32469I_EVAL/stm32469i_eval_camera.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/STM32469I_EVAL/stm32469i_eval_lcd.c" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/STM32469I_EVAL/stm32469i_eval_eeprom.c" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/STM32469I_EVAL/stm32469i_eval_io.h" isTestSource="false" />
@@ -1286,6 +1288,7 @@
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/STM324xG_EVAL/stm324xg_eval_audio.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/STM324xG_EVAL/stm324xg_eval.c" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/STM32F429I-Discovery/stm32f429i_discovery_gyroscope.c" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/STM32F429I-Discovery/stm32f429i_discovery.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/STM32F429I-Discovery/stm32f429i_discovery_lcd.c" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/STM32F429I-Discovery/stm32f429i_discovery.c" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/STM32F429I-Discovery/stm32f429i_discovery_sdram.h" isTestSource="false" />
@@ -1294,9 +1297,8 @@
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/STM32F429I-Discovery/stm32f429i_discovery_gyroscope.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/STM32F429I-Discovery/stm32f429i_discovery_sdram.c" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/STM32F429I-Discovery/stm32f429i_discovery_io.c" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/STM32F429I-Discovery/stm32f429i_discovery_ts.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/STM32F429I-Discovery/stm32f429i_discovery_eeprom.c" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/STM32F429I-Discovery/stm32f429i_discovery.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/STM32F429I-Discovery/stm32f429i_discovery_ts.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/STM32F429I-Discovery/stm32f429i_discovery_ts.c" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/STM32F429I-Discovery/stm32f429i_discovery_lcd.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/Adafruit_Shield/stm32_adafruit_sd.h" isTestSource="false" />
@@ -1310,11 +1312,13 @@
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/STM32F4-Discovery/stm32f4_discovery_accelerometer.c" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/BSP/STM32F4-Discovery/stm32f4_discovery.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/CMakeLists.txt" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/inc/PacketOut.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/inc/init.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/inc/PacketIn.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/inc/pressure.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/inc/stm32f4xx_it.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/inc/stm32f4xx_hal_conf.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/inc/init.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/inc/main.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/inc/stm32f4xx_hal_conf.h" isTestSource="false" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module-library">
@@ -1336,6 +1340,7 @@
           <root url="file://C:/cygwin64/usr/include" />
         </SOURCES>
         <excluded>
+          <root url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_dsi.h" />
           <root url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_cortex.h" />
           <root url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_adc.h" />
           <root url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_sram.h" />
@@ -1365,7 +1370,6 @@
           <root url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pccard.h" />
           <root url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_sdmmc.h" />
           <root url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_wwdg.h" />
-          <root url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc_ex.h" />
           <root url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_qspi.h" />
           <root url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr.h" />
           <root url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_hash.h" />
@@ -1381,25 +1385,25 @@
           <root url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_flash.h" />
           <root url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rng.h" />
           <root url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h" />
-          <root url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_sdram.h" />
           <root url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_sai_ex.h" />
           <root url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_i2c_ex.h" />
           <root url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_dac.h" />
           <root url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_cec.h" />
           <root url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_lptim.h" />
-          <root url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_crc.h" />
+          <root url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_iwdg.h" />
           <root url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/STM32F4xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h" />
           <root url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_dma_ex.h" />
           <root url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_dma.h" />
           <root url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usb.h" />
-          <root url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_dsi.h" />
+          <root url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc_ex.h" />
           <root url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_conf_template.h" />
           <root url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_usart.h" />
           <root url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_i2s.h" />
-          <root url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_iwdg.h" />
+          <root url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_sdram.h" />
           <root url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_ltdc.h" />
           <root url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_smartcard.h" />
           <root url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_gpio.h" />
+          <root url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_crc.h" />
           <root url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_gpio_ex.h" />
           <root url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_can.h" />
           <root url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_dac_ex.h" />
@@ -1410,26 +1414,28 @@
           <root url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f411xe.h" />
           <root url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/CMSIS/Device/ST/STM32F4xx/Include/system_stm32f4xx.h" />
           <root url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h" />
-          <root url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f427xx.h" />
           <root url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f410tx.h" />
+          <root url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f469xx.h" />
+          <root url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f410rx.h" />
+          <root url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h" />
           <root url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f405xx.h" />
           <root url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f479xx.h" />
-          <root url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h" />
           <root url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f417xx.h" />
           <root url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f415xx.h" />
           <root url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f429xx.h" />
-          <root url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f410rx.h" />
-          <root url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f469xx.h" />
+          <root url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f427xx.h" />
           <root url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f439xx.h" />
           <root url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f437xx.h" />
           <root url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f401xc.h" />
           <root url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f401xe.h" />
           <root url="file://$MODULE_DIR$/STM32Cube_FW_F4_V1.9.0/Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f446xx.h" />
+          <root url="file://$MODULE_DIR$/inc/PacketOut.h" />
+          <root url="file://$MODULE_DIR$/inc/init.h" />
+          <root url="file://$MODULE_DIR$/inc/PacketIn.h" />
           <root url="file://$MODULE_DIR$/inc/pressure.h" />
           <root url="file://$MODULE_DIR$/inc/stm32f4xx_it.h" />
-          <root url="file://$MODULE_DIR$/inc/stm32f4xx_hal_conf.h" />
-          <root url="file://$MODULE_DIR$/inc/init.h" />
           <root url="file://$MODULE_DIR$/inc/main.h" />
+          <root url="file://$MODULE_DIR$/inc/stm32f4xx_hal_conf.h" />
         </excluded>
       </library>
     </orderEntry>

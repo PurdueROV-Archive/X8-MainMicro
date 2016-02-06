@@ -1322,6 +1322,6 @@ set(SOURCE_FILES
     STM32Cube_FW_F4_V1.9.0/Utilities/Log/lcd_log.c
     STM32Cube_FW_F4_V1.9.0/Utilities/Log/lcd_log.h
     STM32Cube_FW_F4_V1.9.0/Utilities/Log/lcd_log_conf_template.h
-    main.cpp)
+    main.cpp src/PacketIn.cpp inc/PacketIn.h src/PacketOut.cpp inc/PacketOut.h)
 
-add_executable(X8_MainMicro ${SOURCE_FILES})
+add_executable(X8_MainMicro ${SOURCE_FILES} src/PacketIn.cpp inc/PacketIn.h)
