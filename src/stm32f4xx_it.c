@@ -67,7 +67,8 @@ void PendSV_Handler(void)
 
 void SysTick_Handler(void)
 {
-  HAL_IncTick();
+    HAL_IncTick();
+    //RampTicker++;
 }
 
 void DMA1_Stream0_IRQHandler(void)

@@ -1,6 +1,12 @@
+
 //put all of your #includes into main.h file
 #include "main.h"
 #include "print.h"
+#include "PacketIn.h"
+#include "PacketOut.h"
+#include "matrices.h"
+#include "imu.h"
+#include "pi_controller.h"
 
 /*CAN2 GPIO Configuration    
     PB5  ------> CAN2_RX
@@ -54,11 +60,34 @@
 */
 
 uint8_t buffer[2] = {'A', 'B'};
+uint8_t serialInBuffer[SERIAL_BUFFER_SIZE] = {'z', 'y', 'x', 'w', 't', 'r', 's', '\0'};
+uint8_t serialOutBuffer[SERIAL_BUFFER_SIZE] = {'h', 'e', 'l', 'l', 'l', 'o', 'M', 'a', 't', 't', 'C', 'M', 'o', 'l', 'o', '\0'};
+
+PIController piController;
+vect6 force_output;
+int16_t * force_input;
+
+PacketIn *packet;
 
 int main(void) {
-
+    //volatile uint_fast8_t RampTicker;
+    
 	//initializes all of the pins!
 	initEverything();
+
+	HAL_UART_Receive_DMA(&huart3, (uint8_t*)serialInBuffer, SERIAL_BUFFER_SIZE);
+
+
+	packet = new PacketIn();
+	HAL_UART_Receive_DMA(&huart3, packet->getArray(), SERIAL_BUFFER_SIZE);
+
+	// IMU init
+    IMU imu = IMU(&hi2c1);
+
+    // PIController inits
+	PIController piController = PIController();
+	piController.start();
+
 
 	//sets the size of the message in bytes. Max 8 bytes per message
 	hcan2.pTxMsg->DLC = 8;
@@ -72,13 +101,27 @@ int main(void) {
 	hcan2.pTxMsg->Data[6] = 0;
 	hcan2.pTxMsg->Data[7] = 1;
 
+
 	uint16_t throttle = 7000;
 	uint8_t motorAddress = 0x29;
 
 	while (1) {
 
 
-		LedToggle(BLUE);
+
+		if(HAL_UART_Transmit_DMA(&huart3, packet->getArray(), SERIAL_BUFFER_SIZE) == HAL_OK)
+		{
+			//LedOn(ORANGE);
+			//HAL_UART_Transmit_DMA(&huart3, packet->getArray(), SERIAL_BUFFER_SIZE);
+			//HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
+		}
+
+		imu.retrieve();
+		piController.sensorInput(vect3Make((int) (imu.getX() * 10000), (int) (imu.getY() * 10000), (int) (imu.getZ() * 10000)), 
+			vect3Make(0,0,0), HAL_GetTick());
+		force_output.R = piController.getOutput();
+
+		//LedToggle(BLUE);
         HAL_Delay(500);
 
 
@@ -97,6 +140,15 @@ int main(void) {
 		//HAL_CAN_Transmit(&hcan2, 100); //second
 		//HAL_CAN_Transmit(&hcan2, 100); //third
 
+		/*LedOn(GREEN);
+		HAL_Delay(100);
+		LedOff(GREEN);
+		HAL_Delay(100);
+        if (RampTicker >= 20)
+        {
+            overseer.doRamping();
+            RampTicker = 0;
+        }*/
 	}
 }
 
@@ -114,11 +166,18 @@ void HAL_CAN_RxCpltCallback(CAN_HandleTypeDef* CanHandle){
 
 //this is run when the a serial message is sent
 void HAL_UART_TxCpltCallback(UART_HandleTypeDef *UartHandle){
-	LedToggle(BLUE);
+	//LedToggle(BLUE);
 }
 
 //this is run when a serial message is received
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *UartHandle){
-	HAL_UART_Receive_DMA(&huart3, (uint8_t*)buffer, 2);
+	HAL_UART_Receive_DMA(&huart3, (uint8_t *)packet->getArray(), SERIAL_BUFFER_SIZE);
+
+	packet->recieve();
+
+	force_input = packet->getThrusters();
+	force_output = vect6Make(force_input[0], force_input[1], force_input[2], force_input[3], force_input[4], force_input[5]);
+	piController.setNewRotation(force_output.R);
+
 	LedToggle(RED);
 }
