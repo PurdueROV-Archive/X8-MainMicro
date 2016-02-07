@@ -236,6 +236,17 @@ void initI2C(void)
     /* Peripheral clock enable */
     __I2C1_CLK_ENABLE();
 
+	hi2c1.Instance = I2C1;
+	hi2c1.Init.ClockSpeed = 100000;
+	hi2c1.Init.DutyCycle = I2C_DUTYCYCLE_2;
+	hi2c1.Init.OwnAddress1 = 1;
+	hi2c1.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
+	hi2c1.Init.DualAddressMode = I2C_DUALADDRESS_DISABLED;
+	hi2c1.Init.OwnAddress2 = 1;
+	hi2c1.Init.GeneralCallMode = I2C_GENERALCALL_DISABLED;
+	hi2c1.Init.NoStretchMode = I2C_NOSTRETCH_DISABLED;//I2C_NOSTRETCH_ENABLE;
+	HAL_I2C_Init(&hi2c1);
+
     hdma_i2c1_rx.Instance = DMA1_Stream0;
     hdma_i2c1_rx.Init.Channel = DMA_CHANNEL_1;
     hdma_i2c1_rx.Init.Direction = DMA_PERIPH_TO_MEMORY;
@@ -264,16 +275,7 @@ void initI2C(void)
 
     __HAL_LINKDMA(&hi2c1,hdmatx,hdma_i2c1_tx);
 
-    hi2c1.Instance = I2C1;
-	hi2c1.Init.ClockSpeed = 100000;
- 	hi2c1.Init.DutyCycle = I2C_DUTYCYCLE_2;
-  	hi2c1.Init.OwnAddress1 = 0;
-  	hi2c1.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
-  	hi2c1.Init.DualAddressMode = I2C_DUALADDRESS_DISABLED;
-  	hi2c1.Init.OwnAddress2 = 0;
-  	hi2c1.Init.GeneralCallMode = I2C_GENERALCALL_DISABLED;
-  	hi2c1.Init.NoStretchMode = I2C_NOSTRETCH_DISABLED;
-  	HAL_I2C_Init(&hi2c1);
+
 }
 
 void MX_DMA_Init(void) 

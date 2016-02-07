@@ -72,18 +72,29 @@ int main(void) {
 	hcan2.pTxMsg->Data[6] = 0;
 	hcan2.pTxMsg->Data[7] = 1;
 
+	uint16_t throttle = 7000;
+	uint8_t motorAddress = 0x29;
 
 	while (1) {
 
 
 		LedToggle(BLUE);
         HAL_Delay(500);
+
+
+		uint8_t temp[3] = {0x00, (throttle>>8), throttle};
+		HAL_I2C_Master_Transmit(&hi2c1, motorAddress << 1, temp, 3, 100);
+		while (HAL_I2C_GetState(&hi2c1) != HAL_I2C_STATE_READY)
+		{
+			HAL_Delay(1);
+		}
+
 		//first message
 		//hcan2.pTxMsg->DLC = 1;
 		//hcan2.pTxMsg->Data[i] = 0;
 		//second and third
 
-		HAL_CAN_Transmit(&hcan2, 100); //second
+		//HAL_CAN_Transmit(&hcan2, 100); //second
 		//HAL_CAN_Transmit(&hcan2, 100); //third
 
 	}
