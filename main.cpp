@@ -1,4 +1,3 @@
-
 //put all of your #includes into main.h file
 #include "main.h"
 #include "print.h"
@@ -73,7 +72,7 @@ int main(void) {
 
 
 	packet = new PacketIn();
-	HAL_UART_Receive_DMA(&huart3, packet->getArray(), SERIAL_BUFFER_SIZE);
+	HAL_UART_Receive_DMA(&huart3, packet->getArray(), SERIAL_IN_BUFFER_SIZE);
 
 
 	// IMU init
@@ -94,7 +93,7 @@ int main(void) {
 
 
 		//send back up the serial data for debugging
-		if(HAL_UART_Transmit_DMA(&huart3, packet->getArray(), SERIAL_BUFFER_SIZE) == HAL_OK)
+		if(HAL_UART_Transmit_DMA(&huart3, packet->getArray(), SERIAL_IN_BUFFER_SIZE) == HAL_OK)
 		{
 
 		}
@@ -147,7 +146,7 @@ void HAL_UART_TxCpltCallback(UART_HandleTypeDef *UartHandle){
 //this is run when a serial message is received
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *UartHandle){
 
-	HAL_UART_Receive_DMA(&huart3, (uint8_t *)packet->getArray(), SERIAL_BUFFER_SIZE);
+	HAL_UART_Receive_DMA(&huart3, (uint8_t *)packet->getArray(), SERIAL_IN_BUFFER_SIZE);
 
 	packet->recieve();
 

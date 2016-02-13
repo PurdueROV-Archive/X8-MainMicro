@@ -13,7 +13,7 @@
         char crc = 0;
         char val;
         char mix;
-        for (int i = 1; i < SERIAL_BUFFER_SIZE - 2; ++i) {
+        for (int i = 1; i < SERIAL_IN_BUFFER_SIZE - 2; ++i) {
             val = bytes[i];
             for (int j = 8; j; --j) {
                 mix = (crc ^ val) & 0x01;
@@ -31,7 +31,7 @@
     void PacketIn::recieve() {
         //LED(BLUE);
         LedOn(ORANGE);
-        //for (int i = 0; i < SERIAL_BUFFER_SIZE; i++) {
+        //for (int i = 0; i < SERIAL_IN_BUFFER_SIZE; i++) {
 
         //}
         if (PacketIn::checksum(recieveBuffer) == recieveBuffer[28]) {

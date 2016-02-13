@@ -10,7 +10,7 @@
 #include "main.h"
 
 
-#define SERIAL_BUFFER_SIZE  30
+#define SERIAL_IN_BUFFER_SIZE  30
 
 
 class PacketIn {
@@ -23,7 +23,7 @@ public :
 
 private :
 
-    char recieveBuffer[SERIAL_BUFFER_SIZE];
+    char recieveBuffer[SERIAL_IN_BUFFER_SIZE];
 
 
     char checksum(char *bytes);
