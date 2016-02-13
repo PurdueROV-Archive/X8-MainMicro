@@ -34,7 +34,7 @@
         //for (int i = 0; i < SERIAL_BUFFER_SIZE; i++) {
         this->recieveBuffer[2] = (uint8_t) 'S';
         //}
-        if (PacketIn::checksum(recieveBuffer)) {
+        if (PacketIn::checksum(recieveBuffer) == recieveBuffer[28]) {
 
             thrusters[0] = recieveBuffer[2];
             thrusters[0] = thrusters[0] << 8;
