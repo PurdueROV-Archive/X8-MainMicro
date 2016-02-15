@@ -13,10 +13,10 @@
 #define APP_CAN_ID 	0x12
 #define CAN_ID 0x13
 
-#define GREEN 0
-#define ORANGE 1
+#define BLUE 0
+#define GREEN 1
 #define RED 2
-#define BLUE 3
+#define YELLOW 3
 
 #define Main_Camera_Servo_PWM_Pin GPIO_PIN_0
 #define Main_Camera_Servo_PWM_GPIO_Port GPIOA

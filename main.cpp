@@ -39,7 +39,7 @@
 
 /* 	USEFULL FUNCTIONS
 
-	RED; BLUE; GREEN; ORANGE
+	RED; BLUE; GREEN; YELLOW
 
 	void LedOn(int ledNum);
 	void LedOff(int ledNum);
@@ -71,7 +71,15 @@ int main(void) {
 	//initializes all of the pins!
 	initEverything();
 
+  while(1)
+  {
+        HAL_Delay(500);
+	 	 LedToggle(RED);
+	  LedToggle(GREEN);
+	  LedToggle(BLUE);
+	  LedToggle(YELLOW);
 
+  }
 	packet = new PacketIn();
 	HAL_UART_Receive_DMA(&huart3, packet->getArray(), SERIAL_BUFFER_SIZE);
 
@@ -92,7 +100,7 @@ int main(void) {
 
 	while (1) {
 
-
+		//LedToggle(GREEN);
 		//send back up the serial data for debugging
 		if(HAL_UART_Transmit_DMA(&huart3, packet->getArray(), SERIAL_BUFFER_SIZE) == HAL_OK)
 		{
@@ -108,7 +116,7 @@ int main(void) {
 		force_output.R = piController.getOutput();*/
 
 
-        HAL_Delay(300);
+        HAL_Delay(100);
 
 
 		/*uint8_t temp[3] = {0x00, (throttle>>8), throttle};
@@ -181,5 +189,5 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *UartHandle){
 
 	HAL_CAN_Transmit(&hcan2, 100); //send the rotational forces
 
-	LedToggle(RED);
+	//LedToggle(RED);
 }
