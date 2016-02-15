@@ -13,7 +13,7 @@
         char crc = 0;
         char val;
         char mix;
-        for (int i = 1; i < SERIAL_BUFFER_SIZE - 2; ++i) {
+        for (int i = 1; i < SERIAL_IN_BUFFER_SIZE - 2; ++i) {
             val = bytes[i];
             for (int j = 8; j; --j) {
                 mix = (crc ^ val) & 0x01;
@@ -30,10 +30,9 @@
 
     void PacketIn::recieve() {
 
-        //for (int i = 0; i < SERIAL_BUFFER_SIZE; i++) {
-        this->recieveBuffer[2] = (uint8_t) 'S';
-        //}
-        if (PacketIn::checksum(recieveBuffer)) {
+
+
+        if (PacketIn::checksum(recieveBuffer) == recieveBuffer[SERIAL_IN_BUFFER_SIZE - 2]) {
 
             thrusters[0] = recieveBuffer[2];
             thrusters[0] = thrusters[0] << 8;

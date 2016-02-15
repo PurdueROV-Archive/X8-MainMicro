@@ -1,4 +1,3 @@
-
 //put all of your #includes into main.h file
 #include "main.h"
 #include "print.h"
@@ -81,7 +80,7 @@ int main(void) {
 
   }
 	packet = new PacketIn();
-	HAL_UART_Receive_DMA(&huart3, packet->getArray(), SERIAL_BUFFER_SIZE);
+	HAL_UART_Receive_DMA(&huart3, packet->getArray(), SERIAL_IN_BUFFER_SIZE);
 
 
 	// IMU init
@@ -102,7 +101,7 @@ int main(void) {
 
 		//LedToggle(GREEN);
 		//send back up the serial data for debugging
-		if(HAL_UART_Transmit_DMA(&huart3, packet->getArray(), SERIAL_BUFFER_SIZE) == HAL_OK)
+		if(HAL_UART_Transmit_DMA(&huart3, packet->getArray(), SERIAL_IN_BUFFER_SIZE) == HAL_OK)
 		{
 
 		}
@@ -116,7 +115,35 @@ int main(void) {
 		force_output.R = piController.getOutput();*/
 
 
-        HAL_Delay(100);
+
+		hcan2.pTxMsg->DLC = 8;
+
+		//sets the info for the logitudinal forces
+		hcan2.pTxMsg->Data[0] =	'L';
+		hcan2.pTxMsg->Data[1] = (0x01  >> 8);
+		hcan2.pTxMsg->Data[2] = 0x01;
+		hcan2.pTxMsg->Data[3] = (0x01  >> 8);
+		hcan2.pTxMsg->Data[4] = 0x01;
+		hcan2.pTxMsg->Data[5] = (0x01  >> 8);
+		hcan2.pTxMsg->Data[6] = 0x01;
+		hcan2.pTxMsg->Data[7] = 0x88; // REPLACE WITH PumpESC byte
+
+		HAL_CAN_Transmit(&hcan2, 100); //send the logitudinal forces
+
+		//sets the info for the rotational forces
+		hcan2.pTxMsg->Data[0] =	'R';
+		hcan2.pTxMsg->Data[1] = (0x01  >> 8);
+		hcan2.pTxMsg->Data[2] = 0x01;
+		hcan2.pTxMsg->Data[3] = (0x01  >> 8);
+		hcan2.pTxMsg->Data[4] = 0x01;
+		hcan2.pTxMsg->Data[5] = (0x01  >> 8);
+		hcan2.pTxMsg->Data[6] = 0x01;
+		hcan2.pTxMsg->Data[7] = 0x00; // REPLACE WITH PID Control byte
+
+		HAL_CAN_Transmit(&hcan2, 100); //send the rotational forces
+		LedToggle(RED);
+
+        HAL_Delay(300);
 
 
 		/*uint8_t temp[3] = {0x00, (throttle>>8), throttle};
@@ -155,7 +182,7 @@ void HAL_UART_TxCpltCallback(UART_HandleTypeDef *UartHandle){
 //this is run when a serial message is received
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *UartHandle){
 
-	HAL_UART_Receive_DMA(&huart3, (uint8_t *)packet->getArray(), SERIAL_BUFFER_SIZE);
+	HAL_UART_Receive_DMA(&huart3, (uint8_t *)packet->getArray(), SERIAL_IN_BUFFER_SIZE);
 
 	packet->recieve();
 
@@ -163,9 +190,8 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *UartHandle){
 	force_output = vect6Make(force_input[0], force_input[1], force_input[2], force_input[3], force_input[4], force_input[5]);
 	piController.setNewRotation(force_output.R);
 
-
 	//sets the packet size
-	hcan2.pTxMsg->DLC = 7;
+	hcan2.pTxMsg->DLC = 8;
 
 	//sets the info for the logitudinal forces
 	hcan2.pTxMsg->Data[0] =	'L';
@@ -175,6 +201,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *UartHandle){
 	hcan2.pTxMsg->Data[4] = force_output.L.y;
 	hcan2.pTxMsg->Data[5] = (force_output.L.z  >> 8);
 	hcan2.pTxMsg->Data[6] = force_output.L.z;
+	hcan2.pTxMsg->Data[7] = 0x88; // REPLACE WITH PumpESC byte
 
 	HAL_CAN_Transmit(&hcan2, 100); //send the logitudinal forces
 
@@ -185,7 +212,8 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *UartHandle){
 	hcan2.pTxMsg->Data[3] = (force_output.R.y  >> 8);
 	hcan2.pTxMsg->Data[4] = force_output.R.y;
 	hcan2.pTxMsg->Data[5] = (force_output.R.z  >> 8);
-	hcan2.pTxMsg->Data[6] = force_output.R.z;
+	hcan2.pTxMsg->Data[6] = force_output.L.z;
+	hcan2.pTxMsg->Data[7] = 0x00; //REPLACE WITH PID Control byte
 
 	HAL_CAN_Transmit(&hcan2, 100); //send the rotational forces
 
