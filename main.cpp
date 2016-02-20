@@ -38,7 +38,7 @@
 
 /* 	USEFULL FUNCTIONS
 
-	RED; BLUE; GREEN; ORANGE
+	RED; BLUE; GREEN; YELLOW
 
 	void LedOn(int ledNum);
 	void LedOff(int ledNum);
@@ -69,6 +69,8 @@ int main(void) {
 	//initializes all of the pins!
 	initEverything();
 
+
+
 	packet = new PacketIn();
 	HAL_UART_Receive_DMA(&huart3, packet->getArray(), SERIAL_IN_BUFFER_SIZE);
 
@@ -89,7 +91,7 @@ int main(void) {
 
 	while (1) {
 
-
+		//LedToggle(GREEN);
 		//send back up the serial data for debugging
 		if(HAL_UART_Transmit_DMA(&huart3, packet->getArray(), SERIAL_IN_BUFFER_SIZE) == HAL_OK)
 		{
@@ -97,8 +99,6 @@ int main(void) {
 		}
 
 		/*imu.retrieve();  //receives data from the imu
-
-
 
 		piController.sensorInput(vect3Make((int) (imu.getX() * 10000), (int) (imu.getY() * 10000), (int) (imu.getZ() * 10000)),
 		vect3Make(0,0,0), HAL_GetTick());
@@ -152,9 +152,14 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *UartHandle){
 	force_output = vect6Make(force_input[0], force_input[1], force_input[2], force_input[3], force_input[4], force_input[5]);
 	piController.setNewRotation(force_output.R);
 
+	uint8_t i = 0;
+	LedOn(GREEN);
+	for (i = 0; i < 6; i++) {
+		if (force_input[i]!= 1) LedOff(GREEN);
+	}
 
 	//sets the packet size
-	hcan2.pTxMsg->DLC = 7;
+	hcan2.pTxMsg->DLC = 8;
 
 	//sets the info for the logitudinal forces
 	hcan2.pTxMsg->Data[0] =	'L';
@@ -164,8 +169,9 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *UartHandle){
 	hcan2.pTxMsg->Data[4] = force_output.L.y;
 	hcan2.pTxMsg->Data[5] = (force_output.L.z  >> 8);
 	hcan2.pTxMsg->Data[6] = force_output.L.z;
+	hcan2.pTxMsg->Data[7] = packet->getArray()[15]; //Pump ESC byte
 
-	HAL_CAN_Transmit(&hcan2, 100); //send the logitudinal forces
+	HAL_CAN_Transmit(&hcan2, 100); //send the longitudinal forces
 
 	//sets the info for the rotational forces
 	hcan2.pTxMsg->Data[0] =	'R';
@@ -174,9 +180,9 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *UartHandle){
 	hcan2.pTxMsg->Data[3] = (force_output.R.y  >> 8);
 	hcan2.pTxMsg->Data[4] = force_output.R.y;
 	hcan2.pTxMsg->Data[5] = (force_output.R.z  >> 8);
-	hcan2.pTxMsg->Data[6] = force_output.R.z;
+	hcan2.pTxMsg->Data[6] = force_output.L.z;
+	hcan2.pTxMsg->Data[7] = packet->getArray()[18]; //The PID Control byte
 
 	HAL_CAN_Transmit(&hcan2, 100); //send the rotational forces
-
-	LedToggle(RED);
+	//LedToggle(RED);
 }

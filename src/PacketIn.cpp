@@ -29,12 +29,10 @@
 
 
     void PacketIn::recieve() {
-        //LED(BLUE);
-        LedOn(ORANGE);
-        //for (int i = 0; i < SERIAL_IN_BUFFER_SIZE; i++) {
 
-        //}
-        if (PacketIn::checksum(recieveBuffer) == recieveBuffer[28]) {
+
+
+        if (PacketIn::checksum(recieveBuffer) == recieveBuffer[SERIAL_IN_BUFFER_SIZE - 2]) {
 
             thrusters[0] = recieveBuffer[2];
             thrusters[0] = thrusters[0] << 8;

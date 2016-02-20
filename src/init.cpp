@@ -480,19 +480,19 @@ void LedToggle(int ledNum)
 {
 	if(ledNum == 0)
 	{
-		HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_12);
+		HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_11);
 	}
 	else if(ledNum == 1)
 	{	
-		HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_13);
+		HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_12);
 	}
 	else if(ledNum == 2)
 	{
-		HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_14);
+		HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_13);
 	}
 	else if(ledNum == 3)
 	{
-		HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_15);
+		HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_14);
 	}
 }
 

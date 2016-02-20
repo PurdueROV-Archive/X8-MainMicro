@@ -2,32 +2,7 @@
 #ifndef __INIT_H
 #define __INIT_H
 
-// INCLUDES:
-
-#include "stm32f4xx_hal.h"
-#include "print.h"
-
-// DEFINES:
-
-#define POW_CAN_ID	0x11
-#define APP_CAN_ID 	0x12
-#define CAN_ID 0x13
-
-#define GREEN 0
-#define ORANGE 1
-#define RED 2
-#define BLUE 3
-
-#define Main_Camera_Servo_PWM_Pin GPIO_PIN_0
-#define Main_Camera_Servo_PWM_GPIO_Port GPIOA
-#define Alt_Camera_Servo_PWM_Pin GPIO_PIN_3
-#define Alt_Camera_Servo_PWM_GPIO_Port GPIOA
-#define Sonar_DAC_Pin GPIO_PIN_4
-#define Sonar_DAC_GPIO_Port GPIOA
-#define Sonar_Pwm_Pin GPIO_PIN_5
-#define Sonar_Pwm_GPIO_Port GPIOA
-
-// FORWARD DECLARATIONS:
+#include "main.h"
 
 extern TIM_MasterConfigTypeDef sMasterConfig;
 extern TIM_OC_InitTypeDef sConfigOC;
@@ -49,9 +24,6 @@ extern DMA_HandleTypeDef hdma_i2c1_tx;
 
 extern TIM_HandleTypeDef htim2;
 extern TIM_HandleTypeDef htim5;
-
-
-// PROTOTYPE FUNCTIONS:
 
 void initEverything(void);
 
