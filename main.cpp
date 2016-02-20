@@ -59,7 +59,6 @@
 */
 
 
-
 /* Variables used in the motor controlling code */
 PIController piController; //stabalization controller structure
 vect6 force_output;	//vector containing desired logitudinal rotational force for the ROV
@@ -69,7 +68,6 @@ PacketIn *packet;
 int main(void) {
 	//initializes all of the pins!
 	initEverything();
-
 
 	packet = new PacketIn();
 	HAL_UART_Receive_DMA(&huart3, packet->getArray(), SERIAL_IN_BUFFER_SIZE);
