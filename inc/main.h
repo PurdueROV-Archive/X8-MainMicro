@@ -30,6 +30,4 @@
 #define Sonar_Pwm_GPIO_Port GPIOA
 
 
-
-
 #endif /* __MAIN_H */

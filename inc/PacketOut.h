@@ -31,7 +31,7 @@ public:
     void setData(int,uint32_t);
     PacketOut(UART_HandleTypeDef* serialStruct);
 
-    uint8_t* returndata();
+
 
 
 private:
