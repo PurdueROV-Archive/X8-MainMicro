@@ -16,8 +16,6 @@ OBJECTS = main.o \
 	src/pressure.o \
 	src/matrices.o \
 	src/print.o \
-	src/thrust_mapper.o \
-	src/overseer.o \
 	src/pi_controller.o \
 	src/imu.o
 

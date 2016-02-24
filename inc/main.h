@@ -20,6 +20,9 @@
 #define RED 2
 #define BLUE 3
 
+#define MAX(x,y) (x > y) ? x : y
+#define MIN(x,y) (x > y) ? y : x
+
 #define Main_Camera_Servo_PWM_Pin GPIO_PIN_0
 #define Main_Camera_Servo_PWM_GPIO_Port GPIOA
 #define Alt_Camera_Servo_PWM_Pin GPIO_PIN_3
