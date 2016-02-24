@@ -1,11 +1,15 @@
 //put all of your #includes into main.h file
 #include "main.h"
+
 #include "print.h"
 #include "PacketIn.h"
 #include "PacketOut.h"
+<<<<<<< HEAD
+=======
 #include "matrices.h"
 #include "imu.h"
 #include "pi_controller.h"
+>>>>>>> origin/master
 
 /*CAN2 GPIO Configuration    
     PB5  ------> CAN2_RX
@@ -75,6 +79,21 @@ int main(void) {
 	HAL_UART_Receive_DMA(&huart3, packet->getArray(), SERIAL_IN_BUFFER_SIZE);
 
 
+<<<<<<< HEAD
+	/*
+	//sets the size of the message in bytes. Max 8 bytes per message
+	hcan2.pTxMsg->DLC = 8;
+	//sets the information that is sent over the message
+	hcan2.pTxMsg->Data[0] = 0;
+	hcan2.pTxMsg->Data[1] = 1;
+	hcan2.pTxMsg->Data[2] = 0;
+	hcan2.pTxMsg->Data[3] = 1;
+	hcan2.pTxMsg->Data[4] = 0;
+	hcan2.pTxMsg->Data[5] = 1;
+	hcan2.pTxMsg->Data[6] = 0;
+	hcan2.pTxMsg->Data[7] = 1;
+	 */
+=======
 	// IMU init
     IMU imu = IMU(&hi2c1);
 
@@ -88,6 +107,7 @@ int main(void) {
 	//testing variables for motors
 	uint16_t throttle = 7000;
 	uint8_t motorAddress = 0x29;
+>>>>>>> origin/master
 
 	while (1) {
 
@@ -98,12 +118,61 @@ int main(void) {
 
 		}
 
+<<<<<<< HEAD
+		//LedToggle(BLUE);
+        HAL_Delay(500);
+		//initialize and send header message
+		hcan2.pTxMsg->DLC = 1;
+		hcan2.pTxMsg->Data[0] = 0;
+		HAL_CAN_Transmit(&hcan2, 100); //header
+
+		//initialize and send data message
+		//sets the size of the message in bytes. Max 8 bytes per message
+		hcan2.pTxMsg->DLC = 8;
+		//sets the information that is sent over the message
+
+		hcan2.pTxMsg->Data[0] = 0;
+		hcan2.pTxMsg->Data[1] = 1;
+
+		hcan2.pTxMsg->Data[2] = 0;
+		hcan2.pTxMsg->Data[3] = 1;
+
+		hcan2.pTxMsg->Data[4] = 0;
+		hcan2.pTxMsg->Data[5] = 1;
+
+		hcan2.pTxMsg->Data[6] = 0;
+		hcan2.pTxMsg->Data[7] = 1;
+
+		HAL_CAN_Transmit(&hcan2, 100); //thrusters 1-4
+
+		//initialize and send data message
+		//sets the size of the message in bytes. Max 8 bytes per message
+		hcan2.pTxMsg->DLC = 8;
+		//sets the information that is sent over the message
+
+		hcan2.pTxMsg->Data[0] = 0;
+		hcan2.pTxMsg->Data[1] = 1;
+
+		hcan2.pTxMsg->Data[2] = 0;
+		hcan2.pTxMsg->Data[3] = 1;
+
+		hcan2.pTxMsg->Data[4] = 0;
+		hcan2.pTxMsg->Data[5] = 1;
+
+		hcan2.pTxMsg->Data[6] = 0;
+		hcan2.pTxMsg->Data[7] = 1;
+
+		HAL_CAN_Transmit(&hcan2, 100); //thrusters 5-8
+
+		HAL_CAN_Receive_IT(&hcan2, CAN_FIFO0);
+=======
 		/*imu.retrieve();  //receives data from the imu
 
 		piController.sensorInput(vect3Make((int) (imu.getX() * 10000), (int) (imu.getY() * 10000), (int) (imu.getZ() * 10000)),
 		vect3Make(0,0,0), HAL_GetTick());
 		force_output.R = piController.getOutput();*/
 
+>>>>>>> origin/master
 
         HAL_Delay(300);
 
@@ -128,9 +197,26 @@ int main(void) {
 void HAL_CAN_RxCpltCallback(CAN_HandleTypeDef* CanHandle){
 
 	//example on how to use this in callback function
-	if ((CanHandle->pRxMsg)->StdId == 0x11 && (CanHandle->pRxMsg)->IDE == CAN_ID_STD){
+	if ((CanHandle->pRxMsg)->StdId == POW_CAN_ID && (CanHandle->pRxMsg)->IDE == CAN_ID_STD){
+
+		if ((CanHandle->pRxMsg)->DLC == 8) {
+			LedToggle(ORANGE);
+		}
+
+		bool motor_status = true;
+		for (int i = 0; i < (CanHandle->pRxMsg)->DLC; i++) {
+			motor_status = motor_status && ((CanHandle->pRxMsg)->Data[i] == MOTOR_OK);
+		}
+
+		if (motor_status) {
+			LedOn(RED);
+		} else {
+			LedOff(RED);
+		}
 
 	}
+	uint8_t buffer[3] = {'1','2','3'};
+	HAL_UART_Transmit_DMA(&huart3, buffer, 3);
 
 	//restarts the interrupt
 	HAL_CAN_Receive_IT(CanHandle, CAN_FIFO0);
