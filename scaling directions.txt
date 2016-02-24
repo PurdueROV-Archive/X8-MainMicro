@@ -1,0 +1,9 @@
+//prescale by a value, for now 1024
+//divide by the maximum value in the first 4 rows of the first col for X
+//repeat with second col for Y
+//divide by the maximum value in the last 4 rows of the third col for Z
+
+//scale X by 276
+//scale Y by 765
+//scale Z by 280
+
