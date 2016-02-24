@@ -5,12 +5,12 @@
 #include "stm32f4xx_hal.h"
 #include "stm32f4xx_it.h"
 #include "stm32f4xx.h"
-#include "math.h"
+#include "print.h"
 #include <stdint.h>
 #include <stm32f407xx.h>
 #include "init.h"
 
-
+//extern volatile uint_fast8_t RampTicker;
 #define POW_CAN_ID	0x11
 #define APP_CAN_ID 	0x12
 #define CAN_ID 0x13
@@ -29,6 +29,9 @@
 #define Sonar_Pwm_Pin GPIO_PIN_5
 #define Sonar_Pwm_GPIO_Port GPIOA
 
+<<<<<<< HEAD
 #define MOTOR_OK 0xAB
+=======
+>>>>>>> origin/master
 
 #endif /* __MAIN_H */

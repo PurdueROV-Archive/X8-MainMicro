@@ -1,8 +1,6 @@
 /*This folder will be used to hold all code used to initialize pins */
 
 #include "init.h"
-//#include "print.h"
-#include "stm32f4xx_hal.h"
 
 TIM_MasterConfigTypeDef sMasterConfig;
 TIM_OC_InitTypeDef sConfigOC;
@@ -52,7 +50,8 @@ void initEverything(void)
 
 	HAL_MspInit();
 
-  //HAL_I2C_Init();
+  HAL_I2C_Init(&hi2c1);
+  HAL_I2C_Init(&hi2c3);
 
 	MX_DMA_Init();
 	//MX_GPIO_Init();
@@ -81,6 +80,14 @@ void MX_USART3_UART_Init(void)
 
 }
 
+void MX_GPIO_Init(void)
+{
+
+	/* GPIO Ports Clock Enable */
+			__GPIOA_CLK_ENABLE();
+      __GPIOB_CLK_ENABLE();
+
+}
 
 
 
@@ -236,6 +243,17 @@ void initI2C(void)
     /* Peripheral clock enable */
     __I2C1_CLK_ENABLE();
 
+	hi2c1.Instance = I2C1;
+	hi2c1.Init.ClockSpeed = 100000;
+	hi2c1.Init.DutyCycle = I2C_DUTYCYCLE_2;
+	hi2c1.Init.OwnAddress1 = 1;
+	hi2c1.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
+	hi2c1.Init.DualAddressMode = I2C_DUALADDRESS_DISABLED;
+	hi2c1.Init.OwnAddress2 = 1;
+	hi2c1.Init.GeneralCallMode = I2C_GENERALCALL_DISABLED;
+	hi2c1.Init.NoStretchMode = I2C_NOSTRETCH_DISABLED;//I2C_NOSTRETCH_ENABLE;
+	HAL_I2C_Init(&hi2c1);
+
     hdma_i2c1_rx.Instance = DMA1_Stream0;
     hdma_i2c1_rx.Init.Channel = DMA_CHANNEL_1;
     hdma_i2c1_rx.Init.Direction = DMA_PERIPH_TO_MEMORY;
@@ -264,16 +282,7 @@ void initI2C(void)
 
     __HAL_LINKDMA(&hi2c1,hdmatx,hdma_i2c1_tx);
 
-    hi2c1.Instance = I2C1;
-	hi2c1.Init.ClockSpeed = 100000;
- 	hi2c1.Init.DutyCycle = I2C_DUTYCYCLE_2;
-  	hi2c1.Init.OwnAddress1 = 0;
-  	hi2c1.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
-  	hi2c1.Init.DualAddressMode = I2C_DUALADDRESS_DISABLED;
-  	hi2c1.Init.OwnAddress2 = 0;
-  	hi2c1.Init.GeneralCallMode = I2C_GENERALCALL_DISABLED;
-  	hi2c1.Init.NoStretchMode = I2C_NOSTRETCH_DISABLED;
-  	HAL_I2C_Init(&hi2c1);
+
 }
 
 void MX_DMA_Init(void) 
@@ -396,7 +405,6 @@ void HAL_MspInit(void)
 }
 
 
-
 //initialize the debugging leds
 void initDebugLeds(void)
 {
@@ -472,19 +480,19 @@ void LedToggle(int ledNum)
 {
 	if(ledNum == 0)
 	{
-		HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_12);
+		HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_11);
 	}
 	else if(ledNum == 1)
 	{	
-		HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_13);
+		HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_12);
 	}
 	else if(ledNum == 2)
 	{
-		HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_14);
+		HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_13);
 	}
 	else if(ledNum == 3)
 	{
-		HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_15);
+		HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_14);
 	}
 }
 
