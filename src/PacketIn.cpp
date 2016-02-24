@@ -2,6 +2,41 @@
 // Created by stewa on 2/2/2016.
 //
 
+//CHANGES FOR FIRDAY:
+/*
+ * The values passed to the thrustmapping (representing the thrust vector sent from
+ * the battle station need to be scaled for use in the thrustmapping code.
+ *
+ * First all of the X, Y, and Z values must be multiplied by a value, for now we use
+ * --------- 1024 ---------
+ *
+ * Then the X value must be downscaled by 
+ * --------- 276  ---------
+ *
+ * Then the Y value must be downscaled by
+ * --------- 765  ---------
+ *
+ * Then the Z value must be downscaled by
+ * --------- 280  ---------
+ *
+ * There may be other changes necessary
+ *
+ * This will code will fail if a motor goes offline, in which case the scaling will
+ * be done directly in the battle station
+ *
+ * The values are subject to change if the thrustmapping math is changed, so use the
+ * defines here
+ *
+ * I don't know where everything should be modified, so Ryan told me to add the defines
+ * so you can put everything where it belongs on friday.
+ * -Jason
+ */
+#define PREMULTIPLY 1024
+#define X_DOWNSCALE 276
+#define Y_DOWNSCALE 765
+#define Z_DOWNSCALE 280
+
+
 #include "PacketIn.h"
 
 
