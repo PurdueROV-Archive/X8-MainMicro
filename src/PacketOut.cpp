@@ -79,9 +79,46 @@ char PacketOut::checksum(char *bytes) {
     }
     return crc;
 }
+void PacketOut::setPressure(uint32_t data){
+    memcpy(&Dataup[2], &data, 1);
+}
 
+void PacketOut::setThrusterStatus(uint32_t data){
+    memcpy(&Dataup[1], &data, 1);
+}
+void PacketOut::setTemp(uint32_t data){
+    memcpy(&Dataup[4], &data, 4);
+}
+void PacketOut::setIMUA(uint32_t data){
+    memcpy(&Dataup[8], &data, 2);
+}
+void PacketOut::setIMUB(uint32_t data){
+    memcpy(&Dataup[10], &data, 2);
+}
+void PacketOut::setIMUC(uint32_t data){
+    memcpy(&Dataup[12], &data, 2);
+
+}
+void PacketOut::setIMUD(uint32_t data){
+    memcpy(&Dataup[14], &data, 2);
+}
+void PacketOut::setIMUE(uint32_t data){
+    memcpy(&Dataup[16], &data, 2);
+}
+void PacketOut::setIMUF(uint32_t data){
+    memcpy(&Dataup[18], &data, 2);
+}
+void PacketOut::setIMUG(uint32_t data){
+    memcpy(&Dataup[20], &data, 2);
+}
+void PacketOut::setIMUH(uint32_t data){
+    memcpy(&Dataup[22], &data, 2);
+}
+void PacketOut::setIMUI(uint32_t data){
+    memcpy(&Dataup[24], &data, 2);
+}
 //make array function in class adds data values to array
-void PacketOut::setData(int Name,uint32_t data) {
+/*void PacketOut::setData(int Name,uint32_t data) {
     //add data to packet using #define values as indexes, eg: Name=='x', where x is a # define
     if (Name==Temp){
         memcpy(&Dataup[4], &data, 4);//using memcpy instead of bit shift ,&Dataup[4] gives initial data index location, (&data, 4 specifies data array and number of bytes/indexes)
@@ -143,7 +180,7 @@ void PacketOut::setData(int Name,uint32_t data) {
     }
 
 
-}
+}*/
 
 
 

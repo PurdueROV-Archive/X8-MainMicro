@@ -79,18 +79,18 @@ int main(void) {
 	packet = new PacketIn();
 	packetOut = new PacketOut();
 	HAL_UART_Receive_DMA(&huart3, packet->getArray(), SERIAL_IN_BUFFER_SIZE);
-	packetOut->setData(1,1);
-	packetOut->setData(2,1);
-	packetOut->setData(3,36);
-	packetOut->setData(8,1);
-	packetOut->setData(10,1);
-	packetOut->setData(12,1);
-	packetOut->setData(14,1);
-	packetOut->setData(16,1);
-	packetOut->setData(18,1);
-	packetOut->setData(20,1);
-	packetOut->setData(22,1);
-	packetOut->setData(24,1);
+	packetOut->setThrusterStatus(1);
+	packetOut->setPressure(1);
+	packetOut->setTemp(36);
+	packetOut->setIMUA(1);
+	packetOut->setIMUB(1);
+	packetOut->setIMUC(1);
+	packetOut->setIMUD(1);
+	packetOut->setIMUE(1);
+	packetOut->setIMUF(1);
+	packetOut->setIMUG(1);
+	packetOut->setIMUH(1);
+	packetOut->setIMUI(1);
 
 
 
