@@ -69,7 +69,7 @@ PIController piController; //stabalization controller structure
 vect6 force_output;	//vector containing desired logitudinal rotational force for the ROV
 int16_t * force_input;
 PacketIn *packet;
-
+PacketOut *packetOut;
 int main(void) {
 	//initializes all of the pins!
 	initEverything();
@@ -77,8 +77,9 @@ int main(void) {
 
 
 	packet = new PacketIn();
+	packetOut = new PacketOut();
 	HAL_UART_Receive_DMA(&huart3, packet->getArray(), SERIAL_IN_BUFFER_SIZE);
-
+	//packetOut->setData();
 
 
 	/*

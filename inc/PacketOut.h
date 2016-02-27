@@ -29,7 +29,7 @@ public:
     void send();
 
     void setData(int,uint32_t);
-    PacketOut(UART_HandleTypeDef* serialStruct);
+    PacketOut();
 
 
 

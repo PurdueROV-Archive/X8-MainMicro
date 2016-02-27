@@ -54,7 +54,7 @@
 #include "main.h"
 
 
-PacketOut::PacketOut(UART_HandleTypeDef* serialStruct) //use constructor and add header and tail byte
+PacketOut::PacketOut() //use constructor and add header and tail byte
 {
     Dataup[0]=0x12;
     Dataup[27]=0x13;
