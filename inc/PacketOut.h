@@ -6,8 +6,9 @@
 #define X8_MAINMICRO_PACKETOUT_H
 
 #include "main.h"
+#include "string.h"
 
-#define SERIAL_OUT_BUFFER_SIZE  28
+#define SERIAL_OUT_BUFFER_SIZE 28
 
 #define ThrusterStatus 1
 #define Pressure 2
@@ -27,6 +28,18 @@
 class PacketOut{
 public:
     void send();
+    void setPressure(uint32_t data);
+    void setThrusterStatus(uint32_t data);
+    void setTemp(uint32_t data);
+    void setIMUA(uint32_t data);
+    void setIMUB(uint32_t data);
+    void setIMUC(uint32_t data);
+    void setIMUD(uint32_t data);
+    void setIMUE(uint32_t data);
+    void setIMUF(uint32_t data);
+    void setIMUG(uint32_t data);
+    void setIMUH(uint32_t data);
+    void setIMUI(uint32_t data);
 
     void setData(int,uint32_t);
     PacketOut();

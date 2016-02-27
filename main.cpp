@@ -77,18 +77,18 @@ int main(void) {
 	packet = new PacketIn();
 	packetOut = new PacketOut();
 	HAL_UART_Receive_DMA(&huart3, packet->getArray(), SERIAL_IN_BUFFER_SIZE);
-	packetOut->setData(1,1);
-	packetOut->setData(2,1);
-	packetOut->setData(3,1);
-	packetOut->setData(8,1);
-	packetOut->setData(10,1);
-	packetOut->setData(12,1);
-	packetOut->setData(14,1);
-	packetOut->setData(16,1);
-	packetOut->setData(18,1);
-	packetOut->setData(20,1);
-	packetOut->setData(22,1);
-	packetOut->setData(24,1);
+	packetOut->setThrusterStatus(1);
+	packetOut->setPressure(1);
+	packetOut->setTemp(36);
+	packetOut->setIMUA(1);
+	packetOut->setIMUB(1);
+	packetOut->setIMUC(1);
+	packetOut->setIMUD(1);
+	packetOut->setIMUE(1);
+	packetOut->setIMUF(1);
+	packetOut->setIMUG(1);
+	packetOut->setIMUH(1);
+	packetOut->setIMUI(1);
 
 
 
@@ -131,8 +131,9 @@ int main(void) {
 		//packetOut->send()
 		//send back up the serial data for debugging
 		//HAL_UART_Transmit_DMA(&huart3, packet->getArray(), SERIAL_IN_BUFFER_SIZE) == HAL_OK
-		packetOut->send();
-
+		HAL_UART_Transmit_DMA(&huart3, packet->getArray(), SERIAL_IN_BUFFER_SIZE);
+		//packetOut->send();
+		HAL_Delay(100);
 		}
 
 
@@ -248,6 +249,11 @@ void HAL_UART_TxCpltCallback(UART_HandleTypeDef *UartHandle){
 
 //this is run when a serial message is received
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *UartHandle){
+	//LedOn(RED);
+	LedOn(RED);
+	LedOn(GREEN);
+	LedOn(BLUE);
+	LedOn(ORANGE);
 
 	HAL_UART_Receive_DMA(&huart3, (uint8_t *)packet->getArray(), SERIAL_IN_BUFFER_SIZE);
 
@@ -276,7 +282,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *UartHandle){
 	hcan2.pTxMsg->Data[6] = force_output.L.z;
 	hcan2.pTxMsg->Data[7] = packet->getArray()[15]; //Pump ESC byte
 
-	HAL_CAN_Transmit(&hcan2, 100); //send the longitudinal forces
+	//HAL_CAN_Transmit(&hcan2, 100); //send the longitudinal forces
 
 	//sets the info for the rotational forces
 	hcan2.pTxMsg->Data[0] =	'R';
@@ -288,6 +294,6 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *UartHandle){
 	hcan2.pTxMsg->Data[6] = force_output.L.z;
 	hcan2.pTxMsg->Data[7] = packet->getArray()[18]; //The PID Control byte
 
-	HAL_CAN_Transmit(&hcan2, 100); //send the rotational forces
+	//HAL_CAN_Transmit(&hcan2, 100); //send the rotational forces
 	//LedToggle(RED);
 }
