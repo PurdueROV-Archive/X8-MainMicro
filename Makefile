@@ -9,13 +9,11 @@ BUILD_DIR = build
 
 #Add any source files that you use here.  Remember to end them with .o
 OBJECTS = main.o \
-<<<<<<< HEAD
 		 src/stm32f4xx_it.o \
 		src/init.o \
 		src/pressure.o \
-		src/print.o
-=======
-	src/PacketIn.o \
+		src/print.o \
+	    src/PacketIn.o \
 	src/PacketOut.o \
 	src/stm32f4xx_it.o \
 	src/init.o \
@@ -24,7 +22,7 @@ OBJECTS = main.o \
 	src/print.o \
 	src/pi_controller.o \
 	src/imu.o
->>>>>>> origin/master
+
 
 
 

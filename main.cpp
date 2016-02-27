@@ -4,12 +4,12 @@
 #include "print.h"
 #include "PacketIn.h"
 #include "PacketOut.h"
-<<<<<<< HEAD
-=======
+
+
 #include "matrices.h"
 #include "imu.h"
 #include "pi_controller.h"
->>>>>>> origin/master
+
 
 /*CAN2 GPIO Configuration    
     PB5  ------> CAN2_RX
@@ -63,6 +63,7 @@
 */
 
 
+
 /* Variables used in the motor controlling code */
 PIController piController; //stabalization controller structure
 vect6 force_output;	//vector containing desired logitudinal rotational force for the ROV
@@ -79,7 +80,7 @@ int main(void) {
 	HAL_UART_Receive_DMA(&huart3, packet->getArray(), SERIAL_IN_BUFFER_SIZE);
 
 
-<<<<<<< HEAD
+
 	/*
 	//sets the size of the message in bytes. Max 8 bytes per message
 	hcan2.pTxMsg->DLC = 8;
@@ -93,7 +94,7 @@ int main(void) {
 	hcan2.pTxMsg->Data[6] = 0;
 	hcan2.pTxMsg->Data[7] = 1;
 	 */
-=======
+
 	// IMU init
     IMU imu = IMU(&hi2c1);
 
@@ -107,7 +108,7 @@ int main(void) {
 	//testing variables for motors
 	uint16_t throttle = 7000;
 	uint8_t motorAddress = 0x29;
->>>>>>> origin/master
+
 
 	while (1) {
 
@@ -118,7 +119,7 @@ int main(void) {
 
 		}
 
-<<<<<<< HEAD
+
 		//LedToggle(BLUE);
         HAL_Delay(500);
 		//initialize and send header message
@@ -165,14 +166,13 @@ int main(void) {
 		HAL_CAN_Transmit(&hcan2, 100); //thrusters 5-8
 
 		HAL_CAN_Receive_IT(&hcan2, CAN_FIFO0);
-=======
+
 		/*imu.retrieve();  //receives data from the imu
 
 		piController.sensorInput(vect3Make((int) (imu.getX() * 10000), (int) (imu.getY() * 10000), (int) (imu.getZ() * 10000)),
 		vect3Make(0,0,0), HAL_GetTick());
 		force_output.R = piController.getOutput();*/
 
->>>>>>> origin/master
 
         HAL_Delay(300);
 
