@@ -4,8 +4,6 @@
 #include "print.h"
 #include "PacketIn.h"
 #include "PacketOut.h"
-
-
 #include "matrices.h"
 #include "imu.h"
 #include "pi_controller.h"
@@ -115,12 +113,16 @@ int main(void) {
     // PIController inits
 	PIController piController = PIController();
 	piController.start();
+	piController.setNewRotation(vect3Make(0,0,0));
+	piController.setNewP(0.001);
+	piController.setNewI(0.001);
 
 	//volatile uint_fast8_t RampTicker;
 
 	//testing variables for motors
 	uint16_t throttle = 7000;
 	uint8_t motorAddress = 0x29;
+
 
 
 	while (1) {
@@ -181,14 +183,17 @@ int main(void) {
 
 		HAL_CAN_Receive_IT(&hcan2, CAN_FIFO0);
 
-		/*imu.retrieve();  //receives data from the imu
+		// PI_CONTROLLERS && IMU CODE:
 
-		piController.sensorInput(vect3Make((int) (imu.getX() * 10000), (int) (imu.getY() * 10000), (int) (imu.getZ() * 10000)),
-		vect3Make(0,0,0), HAL_GetTick());
-		force_output.R = piController.getOutput();*/
+		imu.get_linear_accel();
+		imu.retrieve_euler();  //receives data from the imu
+
+		piController.sensorInput(vect3Make((int16_t) (imu.rX() * 1000), (int16_t) (imu.rY() * 1000), (int16_t) (imu.rZ() * 1000)),
+			vect3Make((int16_t) (imu.aX() * 1000), (int16_t) (imu.aY() * 1000), (int16_t) (imu.aZ() * 1000)), HAL_GetTick());
+		force_output.R = piController.getOutput();
 
 
-        HAL_Delay(300);
+        //HAL_Delay(300);
 
 
 		/*uint8_t temp[3] = {0x00, (throttle>>8), throttle};
