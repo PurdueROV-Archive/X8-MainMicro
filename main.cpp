@@ -79,7 +79,19 @@ int main(void) {
 	packet = new PacketIn();
 	packetOut = new PacketOut();
 	HAL_UART_Receive_DMA(&huart3, packet->getArray(), SERIAL_IN_BUFFER_SIZE);
-	//packetOut->setData();
+	packetOut->setData(1,1);
+	packetOut->setData(2,1);
+	packetOut->setData(3,1);
+	packetOut->setData(8,1);
+	packetOut->setData(10,1);
+	packetOut->setData(12,1);
+	packetOut->setData(14,1);
+	packetOut->setData(16,1);
+	packetOut->setData(18,1);
+	packetOut->setData(20,1);
+	packetOut->setData(22,1);
+	packetOut->setData(24,1);
+
 
 
 	/*
