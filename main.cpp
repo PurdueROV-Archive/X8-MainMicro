@@ -205,7 +205,7 @@ int main(void) {
             RampTicker = 0;
         }*/
 	}
-}
+
 
 /* This is where messages from CAN are received */
 void HAL_CAN_RxCpltCallback(CAN_HandleTypeDef* CanHandle){
