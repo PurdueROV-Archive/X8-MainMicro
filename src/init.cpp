@@ -342,7 +342,7 @@ void initCan(void)
         hcan2.Init.Prescaler = 2;
         hcan2.Init.Mode = CAN_MODE_NORMAL;
         hcan2.Init.SJW = CAN_SJW_1TQ;
-        hcan2.Init.BS1 = CAN_BS1_6TQ;
+        hcan2.Init.BS1 = CAN_BS1_7TQ;
         hcan2.Init.BS2 = CAN_BS2_8TQ;
         hcan2.Init.TTCM = DISABLE;
         hcan2.Init.ABOM = DISABLE;
