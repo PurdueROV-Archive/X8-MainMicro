@@ -84,7 +84,7 @@ char PacketOut::checksum(char *bytes) {
 void PacketOut::setData(int Name,uint32_t data) {
     //add data to packet using #define values as indexes, eg: Name=='x', where x is a # define
     if (Name==Temp){
-        memcpy(&Dataup[4], &data, 4);
+        memcpy(&Dataup[4], &data, 4);//using memcpy instead of bit shift ,&Dataup[4] gives initial data index location, (&data, 4 specifies data array and number of bytes/indexes)
 
     }
     else if (Name==ThrusterStatus){
