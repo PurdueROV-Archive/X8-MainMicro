@@ -1,5 +1,5 @@
 // Ajay 02/20/16
-// Brandon Original Creator
+//
 
 /* Packet index and corresponding values
  *
