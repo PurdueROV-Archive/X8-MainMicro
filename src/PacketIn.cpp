@@ -95,8 +95,8 @@
 
 
             solenoids = (uint8_t) recieveBuffer[14];
-            hydaulicsPump = (uint8_t) recieveBuffer[15];
-            Leds = (uint8_t) recieveBuffer[16];
+            hydraulicsPump = (uint8_t) recieveBuffer[15];
+            leds = (uint8_t) recieveBuffer[16];
             thruster = (uint8_t) recieveBuffer[17];
             PIDControl = (uint8_t) recieveBuffer[18];
 
@@ -124,11 +124,18 @@
         }
     }
 
-    uint8_t * PacketIn::getArray() {
-        //recieveBuffer[1] = (uint8_t) 'h';
-        return (uint8_t *) recieveBuffer;
-    }
 
-    int16_t * PacketIn::getThrusters() {
-        return thrusters;
-    }
+
+
+    uint8_t * PacketIn::getArray() { return (uint8_t *) recieveBuffer; }
+
+    int16_t * PacketIn::getThrusters() { return thrusters; }
+
+    uint8_t PacketIn::getSolenoids() { return (uint8_t) solenoids; }
+    uint8_t PacketIn::getHydraulicsPump() { return (uint8_t)  hydraulicsPump; }
+    uint8_t PacketIn::getLeds() { return (uint8_t)  leds; }
+    uint8_t PacketIn::getPIDControl() { return (uint8_t)  PIDControl; }
+    int16_t * PacketIn::getPIDTuning() { return (int16_t *) PIDTuning; }
+    int8_t * PacketIn::getPIDPivot() { return (int8_t *) PIDPivot; }
+
+

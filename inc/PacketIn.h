@@ -20,6 +20,13 @@ public :
     uint8_t * getArray();
     PacketIn();
     int16_t * getThrusters();
+    uint8_t getSolenoids();
+    uint8_t getHydraulicsPump();
+    uint8_t getLeds();
+    uint8_t getThruster();
+    uint8_t getPIDControl();
+    int16_t * getPIDTuning();
+    int8_t * getPIDPivot();
 
 private :
 
@@ -35,8 +42,8 @@ private :
     //Fields to fill in
     int16_t thrusters[6];
     uint8_t solenoids;
-    uint8_t hydaulicsPump;
-    uint8_t Leds;
+    uint8_t hydraulicsPump;
+    uint8_t leds;
     uint8_t thruster;
     uint8_t PIDControl;
     int16_t PIDTuning[3];

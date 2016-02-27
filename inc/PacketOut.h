@@ -7,6 +7,7 @@
 
 #include "main.h"
 #include "string.h"
+
 #define SERIAL_OUT_BUFFER_SIZE 28
 
 #define ThrusterStatus 1

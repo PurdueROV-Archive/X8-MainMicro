@@ -123,14 +123,17 @@ int main(void) {
 	uint8_t motorAddress = 0x29;
 
 
+
+
 	while (1) {
 
 		//LedToggle(GREEN);
 		//packetOut->send()
 		//send back up the serial data for debugging
 		//HAL_UART_Transmit_DMA(&huart3, packet->getArray(), SERIAL_IN_BUFFER_SIZE) == HAL_OK
-		packetOut->send();
-
+		HAL_UART_Transmit_DMA(&huart3, packet->getArray(), SERIAL_IN_BUFFER_SIZE);
+		//packetOut->send();
+		HAL_Delay(100);
 		}
 
 
@@ -243,6 +246,11 @@ void HAL_UART_TxCpltCallback(UART_HandleTypeDef *UartHandle){
 
 //this is run when a serial message is received
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *UartHandle){
+	//LedOn(RED);
+	LedOn(RED);
+	LedOn(GREEN);
+	LedOn(BLUE);
+	LedOn(ORANGE);
 
 	HAL_UART_Receive_DMA(&huart3, (uint8_t *)packet->getArray(), SERIAL_IN_BUFFER_SIZE);
 
@@ -271,7 +279,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *UartHandle){
 	hcan2.pTxMsg->Data[6] = force_output.L.z;
 	hcan2.pTxMsg->Data[7] = packet->getArray()[15]; //Pump ESC byte
 
-	HAL_CAN_Transmit(&hcan2, 100); //send the longitudinal forces
+	//HAL_CAN_Transmit(&hcan2, 100); //send the longitudinal forces
 
 	//sets the info for the rotational forces
 	hcan2.pTxMsg->Data[0] =	'R';
@@ -283,6 +291,6 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *UartHandle){
 	hcan2.pTxMsg->Data[6] = force_output.L.z;
 	hcan2.pTxMsg->Data[7] = packet->getArray()[18]; //The PID Control byte
 
-	HAL_CAN_Transmit(&hcan2, 100); //send the rotational forces
+	//HAL_CAN_Transmit(&hcan2, 100); //send the rotational forces
 	//LedToggle(RED);
 }
