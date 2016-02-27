@@ -84,65 +84,50 @@ char PacketOut::checksum(char *bytes) {
 void PacketOut::setData(int Name,uint32_t data) {
     //add data to packet using #define values as indexes, eg: Name=='x', where x is a # define
     if (Name==Temp){
-        Dataup[Name]=(uint8_t) data>>24;
-        Dataup[Name+1]=(uint8_t) data>>16;
-        Dataup[Name+2]=(uint8_t) data>>8;
-        Dataup[Name+4]=(uint8_t) data;
+        memcpy(&Dataup[4], &data, 4);
 
     }
     else if (Name==ThrusterStatus){
-        Dataup[Name]=(uint8_t) data;
+        memcpy(&Dataup[1], &data, 1);
 
 
     }
     else if (Name==Pressure){
-        Dataup[Name]=(uint8_t) data>>8;
-        Dataup[Name+1]=(uint8_t) data;
+        memcpy(&Dataup[2], &data, 1);
 
     }
     else if (Name==IMUA){
-        Dataup[Name]=(uint8_t) data>>8;
-        Dataup[Name+1]=(uint8_t) data;
-
+        memcpy(&Dataup[8], &data, 2);
     }
     else if (Name==IMUB){
-        Dataup[Name]=(uint8_t) data>>8;
-        Dataup[Name+1]=(uint8_t) data;
+        memcpy(&Dataup[10], &data, 2);
 
     }
     else if (Name==IMUC){
-        Dataup[Name]=(uint8_t) data>>8;
-        Dataup[Name+1]=(uint8_t) data;
+        memcpy(&Dataup[12], &data, 2);
 
     }
     else if (Name==IMUD){
-        Dataup[Name]=(uint8_t) data>>8;
-        Dataup[Name+1]=(uint8_t) data;
+        memcpy(&Dataup[14], &data, 2);
 
     }
     else if (Name==IMUE){
-        Dataup[Name]=(uint8_t) data>>8;
-        Dataup[Name+1]=(uint8_t) data;
-
+        memcpy(&Dataup[16], &data, 2);
     }
     else if (Name==IMUF){
-        Dataup[Name]=(uint8_t) data>>8;
-        Dataup[Name+1]=(uint8_t) data;
+        memcpy(&Dataup[18], &data, 2);
 
     }
     else if (Name==IMUG){
-        Dataup[Name]=(uint8_t) data>>8;
-        Dataup[Name+1]=(uint8_t) data;
+        memcpy(&Dataup[20], &data, 2);
 
     }
     else if (Name==IMUH){
-        Dataup[Name]=(uint8_t) data>>8;
-        Dataup[Name+1]=(uint8_t) data;
+        memcpy(&Dataup[22], &data, 2);
 
     }
     else if (Name==IMUI){
-        Dataup[Name]=(uint8_t) data>>8;
-        Dataup[Name+1]=(uint8_t) data;
+        memcpy(&Dataup[24], &data, 2);
 
     }
     else{

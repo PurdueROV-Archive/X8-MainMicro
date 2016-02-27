@@ -81,7 +81,7 @@ int main(void) {
 	HAL_UART_Receive_DMA(&huart3, packet->getArray(), SERIAL_IN_BUFFER_SIZE);
 	packetOut->setData(1,1);
 	packetOut->setData(2,1);
-	packetOut->setData(3,1);
+	packetOut->setData(3,36);
 	packetOut->setData(8,1);
 	packetOut->setData(10,1);
 	packetOut->setData(12,1);
