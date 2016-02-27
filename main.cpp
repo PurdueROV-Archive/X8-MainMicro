@@ -126,9 +126,10 @@ int main(void) {
 	while (1) {
 
 		//LedToggle(GREEN);
+		//packetOut->send()
 		//send back up the serial data for debugging
-		if(HAL_UART_Transmit_DMA(&huart3, packet->getArray(), SERIAL_IN_BUFFER_SIZE) == HAL_OK)
-		{
+		//HAL_UART_Transmit_DMA(&huart3, packet->getArray(), SERIAL_IN_BUFFER_SIZE) == HAL_OK
+		packetOut->send();
 
 		}
 
