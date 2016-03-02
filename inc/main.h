@@ -15,10 +15,10 @@
 #define APP_CAN_ID 	0x12
 #define CAN_ID 0x13
 
-#define GREEN 0
-#define ORANGE 1
+#define GREEN 1
+#define ORANGE 3
 #define RED 2
-#define BLUE 3
+#define BLUE 0
 
 #define MAX(x,y) (x > y) ? x : y
 #define MIN(x,y) (x > y) ? y : x

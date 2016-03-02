@@ -68,6 +68,9 @@ vect6 force_output;	//vector containing desired logitudinal rotational force for
 int16_t * force_input;
 PacketIn *packet;
 PacketOut *packetOut;
+
+int canFlag = 0;
+
 int main(void) {
 	//initializes all of the pins!
 	initEverything();
@@ -76,7 +79,11 @@ int main(void) {
 
 	packet = new PacketIn();
 	packetOut = new PacketOut();
+
+
 	HAL_UART_Receive_DMA(&huart3, packet->getArray(), SERIAL_IN_BUFFER_SIZE);
+
+
 	packetOut->setThrusterStatus(1);
 	packetOut->setPressure(1);
 	packetOut->setTemp(36);
@@ -92,22 +99,8 @@ int main(void) {
 
 
 
-	/*
-	//sets the size of the message in bytes. Max 8 bytes per message
-	hcan2.pTxMsg->DLC = 8;
-	//sets the information that is sent over the message
-	hcan2.pTxMsg->Data[0] = 0;
-	hcan2.pTxMsg->Data[1] = 1;
-	hcan2.pTxMsg->Data[2] = 0;
-	hcan2.pTxMsg->Data[3] = 1;
-	hcan2.pTxMsg->Data[4] = 0;
-	hcan2.pTxMsg->Data[5] = 1;
-	hcan2.pTxMsg->Data[6] = 0;
-	hcan2.pTxMsg->Data[7] = 1;
-	 */
-
 	// IMU init
-    IMU imu = IMU(&hi2c1);
+	// IMU imu = IMU(&hi2c1);
 
 
     // PIController inits
@@ -117,99 +110,60 @@ int main(void) {
 	piController.setNewP(0.001);
 	piController.setNewI(0.001);
 
-	//volatile uint_fast8_t RampTicker;
-
-	//testing variables for motors
-	uint16_t throttle = 7000;
-	uint8_t motorAddress = 0x29;
 
 	while (1) {
 
-		LedToggle(RED);
-		//packetOut->send()
-		//send back up the serial data for debugging
-		//HAL_UART_Transmit_DMA(&huart3, packet->getArray(), SERIAL_IN_BUFFER_SIZE) == HAL_OK
-		HAL_UART_Transmit_DMA(&huart3, packet->getArray(), SERIAL_IN_BUFFER_SIZE);
-		//packetOut->send();
 
+		if(canFlag == 1)
+		{
+			int16_t* thrusters =  packet->getThrusters();
+
+
+			//sets the packet size
+			hcan2.pTxMsg->DLC = 8;
+
+			//sets the info for the logitudinal forces
+			hcan2.pTxMsg->Data[0] =	'L';
+
+			memcpy(&hcan2.pTxMsg->Data[1], &thrusters[0], 6);
+
+			//hcan2.pTxMsg->Data[1] = (force_output.L.x  >> 8);
+			//hcan2.pTxMsg->Data[2] = force_output.L.x;
+			//hcan2.pTxMsg->Data[3] = (force_output.L.y  >> 8);
+			//hcan2.pTxMsg->Data[4] = force_output.L.y;
+			//hcan2.pTxMsg->Data[5] = (force_output.L.z  >> 8);
+			//hcan2.pTxMsg->Data[6] = force_output.L.z;
+			hcan2.pTxMsg->Data[7] = packet->getArray()[15]; //Pump ESC byte
+
+			if(HAL_CAN_Transmit(&hcan2, 100) == HAL_OK) //send the longitudinal forces
+				LedToggle(BLUE);
+
+			HAL_UART_Transmit_DMA(&huart3, hcan2.pTxMsg->Data, 8);
+
+			//sets the info for the rotational forces
+			hcan2.pTxMsg->Data[0] =	'R';
+
+			memcpy(&hcan2.pTxMsg->Data[1], &thrusters[3], 6);
+
+			//hcan2.pTxMsg->Data[1] = (force_output.R.x  >> 8);
+			//hcan2.pTxMsg->Data[2] = force_output.R.x;
+			//hcan2.pTxMsg->Data[3] = (force_output.R.y  >> 8);
+			//hcan2.pTxMsg->Data[4] = force_output.R.y;
+			//hcan2.pTxMsg->Data[5] = (force_output.R.z  >> 8);
+			//hcan2.pTxMsg->Data[6] = force_output.L.z;
+			hcan2.pTxMsg->Data[7] = packet->getArray()[18]; //The PID Control byte
+
+			HAL_CAN_Transmit(&hcan2, 100); //send the rotational forces
+
+			//HAL_UART_Transmit_DMA(&huart3, hcan2.pTxMsg->Data, 8);
+
+			canFlag = 0;
+		}
 
 		HAL_Delay(100);
+
+		LedToggle(ORANGE);
 	}
-
-
-		//LedToggle(BLUE);
-        HAL_Delay(500);
-		//initialize and send header message
-		hcan2.pTxMsg->DLC = 1;
-		hcan2.pTxMsg->Data[0] = 0;
-		HAL_CAN_Transmit(&hcan2, 100); //header
-
-		//initialize and send data message
-		//sets the size of the message in bytes. Max 8 bytes per message
-		hcan2.pTxMsg->DLC = 8;
-		//sets the information that is sent over the message
-
-		hcan2.pTxMsg->Data[0] = 0;
-		hcan2.pTxMsg->Data[1] = 1;
-
-		hcan2.pTxMsg->Data[2] = 0;
-		hcan2.pTxMsg->Data[3] = 1;
-
-		hcan2.pTxMsg->Data[4] = 0;
-		hcan2.pTxMsg->Data[5] = 1;
-
-		hcan2.pTxMsg->Data[6] = 0;
-		hcan2.pTxMsg->Data[7] = 1;
-
-		HAL_CAN_Transmit(&hcan2, 100); //thrusters 1-4
-
-		//initialize and send data message
-		//sets the size of the message in bytes. Max 8 bytes per message
-		hcan2.pTxMsg->DLC = 8;
-		//sets the information that is sent over the message
-
-		hcan2.pTxMsg->Data[0] = 0;
-		hcan2.pTxMsg->Data[1] = 1;
-
-		hcan2.pTxMsg->Data[2] = 0;
-		hcan2.pTxMsg->Data[3] = 1;
-
-		hcan2.pTxMsg->Data[4] = 0;
-		hcan2.pTxMsg->Data[5] = 1;
-
-		hcan2.pTxMsg->Data[6] = 0;
-		hcan2.pTxMsg->Data[7] = 1;
-
-		HAL_CAN_Transmit(&hcan2, 100); //thrusters 5-8
-
-		HAL_CAN_Receive_IT(&hcan2, CAN_FIFO0);
-
-		// PI_CONTROLLERS && IMU CODE:
-
-		imu.get_linear_accel();
-		imu.retrieve_euler();  //receives data from the imu
-
-		piController.sensorInput(vect3Make((int16_t) (imu.rX() * 1000), (int16_t) (imu.rY() * 1000), (int16_t) (imu.rZ() * 1000)),
-			vect3Make((int16_t) (imu.aX() * 1000), (int16_t) (imu.aY() * 1000), (int16_t) (imu.aZ() * 1000)), HAL_GetTick());
-		force_output.R = piController.getOutput();
-
-
-        //HAL_Delay(300);
-
-
-		/*uint8_t temp[3] = {0x00, (throttle>>8), throttle};
-		HAL_I2C_Master_Transmit(&hi2c1, motorAddress << 1, temp, 3, 100);
-		while (HAL_I2C_GetState(&hi2c1) != HAL_I2C_STATE_READY)
-		{
-			HAL_Delay(1);
-		}*/
-
-
-        /*if (RampTicker >= 20)
-        {
-            overseer.doRamping();
-            RampTicker = 0;
-        }*/
 }
 
 
@@ -220,23 +174,16 @@ void HAL_CAN_RxCpltCallback(CAN_HandleTypeDef* CanHandle){
 	if ((CanHandle->pRxMsg)->StdId == POW_CAN_ID && (CanHandle->pRxMsg)->IDE == CAN_ID_STD){
 
 		if ((CanHandle->pRxMsg)->DLC == 8) {
-			LedToggle(ORANGE);
+
 		}
 
-		bool motor_status = true;
+		bool motor_status = 0xFF;
+
 		for (int i = 0; i < (CanHandle->pRxMsg)->DLC; i++) {
 			motor_status = motor_status && ((CanHandle->pRxMsg)->Data[i] == MOTOR_OK);
 		}
 
-		if (motor_status) {
-			LedOn(RED);
-		} else {
-			LedOff(RED);
-		}
-
 	}
-	uint8_t buffer[3] = {'1','2','3'};
-	HAL_UART_Transmit_DMA(&huart3, buffer, 3);
 
 	//restarts the interrupt
 	HAL_CAN_Receive_IT(CanHandle, CAN_FIFO0);
@@ -249,51 +196,25 @@ void HAL_UART_TxCpltCallback(UART_HandleTypeDef *UartHandle){
 
 //this is run when a serial message is received
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *UartHandle){
-	//LedOn(RED);
-	LedOn(RED);
-	LedOn(GREEN);
-	LedOn(BLUE);
-	LedOn(ORANGE);
 
+	//set the Serial to read more data again
 	HAL_UART_Receive_DMA(&huart3, (uint8_t *)packet->getArray(), SERIAL_IN_BUFFER_SIZE);
+
 
 	packet->recieve();
 
-	force_input = packet->getThrusters();
-	force_output = vect6Make(force_input[0], force_input[1], force_input[2], force_input[3], force_input[4], force_input[5]);
-	piController.setNewRotation(force_output.R);
+	//packetOut->send();
 
-	uint8_t i = 0;
-	LedOn(GREEN);
-	for (i = 0; i < 6; i++) {
-		if (force_input[i]!= 1) LedOff(GREEN);
-	}
 
-	//sets the packet size
-	hcan2.pTxMsg->DLC = 8;
+	//force_input = packet->getThrusters();
+	//force_output = vect6Make(force_input[0], force_input[1], force_input[2], force_input[3], force_input[4], force_input[5]);
+	//piController.setNewRotation(force_output.R);
 
-	//sets the info for the logitudinal forces
-	hcan2.pTxMsg->Data[0] =	'L';
-	hcan2.pTxMsg->Data[1] = (force_output.L.x  >> 8);
-	hcan2.pTxMsg->Data[2] = force_output.L.x;
-	hcan2.pTxMsg->Data[3] = (force_output.L.y  >> 8);
-	hcan2.pTxMsg->Data[4] = force_output.L.y;
-	hcan2.pTxMsg->Data[5] = (force_output.L.z  >> 8);
-	hcan2.pTxMsg->Data[6] = force_output.L.z;
-	hcan2.pTxMsg->Data[7] = packet->getArray()[15]; //Pump ESC byte
 
-	HAL_CAN_Transmit(&hcan2, 100); //send the longitudinal forces
+	//sets the canFlag to one to indicate to the main loop that it should send can commands
+	canFlag = 1;
 
-	//sets the info for the rotational forces
-	hcan2.pTxMsg->Data[0] =	'R';
-	hcan2.pTxMsg->Data[1] = (force_output.R.x  >> 8);
-	hcan2.pTxMsg->Data[2] = force_output.R.x;
-	hcan2.pTxMsg->Data[3] = (force_output.R.y  >> 8);
-	hcan2.pTxMsg->Data[4] = force_output.R.y;
-	hcan2.pTxMsg->Data[5] = (force_output.R.z  >> 8);
-	hcan2.pTxMsg->Data[6] = force_output.L.z;
-	hcan2.pTxMsg->Data[7] = packet->getArray()[18]; //The PID Control byte
 
-	HAL_CAN_Transmit(&hcan2, 100); //send the rotational forces
-	//LedToggle(RED);
+
+	LedToggle(RED);
 }

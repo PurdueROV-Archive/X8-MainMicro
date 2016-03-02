@@ -4,6 +4,9 @@
 
 #include "main.h"
 
+extern int canFlag;
+
+
 extern TIM_MasterConfigTypeDef sMasterConfig;
 extern TIM_OC_InitTypeDef sConfigOC;
 

@@ -355,9 +355,13 @@ void initCan(void)
 
 		if(HAL_CAN_Init(&hcan2) != HAL_OK)
 		{
+			LedOn(BLUE);
 
 		}
-
+		else
+		{
+			LedOn(RED);
+		}
         //configures the fileter for the can communication
         CAN_FilterConfTypeDef  sFilterConfig;
 
