@@ -13,7 +13,7 @@ var NAVTREEINDEX =
 
 var SYNCONMSG = 'click to disable panel synchronisation';
 var SYNCOFFMSG = 'click to enable panel synchronisation';
-var navTreeSubIndices = new Array();
+var navTreeSubIndices = [];
 
 function getData(varName)
 {
@@ -112,7 +112,7 @@ function createIndent(o,domNode,node,level)
       } else {
         expandNode(o, node, false, false);
       }
-    }
+    };
     node.expandToggle.appendChild(imgNode);
     domNode.appendChild(node.expandToggle);
   } else {
@@ -146,7 +146,7 @@ function createIndent(o,domNode,node,level)
 
 function newNode(o, po, text, link, childrenData, lastNode)
 {
-  var node = new Object();
+  var node = {};
   node.children = Array();
   node.childrenData = childrenData;
   node.depth = po.depth + 1;
@@ -458,12 +458,12 @@ function toggleSyncButton(relpath)
 
 function initNavTree(toroot,relpath)
 {
-  var o = new Object();
+  var o = {};
   o.toroot = toroot;
-  o.node = new Object();
+  o.node = {};
   o.node.li = document.getElementById("nav-tree-contents");
   o.node.childrenData = NAVTREE;
-  o.node.children = new Array();
+  o.node.children = [];
   o.node.childrenUL = document.createElement("ul");
   o.node.getChildrenUL = function() { return o.node.childrenUL; };
   o.node.li.appendChild(o.node.childrenUL);
@@ -504,7 +504,7 @@ function initNavTree(toroot,relpath)
        var link=stripPath2($(location).attr('pathname'));
        navTo(o,link,$(location).attr('hash'),relpath);
      }
-  })
+  });
 
   $(window).load(showRoot);
 }

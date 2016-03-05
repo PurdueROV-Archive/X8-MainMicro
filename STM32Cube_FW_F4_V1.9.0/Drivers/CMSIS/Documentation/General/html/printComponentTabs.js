@@ -7,8 +7,7 @@ function tabElement(id, folderName, tabTxt )  {
     this.tabTxt = tabTxt;                               // Text displayed as menu on the web
 	this.currentListItem = '<li id="' + this.id + '" class="current"> <a href="../..' + this.folderName + 'index.html"><span>' + this.tabTxt + '</span></a></li>';
 	this.listItem = '<li id="' + this.id + '"> <a href="../..' + this.folderName + 'index.html"><span>' + this.tabTxt + '</span></a></li>';
-};
-
+}
 // array of objects
 var arr = [];
 
@@ -32,4 +31,4 @@ function writeComponentTabs()  {
       document.write(arr[i].listItem);                              // else, print the tab
     }                                                             
   }
-};
+}
