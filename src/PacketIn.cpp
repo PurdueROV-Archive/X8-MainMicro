@@ -41,85 +41,111 @@
 #include "string.h"
 
 
-    PacketIn::PacketIn() {
+PacketIn::PacketIn() {
 
-    }
+}
 
-    char PacketIn::checksum(char *bytes) {
-        char crc = 0;
-        char val;
-        char mix;
-        for (int i = 1; i < SERIAL_IN_BUFFER_SIZE - 2; ++i) {
-            val = bytes[i];
-            for (int j = 8; j; --j) {
-                mix = (crc ^ val) & 0x01;
-                crc >>= 1;
-                if (mix) {
-                    crc ^= 0xD5;
-                }
-                val >>= 1;
+char PacketIn::checksum(char *bytes) {
+    char crc = 0;
+    char val;
+    char mix;
+    for (int i = 1; i < SERIAL_IN_BUFFER_SIZE - 2; ++i) {
+        val = bytes[i];
+        for (int j = 8; j; --j) {
+            mix = (crc ^ val) & 0x01;
+            crc >>= 1;
+            if (mix) {
+                crc ^= 0xD5;
             }
+            val >>= 1;
         }
-        return crc;
     }
+    return crc;
+}
 
 
-    void PacketIn::recieve() {
+void PacketIn::recieve() {
 
 
 
-        if (PacketIn::checksum(recieveBuffer) == recieveBuffer[SERIAL_IN_BUFFER_SIZE - 2]) {
+    if (PacketIn::checksum(recieveBuffer) == recieveBuffer[SERIAL_IN_BUFFER_SIZE - 2]) {
 
+<<<<<<< HEAD
             memcpy(&thrusters[0], &recieveBuffer[2], 2);
             memcpy(&thrusters[1], &recieveBuffer[4], 2);
             memcpy(&thrusters[2], &recieveBuffer[6], 2);
+=======
+        thrusters[0] = recieveBuffer[2];
+        thrusters[0] = thrusters[0] << 8;
+        thrusters[0] += recieveBuffer[3];
+
+        thrusters[1] = recieveBuffer[4];
+        thrusters[1] = thrusters[1] << 8;
+        thrusters[1] += recieveBuffer[5];
+
+        thrusters[2] = recieveBuffer[6];
+        thrusters[2] = thrusters[2] << 8;
+        thrusters[2] += recieveBuffer[7];
+
+        thrusters[3] = recieveBuffer[8];
+        thrusters[3] = thrusters[3] << 8;
+        thrusters[3] += recieveBuffer[9];
+
+        thrusters[4] = recieveBuffer[10];
+        thrusters[4] = thrusters[4] << 8;
+        thrusters[4] += recieveBuffer[11];
+
+        thrusters[5] = recieveBuffer[12];
+        thrusters[5] = thrusters[5] << 8;
+        thrusters[5] += recieveBuffer[13];
+>>>>>>> 03060724ab10c026eccf5a7f6cbd77e484c8c006
 
             memcpy(&thrusters[3], &recieveBuffer[8], 2);
             memcpy(&thrusters[4], &recieveBuffer[10], 2);
             memcpy(&thrusters[5], &recieveBuffer[12], 2);
 
-            solenoids = (uint8_t) recieveBuffer[14];
-            hydraulicsPump = (uint8_t) recieveBuffer[15];
-            leds = (uint8_t) recieveBuffer[16];
-            thruster = (uint8_t) recieveBuffer[17];
-            PIDControl = (uint8_t) recieveBuffer[18];
+        solenoids = (uint8_t) recieveBuffer[14];
+        hydraulicsPump = (uint8_t) recieveBuffer[15];
+        leds = (uint8_t) recieveBuffer[16];
+        thruster = (uint8_t) recieveBuffer[17];
+        PIDControl = (uint8_t) recieveBuffer[18];
 
 
-            PIDTuning[0] = recieveBuffer[19];
-            PIDTuning[0] =PIDTuning[0] << 8;
-            PIDTuning[0] += recieveBuffer[20];
+        PIDTuning[0] = recieveBuffer[19];
+        PIDTuning[0] =PIDTuning[0] << 8;
+        PIDTuning[0] += recieveBuffer[20];
 
-            PIDTuning[1] = recieveBuffer[21];
-            PIDTuning[1] = PIDTuning[1] << 8;
-            PIDTuning[1] += recieveBuffer[22];
+        PIDTuning[1] = recieveBuffer[21];
+        PIDTuning[1] = PIDTuning[1] << 8;
+        PIDTuning[1] += recieveBuffer[22];
 
-            PIDTuning[2] = recieveBuffer[23];
-            PIDTuning[2] = PIDTuning[2] << 8;
-            PIDTuning[2] += recieveBuffer[24];
+        PIDTuning[2] = recieveBuffer[23];
+        PIDTuning[2] = PIDTuning[2] << 8;
+        PIDTuning[2] += recieveBuffer[24];
 
-            PIDPivot[0] = recieveBuffer[25];
-            PIDPivot[1] = recieveBuffer[26];
-            PIDPivot[2] = recieveBuffer[27];
+        PIDPivot[0] = recieveBuffer[25];
+        PIDPivot[1] = recieveBuffer[26];
+        PIDPivot[2] = recieveBuffer[27];
 
 
-        }
-        else {
-
-        }
     }
+    else {
+
+    }
+}
 
 
 
 
-    uint8_t * PacketIn::getArray() { return (uint8_t *) recieveBuffer; }
+uint8_t * PacketIn::getArray() { return (uint8_t *) recieveBuffer; }
 
-    int16_t * PacketIn::getThrusters() { return thrusters; }
+int16_t * PacketIn::getThrusters() { return thrusters; }
 
-    uint8_t PacketIn::getSolenoids() { return (uint8_t) solenoids; }
-    uint8_t PacketIn::getHydraulicsPump() { return (uint8_t)  hydraulicsPump; }
-    uint8_t PacketIn::getLeds() { return (uint8_t)  leds; }
-    uint8_t PacketIn::getPIDControl() { return (uint8_t)  PIDControl; }
-    int16_t * PacketIn::getPIDTuning() { return (int16_t *) PIDTuning; }
-    int8_t * PacketIn::getPIDPivot() { return (int8_t *) PIDPivot; }
+uint8_t PacketIn::getSolenoids() { return (uint8_t) solenoids; }
+uint8_t PacketIn::getHydraulicsPump() { return (uint8_t)  hydraulicsPump; }
+uint8_t PacketIn::getLeds() { return (uint8_t)  leds; }
+uint8_t PacketIn::getPIDControl() { return (uint8_t)  PIDControl; }
+int16_t * PacketIn::getPIDTuning() { return (int16_t *) PIDTuning; }
+int8_t * PacketIn::getPIDPivot() { return (int8_t *) PIDPivot; }
 
 
