@@ -118,7 +118,7 @@ int main(void) {
 		{
 			int16_t* thrusters =  packet->getThrusters();
 
-
+			int16_t array[3] = {255, 1000, 2000};
 			//sets the packet size
 			hcan2.pTxMsg->DLC = 8;
 
@@ -128,15 +128,16 @@ int main(void) {
 			memcpy(&hcan2.pTxMsg->Data[1], &thrusters[0], 6);
 
 			//hcan2.pTxMsg->Data[1] = (force_output.L.x  >> 8);
-			//hcan2.pTxMsg->Data[2] = force_output.L.x;
+			//hcan2.pTxMsg->Data[2] = force_output.h.x;
 			//hcan2.pTxMsg->Data[3] = (force_output.L.y  >> 8);
 			//hcan2.pTxMsg->Data[4] = force_output.L.y;
 			//hcan2.pTxMsg->Data[5] = (force_output.L.z  >> 8);
 			//hcan2.pTxMsg->Data[6] = force_output.L.z;
 			hcan2.pTxMsg->Data[7] = packet->getArray()[15]; //Pump ESC byte
 
-			if(HAL_CAN_Transmit(&hcan2, 100) == HAL_OK) //send the longitudinal forces
+			if (HAL_CAN_Transmit(&hcan2, 100) == HAL_OK) {
 				LedToggle(BLUE);
+			}
 
 			HAL_UART_Transmit_DMA(&huart3, hcan2.pTxMsg->Data, 8);
 
@@ -160,7 +161,7 @@ int main(void) {
 			canFlag = 0;
 		}
 
-		HAL_Delay(100);
+		HAL_Delay(1);
 
 		LedToggle(ORANGE);
 	}

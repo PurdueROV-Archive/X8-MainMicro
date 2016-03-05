@@ -38,6 +38,7 @@
 
 
 #include "PacketIn.h"
+#include "string.h"
 
 
     PacketIn::PacketIn() {
@@ -69,30 +70,13 @@
 
         if (PacketIn::checksum(recieveBuffer) == recieveBuffer[SERIAL_IN_BUFFER_SIZE - 2]) {
 
-            thrusters[0] = recieveBuffer[2];
-            thrusters[0] = thrusters[0] << 8;
-            thrusters[0] += recieveBuffer[3];
+            memcpy(&thrusters[0], &recieveBuffer[2], 2);
+            memcpy(&thrusters[1], &recieveBuffer[4], 2);
+            memcpy(&thrusters[2], &recieveBuffer[6], 2);
 
-            thrusters[1] = recieveBuffer[4];
-            thrusters[1] = thrusters[1] << 8;
-            thrusters[1] += recieveBuffer[5];
-
-            thrusters[2] = recieveBuffer[6];
-            thrusters[2] = thrusters[2] << 8;
-            thrusters[2] += recieveBuffer[7];
-
-            thrusters[3] = recieveBuffer[8];
-            thrusters[3] = thrusters[3] << 8;
-            thrusters[3] += recieveBuffer[9];
-
-            thrusters[4] = recieveBuffer[10];
-            thrusters[4] = thrusters[4] << 8;
-            thrusters[4] += recieveBuffer[11];
-
-            thrusters[5] = recieveBuffer[12];
-            thrusters[5] = thrusters[5] << 8;
-            thrusters[5] += recieveBuffer[13];
-
+            memcpy(&thrusters[3], &recieveBuffer[8], 2);
+            memcpy(&thrusters[4], &recieveBuffer[10], 2);
+            memcpy(&thrusters[5], &recieveBuffer[12], 2);
 
             solenoids = (uint8_t) recieveBuffer[14];
             hydraulicsPump = (uint8_t) recieveBuffer[15];
