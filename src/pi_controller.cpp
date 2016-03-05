@@ -3,7 +3,7 @@
 // CLASS METHODS:
 
 // Constructor:
-PIController::PIController(void) 
+PIController::PIController(void)
 {
 	data.rot_ref = vect3Make(0,0,0);
 	data.rot_est = vect3Make(0,0,0);
