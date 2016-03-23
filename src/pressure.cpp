@@ -277,7 +277,12 @@ double pressure::altitude(double P, double P0)
     return(44330.0*(1-pow(P/P0,1/5.255)));
 }
 
-
+double pressure::depth(double P, double P0)
+// Given a pressure measurement P (mbar) and the air pressure at sealevel P0 (mbar),
+// return depth under water (m)
+{
+	return((P-P0)/100);
+}
 
 
 
