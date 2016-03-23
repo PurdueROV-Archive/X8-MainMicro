@@ -40,17 +40,19 @@ public:
 
     void get_linear_accel(void);
 
+    // Rotational
     double rX(void);
 
     double rY(void);
 
     double rZ(void);
 
-    double aX(void);
+    // Linear
+    double lX(void);
 
-    double aY(void);
+    double lY(void);
 
-    double aZ(void);
+    double lZ(void);
 
 
 

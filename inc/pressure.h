@@ -50,7 +50,7 @@ enum ms5803_addr
 #define I2C_DMA_OK      0
 
 
-class pressure
+class Pressure
 {
     public: 
         pressure(ms5803_addr addr);//PinName p_sda, PinName p_scl); 
