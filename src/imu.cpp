@@ -144,17 +144,17 @@ double IMU::rZ(void){
 }
 
 //returns the linear acceleration with respect to the X axis.
-double IMU::aX(void){
+double IMU::lX(void){
 	return la[0];
 }
 
 //returns the linear acceleration with respect to the Y axis.
-double IMU::aY(void){
+double IMU::lY(void){
 	return la[1];
 }
 
 //returns the linear acceleration with respect to the Z axis.
-double IMU::aZ(void){
+double IMU::lZ(void){
 	return la[2];
 }
 

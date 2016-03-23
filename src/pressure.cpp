@@ -13,7 +13,7 @@
 
 
 
-pressure::pressure(ms5803_addr addr)
+Pressure::pressure(ms5803_addr addr)
 // Base library type I2C
 {
 
@@ -29,7 +29,7 @@ pressure::pressure(ms5803_addr addr)
     _address = addr; //set interface used for communication
 }
 
-int pressure::reset(void)
+int Pressure::reset(void)
 // Reset device I2C
 {
    int ack = sendCommand(CMD_RESET);
@@ -37,7 +37,7 @@ int pressure::reset(void)
    return ack * 3;
 }
 
-uint8_t pressure::begin(void)
+uint8_t Pressure::begin(void)
 // Initialize library for subsequent pressure measurements
 {  
     uint8_t i;
@@ -64,7 +64,7 @@ uint8_t pressure::begin(void)
 }
     
 
-float pressure::getTemperature(temperature_units units, precision _precision)
+float Pressure::getTemperature(temperature_units units, precision _precision)
 // Return a temperature reading in either F or C.
 {
     getMeasurements(_precision);
@@ -85,7 +85,7 @@ float pressure::getTemperature(temperature_units units, precision _precision)
     }
 }
 
-float pressure::getPressure(precision _precision)
+float Pressure::getPressure(precision _precision)
 // Return a pressure reading units Pa.
 {
     getMeasurements(_precision);
@@ -97,7 +97,7 @@ float pressure::getPressure(precision _precision)
     return pressure_reported;
 }
 
-void pressure::getMeasurements(precision _precision)
+void Pressure::getMeasurements(precision _precision)
 
 {
     
@@ -183,7 +183,7 @@ void pressure::getMeasurements(precision _precision)
 
 }
 
-uint32_t pressure::getADCconversion(measurement _measurement, precision _precision)
+uint32_t Pressure::getADCconversion(measurement _measurement, precision _precision)
 // Retrieve ADC measurement from the device.  
 // Select measurement type and precision
 {   
@@ -221,7 +221,7 @@ uint32_t pressure::getADCconversion(measurement _measurement, precision _precisi
 
 } 
 
-int pressure::sendCommand(uint8_t command)
+int Pressure::sendCommand(uint8_t command)
 {   
     uint8_t dataOut[1] = {command};
     //int ack = i2c->write( _address, (const char*) dataOut, 1);
@@ -240,14 +240,14 @@ int pressure::sendCommand(uint8_t command)
 }
 
 
-void pressure::sensorWait(double time)
+void Pressure::sensorWait(double time)
 // Delay function.  This can be modified to work outside of Arduino based MCU's
 {
     HAL_Delay(time/1000.0);
 }
 
 
-int pressure::I2Cread(int address, char* data, int length)
+int Pressure::I2Cread(int address, char* data, int length)
 {
     //int ack = i2c->read(address, data, length);
     HAL_StatusTypeDef status = HAL_I2C_Master_Receive(&hi2c, address, (uint8_t*) data, length, 100);
@@ -261,7 +261,7 @@ int pressure::I2Cread(int address, char* data, int length)
 }
 
 
-double pressure::sealevel(double P, double A)
+double Pressure::sealevel(double P, double A)
 // Given a pressure P (mbar) taken at a specific altitude (meters),
 // return the equivalent pressure (mbar) at sea level.
 // This produces pressure readings that can be used for weather measurements.
@@ -270,7 +270,7 @@ double pressure::sealevel(double P, double A)
 }
 
 
-double pressure::altitude(double P, double P0)
+double Pressure::altitude(double P, double P0)
 // Given a pressure measurement P (mbar) and the pressure at a baseline P0 (mbar),
 // return altitude (meters) above baseline.
 {
@@ -286,7 +286,7 @@ double pressure::altitude(double P, double P0)
 ******************************************************************************/
 
 /* I2C1 init function */
-void pressure::MX_I2C1_Init(void)
+void Pressure::MX_I2C1_Init(void)
 {
 
   hi2c1.Instance = I2C1;
@@ -305,7 +305,7 @@ void pressure::MX_I2C1_Init(void)
 /** 
   * Enable DMA controller clock
   */
-void pressure::MX_DMA_Init(void) 
+void Pressure::MX_DMA_Init(void) 
 {
   /* DMA controller clock enable */
   __DMA1_CLK_ENABLE();
@@ -318,7 +318,7 @@ void pressure::MX_DMA_Init(void)
 
 }
 
-void pressure::HAL_MspInit(void)
+void Pressure::HAL_MspInit(void)
 {
   /* USER CODE BEGIN MspInit 0 */
 
@@ -335,7 +335,7 @@ void pressure::HAL_MspInit(void)
   /* USER CODE END MspInit 1 */
 }
 
-void pressure::HAL_I2C_MspInit(I2C_HandleTypeDef* hi2c)
+void Pressure::HAL_I2C_MspInit(I2C_HandleTypeDef* hi2c)
 {
 
   GPIO_InitTypeDef GPIO_InitStruct;
