@@ -11,7 +11,7 @@
 #define SERIAL_OUT_BUFFER_SIZE 28
 
 #define ThrusterStatus 1
-#define Pressure 2
+#define PRESSURE 2
 #define Temp 3
 #define IMUA 8
 #define IMUB 10

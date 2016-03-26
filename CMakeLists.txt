@@ -19,6 +19,8 @@ set(SOURCE_FILES
     cubemx_init_starter_code/starterCode/Src/stm32f4xx_it.c
     inc/init.h
     inc/main.h
+        inc/PacketOut.h
+        src/PacketOut.cpp
     inc/pressure.h
     inc/stm32f4xx_hal_conf.h
     inc/stm32f4xx_it.h
