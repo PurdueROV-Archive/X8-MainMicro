@@ -102,8 +102,8 @@ void Pressure::getMeasurements(precision _precision)
 {
     
     //Retrieve ADC result
-    int32_t temperature_raw = getADCconversion(TEMPERATURE, _precision);
-    int32_t pressure_raw = getADCconversion(PRESSURE, _precision);
+    int32_t temperature_raw = getADCconversion(TEMPERATURE_, _precision);
+    int32_t pressure_raw = getADCconversion(PRESSURE_, _precision);
     
     /*
     if ( temperature_raw != 0 )

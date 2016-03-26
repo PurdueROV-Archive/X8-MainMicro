@@ -6,6 +6,7 @@
 #include "PacketOut.h"
 #include "matrices.h"
 #include "imu.h"
+#include "pressure.h"
 #include "pi_controller.h"
 
 
@@ -103,9 +104,9 @@ int main(void) {
 	IMU imu = IMU(&hi2c1);
 
 	// pressure init
-	/*Pressure pressure = Pressure(ADDRESS_HIGH);
+	Pressure pressure = Pressure(ADDRESS_HIGH);
 	pressure.reset();
-	pressure.begin();*/
+	pressure.begin();
 
     // PIController inits
 	PIController piController = PIController();
