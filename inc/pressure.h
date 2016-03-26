@@ -53,7 +53,7 @@ enum ms5803_addr
 class Pressure
 {
     public: 
-        pressure(ms5803_addr addr);//PinName p_sda, PinName p_scl); 
+        Pressure(ms5803_addr addr);//PinName p_sda, PinName p_scl);
         int reset(void);    //Reset device
         uint8_t begin(void); // Collect coefficients from sensor
 
@@ -68,6 +68,7 @@ class Pressure
 
         double sealevel(double P, double A);
         double altitude(double P, double A);
+        double depth(double, double);
 
     private:
         
