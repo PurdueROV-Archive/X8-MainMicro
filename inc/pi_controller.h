@@ -49,6 +49,7 @@ typedef struct {
 #define I_INIT_VALUE 0
 #define INTEGRAL_RECORDING_SIZE 100
 
+
 // CLASS:
 
 class PIController
@@ -60,6 +61,7 @@ class PIController
 		void stop(void);
 		void start(void);
 		void setNewRotation(vect3 rot_ref);
+		void updateRotation(vect3 rot_ref);
 		void setNewP(double newP);
 		void setNewI(double newI);
 		void sensorInput(vect3 rot_est, vect3 rot_est_vel, uint32_t timems);
