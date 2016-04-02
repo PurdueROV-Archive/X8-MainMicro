@@ -10,7 +10,7 @@ extern int canFlag;
 extern TIM_MasterConfigTypeDef sMasterConfig;
 extern TIM_OC_InitTypeDef sConfigOC;
 
-extern v                      CAN_HandleTypeDef hcan2;
+extern CAN_HandleTypeDef hcan2;
 
 extern DAC_HandleTypeDef hdac;
 
