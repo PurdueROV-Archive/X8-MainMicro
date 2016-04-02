@@ -128,11 +128,12 @@ int main(void) {
 		// sensor.getPressure(ADC_4096); // Returns mbar pressure from sensor.
 
 		// CAN Transmission
+		canFlag = 1;
 		if(canFlag == 1)
 		{
 			int16_t* thrusters =  packet->getThrusters();
 
-			int16_t array[3] = {255, 1000, 2000};
+			//int16_t array[3] = {255, 1000, 2000};
 			//sets the packet size
 			hcan2.pTxMsg->DLC = 8;
 
@@ -175,7 +176,7 @@ int main(void) {
 			canFlag = 0;
 		}
 
-		HAL_Delay(1);
+		HAL_Delay(100);
 
 		LedToggle(ORANGE);
 	}
