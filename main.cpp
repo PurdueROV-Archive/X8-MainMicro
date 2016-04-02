@@ -177,7 +177,7 @@ int main(void) {
 			canFlag = 0;
 		}
 
-		HAL_Delay(100);
+		HAL_Delay(1);
 
 		LedToggle(ORANGE);
 	}
