@@ -101,12 +101,12 @@ int main(void) {
 
 
 	// IMU init
-	IMU imu = IMU(&hi2c1);
+	//IMU imu = IMU(&hi2c1);
 
 	// pressure init
-	Pressure pressure = Pressure(ADDRESS_HIGH);
-	pressure.reset();
-	pressure.begin();
+	//Pressure pressure = Pressure(ADDRESS_HIGH);
+	//pressure.reset();
+	//pressure.begin();
 
     // PIController inits
 	PIController piController = PIController();
@@ -119,11 +119,11 @@ int main(void) {
 	while (1) {
 
 		// Update piController's sensor data and compute its PID modulated output to the Rotational force vector.
-		imu.get_linear_accel(); // Gets linear movement
-		imu.retrieve_euler(); // Gets angular movement
-		piController.sensorInput(vect3Make((int16_t) (imu.rX() * 1000), (int16_t) (imu.rY() * 1000), (int16_t) (imu.rZ() * 1000)), 
-			vect3Make(0,0,0/*(int16_t) (imu.aX() * 1000), (int16_t) (imu.aY() * 1000), (int16_t) (imu.aZ() * 1000)*/), HAL_GetTick());
-		force_output.R = piController.getOutput();
+		//imu.get_linear_accel(); // Gets linear movement
+		//imu.retrieve_euler(); // Gets angular movement
+		//piController.sensorInput(vect3Make((int16_t) (imu.rX() * 1000), (int16_t) (imu.rY() * 1000), (int16_t) (imu.rZ() * 1000)),
+			//vect3Make(0,0,0/*(int16_t) (imu.aX() * 1000), (int16_t) (imu.aY() * 1000), (int16_t) (imu.aZ() * 1000)*/), HAL_GetTick());
+		//force_output.R = piController.getOutput();
 
 		// Pressure Sensor:
 		// sensor.getPressure(ADC_4096); // Returns mbar pressure from sensor.
@@ -152,6 +152,10 @@ int main(void) {
 			hcan2.pTxMsg->Data[7] = packet->getArray()[15]; //Pump ESC byte
 
 			if (HAL_CAN_Transmit(&hcan2, 100) == HAL_OK) {
+				LedToggle(RED);
+			}
+			else
+			{
 				LedToggle(BLUE);
 			}
 
@@ -178,6 +182,7 @@ int main(void) {
 		}
 
 		HAL_Delay(1);
+
 
 		LedToggle(ORANGE);
 	}
@@ -234,5 +239,5 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *UartHandle){
 
 
 
-	LedToggle(RED);
+	//LedToggle(RED);
 }
