@@ -7,6 +7,7 @@
 #include "stm32f4xx_hal_def.h"
 #include "stm32f4xx_hal_dma.h"
 #include "stm32f4xx_hal_i2c.h"
+#include "math.h"
 
 // Define units for conversions. 
 enum temperature_units
@@ -18,8 +19,8 @@ enum temperature_units
 // Define measurement type.
 enum measurement
 {   
-    PRESSURE = 0x00,
-    TEMPERATURE = 0x10
+    PRESSURE_ = 0x00,
+    TEMPERATURE_ = 0x10
 };
 
 // Define constants for Conversion precision
@@ -90,12 +91,8 @@ class Pressure
         void sensorWait(double time); // General delay function see: delay()
         int I2Cread(int address, char* data, int length);
 
-        double pow(double base, double power);	// General math function to perform exponential expressions.
-        double root(double base, double power);
-        double abs(double num);
-        uint8_t sign(double num);
-        double mod(double num1, double num2);
-
+        // For Testing Purposes Only...
+        // When used, take out of private and put into public.
         void MX_I2C1_Init(void);
         void MX_DMA_Init(void);
         void HAL_MspInit(void);

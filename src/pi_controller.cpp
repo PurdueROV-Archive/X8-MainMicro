@@ -45,8 +45,51 @@ void PIController::start(void)
 // Perform this method even when PI is off.
 void PIController::setNewRotation(vect3 rot_ref)
 {
-	data.rot_ref = rot_ref;
+	data.rot_ref = rot_ref; 
 }
+
+// When driving in stabilized mode, add the sent rotation
+// to the current one in local space thus rotate it first
+void PIController::updateRotation(vect3 rot_ref)
+{
+	float old_rot[3];
+	float d_rot[3];
+	float c, s; // One cosine and sine per rotation, reused.
+	
+	// Convert to radians
+	old_rot[0] = data.rot_ref.x/1000.0;
+ 	old_rot[1] = data.rot_ref.y/1000.0;
+ 	old_rot[2] = data.rot_ref.z/1000.0;
+	
+	// Convert to radians per second (max 45deg/s) 
+	d_rot[0] = rot_ref.x/4172200.0;
+ 	d_rot[0] = rot_ref.x/4172200.0;
+	d_rot[0] = rot_ref.x/4172200.0;
+ 
+	// Rotate around X
+	c = cos(old_rot[0]);
+	s = sin(old_rot[0]);
+	d_rot[1] = c*d_rot[1] - s*d_rot[2];
+	d_rot[2] = s*d_rot[1] + c*d_rot[2];
+
+	// Rotate around Y
+	c = cos(old_rot[1]);
+	s = sin(old_rot[1]);
+	d_rot[0] =  c*d_rot[0] + s*d_rot[2];
+	d_rot[2] = -s*d_rot[0] + c*d_rot[2];
+
+	// Rotate around Z
+	c = cos(old_rot[2]);
+	s = sin(old_rot[2]);
+	d_rot[1] =  c*d_rot[0] - s*d_rot[1];
+	d_rot[2] =  s*d_rot[0] + c*d_rot[1];
+
+	// Back to 1000 per radian
+	data.rot_ref.x += d_rot[0]*1000;
+	data.rot_ref.y += d_rot[1]*1000;
+	data.rot_ref.z += d_rot[2]*1000;
+}
+
 void PIController::setNewP(double newP)
 {
 	consts.P = newP;
