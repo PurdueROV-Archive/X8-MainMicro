@@ -80,28 +80,28 @@ void PacketIn::recieve() {
             memcpy(&thrusters[4], &recieveBuffer[10], 2);
             memcpy(&thrusters[5], &recieveBuffer[12], 2);
 
-        solenoids = (uint8_t) recieveBuffer[14];
-        hydraulicsPump = (uint8_t) recieveBuffer[15];
-        leds = (uint8_t) recieveBuffer[16];
-        thruster = (uint8_t) recieveBuffer[17];
-        PIDControl = (uint8_t) recieveBuffer[18];
+        solenoids = (uint8_t) recieveBuffer[15];
+        hydraulicsPump = (uint8_t) recieveBuffer[16];
+        leds = (uint8_t) recieveBuffer[17];
+        thruster = (uint8_t) recieveBuffer[18];
+        PIDControl = (uint8_t) recieveBuffer[19];
 
 
-        PIDTuning[0] = recieveBuffer[19];
+        PIDTuning[0] = recieveBuffer[20];
         PIDTuning[0] =PIDTuning[0] << 8;
-        PIDTuning[0] += recieveBuffer[20];
+        PIDTuning[0] += recieveBuffer[21];
 
-        PIDTuning[1] = recieveBuffer[21];
+        PIDTuning[1] = recieveBuffer[22];
         PIDTuning[1] = PIDTuning[1] << 8;
-        PIDTuning[1] += recieveBuffer[22];
+        PIDTuning[1] += recieveBuffer[23];
 
-        PIDTuning[2] = recieveBuffer[23];
+        PIDTuning[2] = recieveBuffer[24];
         PIDTuning[2] = PIDTuning[2] << 8;
-        PIDTuning[2] += recieveBuffer[24];
+        PIDTuning[2] += recieveBuffer[25];
 
-        PIDPivot[0] = recieveBuffer[25];
-        PIDPivot[1] = recieveBuffer[26];
-        PIDPivot[2] = recieveBuffer[27];
+        PIDPivot[0] = recieveBuffer[26];
+        PIDPivot[1] = recieveBuffer[27];
+        PIDPivot[2] = recieveBuffer[28];
 
 
     }
