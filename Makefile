@@ -2,8 +2,6 @@ LIB_DIR = STM32Cube_FW_F4_V1.9.0
 
 DRIVER = $(LIB_DIR)/Drivers/STM32F4xx_HAL_Driver/Src
 
-LWIP = $(LIB_DIR)/Middlewares/Third_Party/LwIP/src
-
 BUILD_DIR = build
 
 
@@ -18,9 +16,6 @@ OBJECTS = main.o \
 	src/matrices.o \
 	src/pi_controller.o \
 	src/imu.o
-
-
-
 
 OBJECTS += \
 	$(DRIVER)/stm32f4xx_hal.o \
@@ -44,11 +39,6 @@ OBJECTS += \
 	$(LIB_DIR)/Drivers/CMSIS/Device/ST/STM32F4xx/Source/Templates/gcc/startup_stm32f407xx.o \
 	$(LIB_DIR)/Drivers/CMSIS/Device/ST/STM32F4xx/Source/Templates/system_stm32f4xx.o \
 	$(LIB_DIR)/Drivers/CMSIS/Device/ST/STM32F4xx/Source/Templates/iar/startup_stm32f407xx.s \
-
-
-
-
-
 
 
 
@@ -78,7 +68,6 @@ BUILD_DIR = build
 PROJECT = main
 
 #these are the variables that will store the .o and .cpp files of the libraries that you create
-
 SOURCE = source
 
 
@@ -94,9 +83,9 @@ SIZE    = $(GCC_BIN)arm-none-eabi-size
 #compiling flags needed by the boards
 CPU = -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=softfp
 CC_FLAGS = $(CPU) -c -g -w -fno-common -fmessage-length=0 -Wall -Wextra -fno-exceptions -ffunction-sections -fdata-sections -fomit-frame-pointer -MMD -MP -fdiagnostics-color=auto
-CC_SYMBOLS = \
-        -DSTM32F407xx           \
-        -DSTM32F4               \
+CC_SYMBOLS = 			\
+        -DSTM32F407xx	\
+        -DSTM32F4 		\
         -DSTM32F407VG
 
 LD_FLAGS = $(CPU) -Wl,--gc-sections --specs=nano.specs -u _printf_float -u _scanf_float -Wl,-Map=$(BUILD_DIR)/$(PROJECT).map,--cref
@@ -152,6 +141,3 @@ burn:
 dfu:
 	@echo " ### Flashing $(BUILD_DIR)/$(PROJECT).bin to device with dfu-util...\n"
 	@dfu-util -a 0 --dfuse-address 0x08000000 -D $(BUILD_DIR)/$(PROJECT).bin
-
-test:
-	gcc -Wall -I./inc/ tmpmain.cpp ./src/matrices.cpp -o test

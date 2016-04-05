@@ -70,13 +70,16 @@ int16_t * force_input;
 PacketIn *packet;
 PacketOut *packetOut;
 
-int canFlag = 0;
+bool RECEIVED_NEW_DATA = 0;
 
 int main(void) {
 	//initializes all of the pins!
 	initEverything();
 
-
+	//LedOn(BLUE);
+	//LedOn(GREEN);
+	//LedOn(RED);		
+	//LedOn(ORANGE); 
 
 	packet = new PacketIn();
 	packetOut = new PacketOut();
@@ -115,6 +118,9 @@ int main(void) {
 	piController.setNewP(0.001);
 	piController.setNewI(0.001);
 
+	//sets the packet size
+	hcan2.pTxMsg->DLC = 8;
+
 
 	while (1) {
 
@@ -129,56 +135,38 @@ int main(void) {
 		// sensor.getPressure(ADC_4096); // Returns mbar pressure from sensor.
 
 		// CAN Transmission
-		canFlag = 1;
-		if(canFlag == 1)
-		{
+		if (RECEIVED_NEW_DATA) {
 			int16_t* thrusters =  packet->getThrusters();
 
-			//int16_t array[3] = {255, 1000, 2000};
-			//sets the packet size
-			hcan2.pTxMsg->DLC = 8;
 
 			//sets the info for the logitudinal forces
 			hcan2.pTxMsg->Data[0] =	'L';
 
 			memcpy(&hcan2.pTxMsg->Data[1], &thrusters[0], 6);
+			hcan2.pTxMsg->Data[7] = packet->getArray()[15]; //Pump PWM Value
 
-			//hcan2.pTxMsg->Data[1] = (force_output.L.x  >> 8);
-			//hcan2.pTxMsg->Data[2] = force_output.h.x;
-			//hcan2.pTxMsg->Data[3] = (force_output.L.y  >> 8);
-			//hcan2.pTxMsg->Data[4] = force_output.L.y;
-			//hcan2.pTxMsg->Data[5] = (force_output.L.z  >> 8);
-			//hcan2.pTxMsg->Data[6] = force_output.L.z;
-			hcan2.pTxMsg->Data[7] = packet->getArray()[15]; //Pump ESC byte
-
+			
 			if (HAL_CAN_Transmit(&hcan2, 100) == HAL_OK) {
-				LedToggle(RED);
-			}
-			else
-			{
-				LedToggle(BLUE);
+				LedOn(BLUE);
+				LedOff(RED);
+			} else {
+				LedOn(RED);
+				LedOff(BLUE);
 			}
 
-			HAL_UART_Transmit_DMA(&huart3, hcan2.pTxMsg->Data, 8);
 
 			//sets the info for the rotational forces
 			hcan2.pTxMsg->Data[0] =	'R';
 
 			memcpy(&hcan2.pTxMsg->Data[1], &thrusters[3], 6);
-
-			//hcan2.pTxMsg->Data[1] = (force_output.R.x  >> 8);
-			//hcan2.pTxMsg->Data[2] = force_output.R.x;
-			//hcan2.pTxMsg->Data[3] = (force_output.R.y  >> 8);
-			//hcan2.pTxMsg->Data[4] = force_output.R.y;
-			//hcan2.pTxMsg->Data[5] = (force_output.R.z  >> 8);
-			//hcan2.pTxMsg->Data[6] = force_output.L.z;
 			hcan2.pTxMsg->Data[7] = packet->getArray()[18]; //The PID Control byte
 
 			HAL_CAN_Transmit(&hcan2, 100); //send the rotational forces
 
-			//HAL_UART_Transmit_DMA(&huart3, hcan2.pTxMsg->Data, 8);
+			//Send serial data back
+			HAL_UART_Transmit_DMA(&huart3, hcan2.pTxMsg->Data, 8);
 
-			canFlag = 0;
+			RECEIVED_NEW_DATA = false;
 		}
 
 		HAL_Delay(1);
@@ -228,15 +216,13 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *UartHandle){
 
 	//packetOut->send();
 
-
 	//force_input = packet->getThrusters();
 	//force_output = vect6Make(force_input[0], force_input[1], force_input[2], force_input[3], force_input[4], force_input[5]);
 	//piController.setNewRotation(force_output.R);
 
 
-	//sets the canFlag to one to indicate to the main loop that it should send can commands
-	canFlag = 1;
-
+	//Indicate that we have new data, so send out can messages and other things
+	RECEIVED_NEW_DATA = true;
 
 
 	//LedToggle(RED);
