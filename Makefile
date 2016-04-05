@@ -132,12 +132,12 @@ clean:
 	@rm $(BUILD_DIR)/*.elf
 	@rm $(BUILD_DIR)/*.map
 	@rm $(BUILD_DIR)/*.bin
-	@echo " ### Cleaned build directory"
+	@echo " ==> Cleaned build directory"
 
 burn:
-	@echo " ### Flashing $(BUILD_DIR)/main.bin to device with st-flash...\n"
+	@echo " ==> Flashing $(BUILD_DIR)/main.bin to device with st-flash...\n"
 	@st-flash --reset write $(BUILD_DIR)/main.bin 0x8000000
 
 dfu:
-	@echo " ### Flashing $(BUILD_DIR)/$(PROJECT).bin to device with dfu-util...\n"
+	@echo " ==> Flashing $(BUILD_DIR)/$(PROJECT).bin to device with dfu-util...\n"
 	@dfu-util -a 0 --dfuse-address 0x08000000 -D $(BUILD_DIR)/$(PROJECT).bin
