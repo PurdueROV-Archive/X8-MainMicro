@@ -32,7 +32,9 @@ IMU::IMU(I2C_HandleTypeDef* handler) {
 	la[1] = 0.0;
 	la[2] = 0.0;
 	HAL_I2C_Master_Transmit_DMA(I2C_handler, (0x28 << 1), dt, 2);
-	while (HAL_I2C_GetState(I2C_handler) != HAL_I2C_STATE_READY) HAL_Delay(1);
+	printString("Wait.\r\n");
+	while (HAL_I2C_GetState(I2C_handler) != HAL_I2C_STATE_READY) 
+		printString("Waiting...\r\n");//(HAL_I2C_GetState(I2C_handler));//HAL_Delay(1);
 
 	uint8_t chip_mode = 0x08;
 	change_fusion_mode(chip_mode);
@@ -126,28 +128,7 @@ void IMU::get_linear_accel(void)
 	}
 }
 
-void IMU::rotate_linear_accel(void)
-{
-	float c, s; // One cosine and sine per rotation, reused.
 
-	// Rotate around X
-	c = cos(-xAngle);
-	s = sin(-xAngle);
-	la[1] = c*la[1] - s*la[2];
-	la[2] = s*la[1] + c*la[2];
-
-	// Rotate around Y
-	c = cos(-yAngle);
-	s = sin(-yAngle);
-	la[0] =  c*la[0] + s*la[2];
-	la[2] = -s*la[0] + c*la[2];
-
-	// Rotate around Z
-	c = cos(-zAngle);
-	s = sin(-zAngle);
-	la[1] =  c*la[0] - s*la[1];
-	la[2] =  s*la[0] + c*la[1];
-}
 
 //returns the angle with respect to the X axis
 double IMU::rX(void){

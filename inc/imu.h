@@ -5,7 +5,6 @@
 #include "stm32f4xx_hal_dma.h"
 #include "stm32f4xx_hal_i2c.h"
 #include "main.h"
-#include <math.h>
 
 #define IMU_PAGE_ID             0x07
 #define IMU_EULER_H_LSB         0x1a
@@ -40,9 +39,7 @@ public:
     bool retrieve_euler(void);
 
     void get_linear_accel(void);
-	
-    void rotate_linear_accel(void);
-    
+
     // Rotational
     double rX(void);
 
