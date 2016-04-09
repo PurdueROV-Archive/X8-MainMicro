@@ -158,6 +158,7 @@ int main(void) {
 
 		// CAN Transmission
 		if (RECEIVED_NEW_DATA) {
+			cameraServo.set((packet->getArray()[14] <= 128 ? 90 - (packet->getArray()[14] * (180 / 256)) : (packet->getArray()[14] * (180 / 256))));
 			int16_t* thrusters =  packet->getThrusters();
 
 
@@ -234,7 +235,6 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *UartHandle){
 
 
 	packet->recieve();
-	cameraServo.set((packet->getArray()[14] <= 128 ? 90 - (packet->getArray()[14] * (180 / 256)) : (packet->getArray()[14] * (180 / 256))));cd
 	//packetOut->send();
 
 	//force_input = packet->getThrusters();
