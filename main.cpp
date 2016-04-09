@@ -102,6 +102,7 @@ int main(void) {
 	packetOut->setIMUH(1);	// Gyro y
 	packetOut->setIMUI(1);	// Gyro z
 
+
 	// IMU init
 	IMU imu = IMU(&hi2c1);
 
@@ -135,17 +136,17 @@ int main(void) {
 
 		// Update PacketOut Data:
 		packetOut->setThrusterStatus(1);
-		packetOut->setPressure((int16_t) (pressure_mbar * 100));			// Scaling up by x100, and rounding to int.
+		packetOut->setPressure(pressure_mbar);
 		packetOut->setTemp(36);
-		packetOut->setIMUA((int16_t) (imu.lX() * 100));	// Linear x 		// Scaling up by x100, and rounding to int.
-		packetOut->setIMUB((int16_t) (imu.lY() * 100));	// Linear y 		// ...
-		packetOut->setIMUC((int16_t) (imu.lZ() * 100));	// Linear z 		// ...
-		packetOut->setIMUD((int16_t) (imu.rX() * 100));	// Rotational x 	// ...
-		packetOut->setIMUE((int16_t) (imu.rY() * 100));	// Rotational y 	// ...
-		packetOut->setIMUF((int16_t) (imu.rZ() * 100));	// Rotational z 	// ...
-		packetOut->setIMUG(0);			// Gyro x
-		packetOut->setIMUH(0);			// Gyro y
-		packetOut->setIMUI(0);			// Gyro z
+		packetOut->setIMUA(imu.lX());	// Linear x 	
+		packetOut->setIMUB(imu.lY());	// Linear y 	
+		packetOut->setIMUC(imu.lZ());	// Linear z 	
+		packetOut->setIMUD(imu.rX());	// Rotational x 
+		packetOut->setIMUE(imu.rY());	// Rotational y 
+		packetOut->setIMUF(imu.rZ());	// Rotational z 
+		packetOut->setIMUG(0);			// Gyro x?
+		packetOut->setIMUH(0);			// Gyro y?
+		packetOut->setIMUI(0);			// Gyro z?
 
 		// CAN Transmission
 		if (RECEIVED_NEW_DATA) {
@@ -182,7 +183,7 @@ int main(void) {
 			RECEIVED_NEW_DATA = false;
 		}
 
-		HAL_Delay(1);
+		HAL_Delay(100);
 
 
 		LedToggle(ORANGE);
