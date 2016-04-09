@@ -68,6 +68,7 @@
 PIController piController; //stabalization controller structure
 vect6 force_output;	//vector containing desired logitudinal rotational force for the ROV
 int16_t * force_input;
+float pressure_mbar;
 PacketIn *packet;
 PacketOut *packetOut;
 
@@ -84,7 +85,7 @@ int main(void) {
 
 	packet = new PacketIn();
 	packetOut = new PacketOut();
-
+	
 
 	HAL_UART_Receive_DMA(&huart3, packet->getArray(), SERIAL_IN_BUFFER_SIZE);
 
@@ -92,25 +93,24 @@ int main(void) {
 	packetOut->setThrusterStatus(1);
 	packetOut->setPressure(1);
 	packetOut->setTemp(36);
-	packetOut->setIMUA(1);
-	packetOut->setIMUB(1);
-	packetOut->setIMUC(1);
-	packetOut->setIMUD(1);
-	packetOut->setIMUE(1);
-	packetOut->setIMUF(1);
-	packetOut->setIMUG(1);
-	packetOut->setIMUH(1);
-	packetOut->setIMUI(1);
-
+	packetOut->setIMUA(1);	// Linear x
+	packetOut->setIMUB(1);	// Linear y
+	packetOut->setIMUC(1);	// Linear z
+	packetOut->setIMUD(1);	// Rotational x
+	packetOut->setIMUE(1);	// Rotational y
+	packetOut->setIMUF(1);	// Rotational z
+	packetOut->setIMUG(1);	// Gyro x
+	packetOut->setIMUH(1);	// Gyro y
+	packetOut->setIMUI(1);	// Gyro z
 
 
 	// IMU init
-	//IMU imu = IMU(&hi2c1);
+	IMU imu = IMU(&hi2c1);
 
-	// pressure init
-	//Pressure pressure = Pressure(ADDRESS_HIGH);
-	//pressure.reset();
-	//pressure.begin();
+	// Pressure init	
+	Pressure pressure = Pressure(ADDRESS_HIGH, &hi2c1);
+	pressure.reset();
+	pressure.begin();
 
     // PIController inits
 	PIController piController = PIController();
@@ -129,14 +129,28 @@ int main(void) {
 	while (1) {
 
 		// Update piController's sensor data and compute its PID modulated output to the Rotational force vector.
-		//imu.get_linear_accel(); // Gets linear movement
-		//imu.retrieve_euler(); // Gets angular movement
+		imu.get_linear_accel(); // Gets linear movement
+		imu.retrieve_euler(); // Gets angular movement
 		//piController.sensorInput(vect3Make((int16_t) (imu.rX() * 1000), (int16_t) (imu.rY() * 1000), (int16_t) (imu.rZ() * 1000)),
 			//vect3Make(0,0,0/*(int16_t) (imu.aX() * 1000), (int16_t) (imu.aY() * 1000), (int16_t) (imu.aZ() * 1000)*/), HAL_GetTick());
 		//force_output.R = piController.getOutput();
 
 		// Pressure Sensor:
-		// sensor.getPressure(ADC_4096); // Returns mbar pressure from sensor.
+		pressure_mbar = pressure.getPressure(ADC_4096); // Returns mbar pressure from sensor.
+
+		// Update PacketOut Data:
+		packetOut->setThrusterStatus(1);
+		packetOut->setPressure(pressure_mbar);
+		packetOut->setTemp(36);
+		packetOut->setIMUA(imu.lX());	// Linear x 	
+		packetOut->setIMUB(imu.lY());	// Linear y 	
+		packetOut->setIMUC(imu.lZ());	// Linear z 	
+		packetOut->setIMUD(imu.rX());	// Rotational x 
+		packetOut->setIMUE(imu.rY());	// Rotational y 
+		packetOut->setIMUF(imu.rZ());	// Rotational z 
+		packetOut->setIMUG(0);			// Gyro x?
+		packetOut->setIMUH(0);			// Gyro y?
+		packetOut->setIMUI(0);			// Gyro z?
 
 		// CAN Transmission
 		if (RECEIVED_NEW_DATA) {
@@ -172,6 +186,8 @@ int main(void) {
 
 			RECEIVED_NEW_DATA = false;
 		}
+
+		HAL_Delay(100);
 
 		LedToggle(ORANGE);
 	}
