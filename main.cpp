@@ -153,8 +153,8 @@ int main(void) {
 		packetOut->setIMUI(0);			// Gyro z?
 
 		// IMU_PRESSURE DEBUG TEST:
-		//if (pressure_mbar >500 && pressure_mbar < 1500)
-		//	LedToggle(BLUE);
+		if (pressure_mbar > 500 && pressure_mbar < 1500)
+			LedToggle(BLUE);
 
 		// CAN Transmission
 		if (RECEIVED_NEW_DATA) {
