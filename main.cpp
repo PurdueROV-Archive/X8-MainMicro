@@ -154,7 +154,7 @@ int main(void) {
 
 		// IMU_PRESSURE DEBUG TEST:
 		if (pressure_mbar > 500 && pressure_mbar < 1500)
-			LedToggle(BLUE);
+			LedToggle(GREEN);
 
 		// CAN Transmission
 		if (RECEIVED_NEW_DATA) {
