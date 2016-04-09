@@ -8,51 +8,26 @@
 #include "main.h"
 #include "string.h"
 
-#define SERIAL_OUT_BUFFER_SIZE 28
+#define PACKET_LENGTH 36
 
-#define ThrusterStatus 1
-#define PRESSURE 2
-#define Temp 3
-#define IMUA 8
-#define IMUB 10
-#define IMUC 12
-#define IMUD 14
-#define IMUE 16
-#define IMUF 18
-#define IMUG 20
-#define IMUH 22
-#define IMUI 24
-#define check 26
-
-
-class PacketOut{
+class PacketOut {
 public:
     void send();
     void setPressure(float data);
     void setThrusterStatus(uint32_t data);
     void setTemp(uint32_t data);
-    void setIMUA(float data);
-    void setIMUB(float data);
-    void setIMUC(float data);
-    void setIMUD(float data);
-    void setIMUE(float data);
-    void setIMUF(float data);
-    void setIMUG(uint32_t data);
-    void setIMUH(uint32_t data);
-    void setIMUI(uint32_t data);
 
-    void setData(int,uint32_t);
-    PacketOut();
-
-
+	void setIMU_Lx(float data){
+	void setIMU_Ly(float data){
+	void setIMU_Lz(float data){
+	void setIMU_Rx(float data){
+	void setIMU_Ry(float data){
+	void setIMU_Rz(float data){
 
 
 private:
     char sendBuffer[SERIAL_OUT_BUFFER_SIZE];
     uint8_t Dataup[SERIAL_OUT_BUFFER_SIZE];
-
-    char tempBuffer[SERIAL_OUT_BUFFER_SIZE-2];
-
 
     char checksum(char *bytes);
 };
