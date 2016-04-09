@@ -148,6 +148,20 @@ int main(void) {
 		packetOut->setIMUH(0);			// Gyro y?
 		packetOut->setIMUI(0);			// Gyro z?
 
+		// DEBUG TEST:
+		if (pressure_mbar >500 && pressure_mbar < 1500)
+			LedToggle(BLUE);
+		
+		//long end = 0;
+		/*LedToggle(BLUE);
+		while (end < pressure_mbar)
+		{
+			HAL_Delay(1);
+			end++;
+		}
+		LedToggle(BLUE);
+		*/
+
 		// CAN Transmission
 		if (RECEIVED_NEW_DATA) {
 			int16_t* thrusters =  packet->getThrusters();
@@ -183,7 +197,7 @@ int main(void) {
 			RECEIVED_NEW_DATA = false;
 		}
 
-		HAL_Delay(100);
+		HAL_Delay(10);
 
 
 		LedToggle(ORANGE);
