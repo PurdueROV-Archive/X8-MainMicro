@@ -7,6 +7,7 @@
 #include "matrices.h"
 #include "imu.h"
 #include "pressure.h"
+#include "servo.h"
 #include "pi_controller.h"
 
 
@@ -121,6 +122,9 @@ int main(void) {
 	//sets the packet size
 	hcan2.pTxMsg->DLC = 8;
 
+	servo cameraServo = servo(&htim5, &sConfigOC, TIM_CHANNEL_1);
+	cameraServo.setStart(0.725);
+	cameraServo.setRange(1.39);
 
 	while (1) {
 
@@ -189,7 +193,6 @@ int main(void) {
 
 		HAL_Delay(10);
 
-
 		LedToggle(ORANGE);
 	}
 
@@ -231,7 +234,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *UartHandle){
 
 
 	packet->recieve();
-
+	cameraServo.set((packet->getArray()[14] <= 128 ? 90 - (packet->getArray()[14] * (180 / 256)) : (packet->getArray()[14] * (180 / 256))));cd
 	//packetOut->send();
 
 	//force_input = packet->getThrusters();

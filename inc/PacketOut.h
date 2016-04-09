@@ -28,15 +28,15 @@
 class PacketOut{
 public:
     void send();
-    void setPressure(float data);
+    void setPressure(uint32_t data);
     void setThrusterStatus(uint32_t data);
     void setTemp(uint32_t data);
-    void setIMUA(float data);
-    void setIMUB(float data);
-    void setIMUC(float data);
-    void setIMUD(float data);
-    void setIMUE(float data);
-    void setIMUF(float data);
+    void setIMUA(uint32_t data);
+    void setIMUB(uint32_t data);
+    void setIMUC(uint32_t data);
+    void setIMUD(uint32_t data);
+    void setIMUE(uint32_t data);
+    void setIMUF(uint32_t data);
     void setIMUG(uint32_t data);
     void setIMUH(uint32_t data);
     void setIMUI(uint32_t data);

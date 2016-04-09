@@ -13,6 +13,7 @@ OBJECTS = main.o \
 	src/PacketOut.o \
 	src/init.o \
 	src/pressure.o \
+	src/servo.o \
 	src/matrices.o \
 	src/pi_controller.o \
 	src/imu.o

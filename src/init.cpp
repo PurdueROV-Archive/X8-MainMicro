@@ -181,9 +181,9 @@ void initPwm(void) {
 
 
     htim5.Instance = TIM5;
-    htim5.Init.Prescaler = SystemCoreClock;
+    htim5.Init.Prescaler = SystemCoreClock / 1000000;
     htim5.Init.CounterMode = TIM_COUNTERMODE_UP;
-    htim5.Init.Period = 1000;
+    htim5.Init.Period = 3333;
     htim5.Init.ClockDivision = 0;
     HAL_TIM_PWM_Init(&htim5);
 

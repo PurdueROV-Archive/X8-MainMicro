@@ -5,40 +5,32 @@
  *
  * *00 	Header 	0x12 - 18 decimal
 01 	Thruster Status 	1 bit per thruster
-02 	Pressure-1 	32bit-float (4 bytes), Highest order
-03 	Pressure-2 	32bit-float (4 bytes), 2nd-Highest order
-04  Pressure-3  32bit-float (4 bytes), 3rd-Highest order
-05  Pressure-4  32bit-float (4 bytes), Lowest order
-06 	Temp-1 	32-bit float, Highest order
-07 	Temp-2 	32-bit float, High order
-08 	Temp-3 	32-bit float, Low order
-09 	Temp-4 	32-bit float, Lowest order
-10 	IMU A-1 	32bit-float  (4 bytes), Highest order
-11 	IMU A-2 	32bit-float  (4 bytes), 2nd-Highest order
-12  IMU A-3     32bit-float  (4 bytes), 3rd-Highest order
-13  IMU A-4     32bit-float  (4 bytes), Lowest order
-14 	IMU B-1     32bit-float  (4 bytes), Highest order
-15  IMU B-2     32bit-float  (4 bytes), 2nd-Highest order
-16  IMU B-3     32bit-float  (4 bytes), 3rd-Highest order
-17  IMU B-4     32bit-float  (4 bytes), Lowest order
-18 	IMU C-1     32bit-float  (4 bytes), Highest order
-19  IMU C-2     32bit-float  (4 bytes), 2nd-Highest order
-20  IMU C-3     32bit-float  (4 bytes), 3rd-Highest order
-21  IMU C-4     32bit-float  (4 bytes), Lowest order
-22 	IMU D-1     32bit-float  (4 bytes), Highest order
-23  IMU D-2     32bit-float  (4 bytes), 2nd-Highest order
-24  IMU D-3     32bit-float  (4 bytes), 3rd-Highest order
-25  IMU D-4     32bit-float  (4 bytes), Lowest order
-26 	IMU E-1     32bit-float  (4 bytes), Highest order
-27  IMU E-2     32bit-float  (4 bytes), 2nd-Highest order
-28  IMU E-3     32bit-float  (4 bytes), 3rd-Highest order
-29  IMU E-4     32bit-float  (4 bytes), Lowest order
-30 	IMU F-1     32bit-float  (4 bytes), Highest order
-31  IMU F-2     32bit-float  (4 bytes), 2nd-Highest order
-32  IMU F-3     32bit-float  (4 bytes), 3rd-Highest order
-33  IMU F-4     32bit-float  (4 bytes), Lowest order
-34 	CRC8 Check 	Use 0xD5 as polynomial
-35 	Tail Byte 	0x13 - 19 decimal
+02 	Pressure-1 	Signed int (2 bytes), High order
+03 	Pressure-2 	Signed int (2 bytes), Low order
+04 	Temp-1 	32-bit float, Highest order
+05 	Temp-2 	32-bit float, High order
+06 	Temp-3 	32-bit float, Low order
+07 	Temp-4 	32-bit float, Lowest order
+08 	IMU A-1 	Signed int (2 bytes), High order
+09 	IMU A-2 	Signed int (2 bytes), Low order
+10 	IMU B-1 	Signed int (2 bytes), High order
+11 	IMU B-2 	Signed int (2 bytes), Low order
+12 	IMU C-1 	Signed int (2 bytes), High order
+13 	IMU C-2 	Signed int (2 bytes), Low order
+14 	IMU D-1 	Signed int (2 bytes), High order
+15 	IMU D-2 	Signed int (2 bytes), Low order
+16 	IMU E-1 	Signed int (2 bytes), High order
+17 	IMU E-2 	Signed int (2 bytes), Low order
+18 	IMU F-1 	Signed int (2 bytes), High order
+19 	IMU F-2 	Signed int (2 bytes), Low order
+20 	IMU G-1 	Signed int (2 bytes), High order
+21 	IMU G-2 	Signed int (2 bytes), Low order
+22 	IMU H-1 	Signed int (2 bytes), High order
+23 	IMU H-2 	Signed int (2 bytes), Low order
+24 	IMU I-1 	Signed int (2 bytes), High order
+25 	IMU I-2 	Signed int (2 bytes), Low order
+26 	CRC8 Check 	Use 0xD5 as polynomial
+27 	Tail Byte 	0x13 - 19 decimal
 #define SERIAL_OUT_BUFFER_SIZE  28
 
 //////////////////////////// # defines for reference //////////////////////////////////
@@ -88,32 +80,34 @@ char PacketOut::checksum(char *bytes) {
     }
     return crc;
 }
-void PacketOut::setPressure(float data){
-    memcpy(&Dataup[2], &data, 4);
+void PacketOut::setPressure(uint32_t data){
+    memcpy(&Dataup[2], &data, 1);
 }
+
 void PacketOut::setThrusterStatus(uint32_t data){
     memcpy(&Dataup[1], &data, 1);
 }
 void PacketOut::setTemp(uint32_t data){
     memcpy(&Dataup[4], &data, 4);
 }
-void PacketOut::setIMUA(float data){
-    memcpy(&Dataup[8], &data, 4);
+void PacketOut::setIMUA(uint32_t data){
+    memcpy(&Dataup[8], &data, 2);
 }
-void PacketOut::setIMUB(float data){
-    memcpy(&Dataup[10], &data, 4);
+void PacketOut::setIMUB(uint32_t data){
+    memcpy(&Dataup[10], &data, 2);
 }
-void PacketOut::setIMUC(float data){
-    memcpy(&Dataup[12], &data, 4);
+void PacketOut::setIMUC(uint32_t data){
+    memcpy(&Dataup[12], &data, 2);
+
 }
-void PacketOut::setIMUD(float data){
-    memcpy(&Dataup[14], &data, 4);
+void PacketOut::setIMUD(uint32_t data){
+    memcpy(&Dataup[14], &data, 2);
 }
-void PacketOut::setIMUE(float data){
-    memcpy(&Dataup[16], &data, 4);
+void PacketOut::setIMUE(uint32_t data){
+    memcpy(&Dataup[16], &data, 2);
 }
-void PacketOut::setIMUF(float data){
-    memcpy(&Dataup[18], &data, 4);
+void PacketOut::setIMUF(uint32_t data){
+    memcpy(&Dataup[18], &data, 2);
 }
 void PacketOut::setIMUG(uint32_t data){
     memcpy(&Dataup[20], &data, 2);
