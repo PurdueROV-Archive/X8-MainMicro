@@ -101,7 +101,7 @@ CC_FLAGS += -DNDEBUG -Os
 all: compile
 
 compile: $(PROJECT).bin $(PROJECT).hex
-	@echo " ### Compiled $(PROJECT).bin & $(PROJECT).hex"
+	@echo " ==> Compiled $(PROJECT).bin & $(PROJECT).hex"
 
 .c.o:
 	@$(CC)  $(CC_FLAGS) $(CC_SYMBOLS) -std=gnu99   $(INCLUDE_PATHS) -o $@ $<
