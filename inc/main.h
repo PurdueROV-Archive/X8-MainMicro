@@ -7,6 +7,7 @@
 #include "stm32f4xx.h"
 #include "print.h"
 #include <stdint.h>
+#include <string.h>
 #include <stm32f407xx.h>
 #include "init.h"
 

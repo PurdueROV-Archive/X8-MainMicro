@@ -1,7 +1,3 @@
-//
-// Created by stewa on 2/2/2016.
-//
-
 #ifndef X8_MAINMICRO_PACKET_H
 #define X8_MAINMICRO_PACKET_H
 
@@ -10,37 +6,36 @@
 #include "main.h"
 
 
-#define SERIAL_IN_BUFFER_SIZE  31
+#define PACKET_IN_LENGTH	31
+#define HEADER              0x12
+#define TAIL                0x13
 
 
 class PacketIn {
-public :
-    void recieve();
-
-    uint8_t * getArray();
+public:
     PacketIn();
-    int16_t * getThrusters();
-    uint8_t getSolenoids();
-    uint8_t getHydraulicsPump();
-    uint8_t getLeds();
-    uint8_t getThruster();
-    uint8_t getPIDControl();
-    int16_t * getPIDTuning();
-    int8_t * getPIDPivot();
 
-private :
+    void     recieve();
+    uint8_t* getArray();
+    int16_t* getThrusters();
+	uint8_t  getCameraServo();
+    uint8_t  getSolenoids();
+    uint8_t  getHydraulicsPump();
+    uint8_t  getLeds();
+    uint8_t  getThruster();
+    uint8_t  getPIDControl();
+    int16_t* getPIDTuning();
+    int8_t*  getPIDPivot();
 
-    char recieveBuffer[SERIAL_IN_BUFFER_SIZE];
+private:
 
+    uint8_t recieveBuffer[PACKET_IN_LENGTH];
 
-    char checksum(char *bytes);
-
-
-
-    //char header; //for reference
+    uint8_t checksum(uint8_t *bytes);
 
     //Fields to fill in
     int16_t thrusters[6];
+	uint8_t  cameraServo;
     uint8_t solenoids;
     uint8_t hydraulicsPump;
     uint8_t leds;
@@ -48,12 +43,6 @@ private :
     uint8_t PIDControl;
     int16_t PIDTuning[3];
     int8_t PIDPivot[3];
-
-
-    //char checksum; //for reference
-    //char tail; //for reference
-
 };
 
 #endif //X8_MAINMICRO_PACKET_H
-

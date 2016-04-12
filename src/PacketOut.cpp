@@ -43,9 +43,10 @@
 #include "main.h"
 
 //use constructor and add header and tail byte
-PacketOut::PacketOut() {
+PacketOut::PacketOut() 
+{
     Dataup[0]=0x12;
-    Dataup[PACKET_LENGTH-1]=0x13;
+    Dataup[PACKET_OUT_LENGTH-1]=0x13;
 }
 
 //make checksum function
@@ -53,7 +54,7 @@ char PacketOut::checksum(char *bytes) {
     char crc = 0;
     char val;
     char mix;
-    for (int i = 1; i < SERIAL_OUT_BUFFER_SIZE - 2; ++i) {
+    for (int i = 1; i < PACKET_OUT_LENGTH - 2; ++i) {
         val = bytes[i];
         for (int j = 8; j; --j) {
             mix = (crc ^ val) & 0x01;
@@ -105,9 +106,9 @@ void PacketOut::setIMU_Rz(float data){
 
 void PacketOut::send() {
 
-    Dataup[check]=checksum((char*)Dataup);
+    Dataup[PACKET_OUT_LENGTH-2]=checksum((char*)Dataup);
 
-    HAL_UART_Transmit_DMA(&huart3, Dataup, SERIAL_OUT_BUFFER_SIZE);
+    HAL_UART_Transmit_DMA(&huart3, Dataup, PACKET_OUT_LENGTH);
 }
 
 

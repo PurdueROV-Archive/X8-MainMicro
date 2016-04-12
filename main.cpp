@@ -78,30 +78,21 @@ int main(void) {
 	//initializes all of the pins!
 	initEverything();
 
-	//LedOn(BLUE);
-	//LedOn(GREEN);
-	//LedOn(RED);		
-	//LedOn(ORANGE); 
-
 	packet = new PacketIn();
 	packetOut = new PacketOut();
 	
-
-	HAL_UART_Receive_DMA(&huart3, packet->getArray(), SERIAL_IN_BUFFER_SIZE);
+	HAL_UART_Receive_DMA(&huart3, packet->getArray(), PACKET_IN_LENGTH);
 
 
 	packetOut->setThrusterStatus(1);
-	packetOut->setPressure(1);
-	packetOut->setTemp(36);
-	packetOut->setIMUA(1);	// Linear x
-	packetOut->setIMUB(1);	// Linear y
-	packetOut->setIMUC(1);	// Linear z
-	packetOut->setIMUD(1);	// Rotational x
-	packetOut->setIMUE(1);	// Rotational y
-	packetOut->setIMUF(1);	// Rotational z
-	packetOut->setIMUG(1);	// Gyro x
-	packetOut->setIMUH(1);	// Gyro y
-	packetOut->setIMUI(1);	// Gyro z
+	packetOut->setPressure(1.0);
+	packetOut->setTemp(36.0);
+	packetOut->setIMU_Lx(1.0);	// Linear x
+	packetOut->setIMU_Ly(1.0);	// Linear y
+	packetOut->setIMU_Lz(1.0);	// Linear z
+	packetOut->setIMU_Rx(1.0);	// Rotational x
+	packetOut->setIMU_Ry(1.0);	// Rotational y
+	packetOut->setIMU_Rz(1.0);	// Rotational z
 
 
 	// IMU init
@@ -119,56 +110,73 @@ int main(void) {
 	piController.setNewP(0.001);
 	piController.setNewI(0.001);
 
-	//sets the packet size
+	//Can Packet Size Init
 	hcan2.pTxMsg->DLC = 8;
 
+	//Camera Servo Init
 	servo cameraServo = servo(&htim5, &sConfigOC, TIM_CHANNEL_1);
 	cameraServo.setStart(0.725);
 	cameraServo.setRange(1.39);
 
 	while (1) {
 
-		// Update piController's sensor data and compute its PID modulated output to the Rotational force vector.
-		imu.get_linear_accel(); // Gets linear movement
-		imu.retrieve_euler(); // Gets angular movement
-		//piController.sensorInput(vect3Make((int16_t) (imu.rX() * 1000), (int16_t) (imu.rY() * 1000), (int16_t) (imu.rZ() * 1000)),
-			//vect3Make(0,0,0/*(int16_t) (imu.aX() * 1000), (int16_t) (imu.aY() * 1000), (int16_t) (imu.aZ() * 1000)*/), HAL_GetTick());
-		//force_output.R = piController.getOutput();
-
-		// Pressure Sensor:
-		pressure_mbar = pressure.getPressure(ADC_4096); // Returns mbar pressure from sensor.
-
-		// Update PacketOut Data:
-		packetOut->setThrusterStatus(1);
-		packetOut->setPressure(pressure_mbar);
-		packetOut->setTemp(36);
-		packetOut->setIMUA(imu.lX());	// Linear x 	
-		packetOut->setIMUB(imu.lY());	// Linear y 	
-		packetOut->setIMUC(imu.lZ());	// Linear z 	
-		packetOut->setIMUD(imu.rX());	// Rotational x 
-		packetOut->setIMUE(imu.rY());	// Rotational y 
-		packetOut->setIMUF(imu.rZ());	// Rotational z 
-		packetOut->setIMUG(0);			// Gyro x?
-		packetOut->setIMUH(0);			// Gyro y?
-		packetOut->setIMUI(0);			// Gyro z?
-
-		// IMU_PRESSURE DEBUG TEST:
-		if (pressure_mbar > 500 && pressure_mbar < 1500)
-			LedToggle(GREEN);
-
-		// CAN Transmission
 		if (RECEIVED_NEW_DATA) {
-			cameraServo.set((packet->getArray()[14] <= 128 ? 90 - (packet->getArray()[14] * (180 / 256)) : (packet->getArray()[14] * (180 / 256))));
-			int16_t* thrusters =  packet->getThrusters();
+
+			// IMU Sensor:
+			/* Commented out until I2C isn't locking up
+			imu.get_linear_accel(); // Gets linear movement
+			imu.retrieve_euler(); // Gets angular movement
+			*/
+
+			// Pressure Sensor:
+			/* Commented out until I2C isn't locking up
+			pressure_mbar = pressure.getPressure(ADC_4096); // Returns mbar pressure from sensor.
+
+			// Pressure Debug Test:
+			if (pressure_mbar > 500 && pressure_mbar < 1500) {
+				LedToggle(GREEN);
+			}
+			*/
+			
+			
+			// PID Controller:
+			/* Commented out until IMU working
+			// Update piController's sensor data and compute its PID modulated output to the Rotational force vector.
+			piController.sensorInput(vect3Make((int16_t) (imu.rX() * 1000), (int16_t) (imu.rY() * 1000), (int16_t) (imu.rZ() * 1000)),
+			vect3Make((int16_t) (imu.aX() * 1000), (int16_t) (imu.aY() * 1000), (int16_t) (imu.aZ() * 1000)), HAL_GetTick());
+			force_output.R = piController.getOutput();
+			*/
 
 
-			//sets the info for the logitudinal forces
+			// Update PacketOut Data:
+			packetOut->setThrusterStatus(1);
+			packetOut->setTemp(36);
+
+			/*
+			packetOut->setPressure(pressure_mbar);
+			packetOut->setIMU_Lx(imu.lX());	// Linear x 	
+			packetOut->setIMU_Ly(imu.lY());	// Linear y 	
+			packetOut->setIMU_Lz(imu.lZ());	// Linear z 	
+			packetOut->setIMU_Rx(imu.rX());	// Rotational x 
+			packetOut->setIMU_Ry(imu.rY());	// Rotational y 
+			packetOut->setIMU_Rz(imu.rZ());	// Rotational z 
+			*/
+
+
+			/*
+			// Commented out until full server testing is working
+			cameraServo.set((packet->getCameraServo() <= 128 ? 90 - (packet->getCameraServo() * (180 / 256)) : (packet->getCameraServo() * (180 / 256))));
+			*/
+
+			int16_t* thrusters = packet->getThrusters();
+
+			// Sets the info for the logitudinal forces
 			hcan2.pTxMsg->Data[0] =	'L';
-
 			memcpy(&hcan2.pTxMsg->Data[1], &thrusters[0], 6);
-			hcan2.pTxMsg->Data[7] = packet->getArray()[15]; //Pump PWM Value
+			hcan2.pTxMsg->Data[7] = packet->getHydraulicsPump();
 
 			
+			// Send the longitudinal forces
 			if (HAL_CAN_Transmit(&hcan2, 100) == HAL_OK) {
 				LedOn(BLUE);
 				LedOff(RED);
@@ -178,25 +186,27 @@ int main(void) {
 			}
 
 
-			//sets the info for the rotational forces
+			// Sets the info for the rotational forces
 			hcan2.pTxMsg->Data[0] =	'R';
-
 			memcpy(&hcan2.pTxMsg->Data[1], &thrusters[3], 6);
-			hcan2.pTxMsg->Data[7] = packet->getArray()[18]; //The PID Control byte
+			hcan2.pTxMsg->Data[7] = packet->getPIDControl(); //The PID Control byte
 
+
+			// Send the rotational forces
 			HAL_CAN_Transmit(&hcan2, 100); //send the rotational forces
 
-			//Send serial data back
-			HAL_UART_Transmit_DMA(&huart3, hcan2.pTxMsg->Data, 8);
-
 			RECEIVED_NEW_DATA = false;
+
 		}
 
-		HAL_Delay(10);
-
 		LedToggle(ORANGE);
-	}
 
+		// Send packet data back up
+		packetOut->send();
+
+		//Delay Loop 10ms
+		HAL_Delay(10);
+	}
 }
 
 
@@ -207,7 +217,7 @@ void HAL_CAN_RxCpltCallback(CAN_HandleTypeDef* CanHandle){
 	if ((CanHandle->pRxMsg)->StdId == POW_CAN_ID && (CanHandle->pRxMsg)->IDE == CAN_ID_STD){
 
 		if ((CanHandle->pRxMsg)->DLC == 8) {
-
+			
 		}
 
 		bool motor_status = 0xFF;
@@ -231,11 +241,10 @@ void HAL_UART_TxCpltCallback(UART_HandleTypeDef *UartHandle){
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *UartHandle){
 
 	//set the Serial to read more data again
-	HAL_UART_Receive_DMA(&huart3, (uint8_t *)packet->getArray(), SERIAL_IN_BUFFER_SIZE);
+	HAL_UART_Receive_DMA(&huart3, (uint8_t *)packet->getArray(), PACKET_IN_LENGTH);
 
 
 	packet->recieve();
-	//packetOut->send();
 
 	//force_input = packet->getThrusters();
 	//force_output = vect6Make(force_input[0], force_input[1], force_input[2], force_input[3], force_input[4], force_input[5]);
@@ -246,5 +255,5 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *UartHandle){
 	RECEIVED_NEW_DATA = true;
 
 
-	//LedToggle(RED);
+	LedToggle(GREEN);
 }

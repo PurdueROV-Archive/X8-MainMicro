@@ -38,18 +38,17 @@
 
 
 #include "PacketIn.h"
-#include "string.h"
 
 
 PacketIn::PacketIn() {
 
 }
 
-char PacketIn::checksum(char *bytes) {
-    char crc = 0;
-    char val;
-    char mix;
-    for (int i = 1; i < SERIAL_IN_BUFFER_SIZE - 2; ++i) {
+uint8_t PacketIn::checksum(uint8_t *bytes) {
+    uint8_t crc = 0;
+    uint8_t val;
+    uint8_t mix;
+    for (int i = 1; i < PACKET_IN_LENGTH - 2; ++i) {
         val = bytes[i];
         for (int j = 8; j; --j) {
             mix = (crc ^ val) & 0x01;
@@ -66,62 +65,61 @@ char PacketIn::checksum(char *bytes) {
 
 void PacketIn::recieve() {
 
+	if (PacketIn::checksum(recieveBuffer) == recieveBuffer[PACKET_IN_LENGTH - 2]) {
+
+		//Copy 6 int16_t thruster values
+		memcpy(&thrusters[0], &recieveBuffer[2], 12);
 
 
-    if (PacketIn::checksum(recieveBuffer) == recieveBuffer[SERIAL_IN_BUFFER_SIZE - 2]) {
+		//Extract 
+		cameraServo    = recieveBuffer[14];
+		solenoids      = recieveBuffer[15];
+        hydraulicsPump = recieveBuffer[16];
+        leds           = recieveBuffer[17];
+        thruster       = recieveBuffer[18];
+        PIDControl     = recieveBuffer[19];
 
 
-            memcpy(&thrusters[0], &recieveBuffer[2], 2);
-            memcpy(&thrusters[1], &recieveBuffer[4], 2);
-            memcpy(&thrusters[2], &recieveBuffer[6], 2);
+		//Copy 3 int16_t PID Tuning Values
+		memcpy(&PIDTuning[0], &recieveBuffer[20], 6);
 
-
-            memcpy(&thrusters[3], &recieveBuffer[8], 2);
-            memcpy(&thrusters[4], &recieveBuffer[10], 2);
-            memcpy(&thrusters[5], &recieveBuffer[12], 2);
-
-        solenoids = (uint8_t) recieveBuffer[15];
-        hydraulicsPump = (uint8_t) recieveBuffer[16];
-        leds = (uint8_t) recieveBuffer[17];
-        thruster = (uint8_t) recieveBuffer[18];
-        PIDControl = (uint8_t) recieveBuffer[19];
-
-
-        PIDTuning[0] = recieveBuffer[20];
-        PIDTuning[0] =PIDTuning[0] << 8;
-        PIDTuning[0] += recieveBuffer[21];
-
-        PIDTuning[1] = recieveBuffer[22];
-        PIDTuning[1] = PIDTuning[1] << 8;
-        PIDTuning[1] += recieveBuffer[23];
-
-        PIDTuning[2] = recieveBuffer[24];
-        PIDTuning[2] = PIDTuning[2] << 8;
-        PIDTuning[2] += recieveBuffer[25];
-
-        PIDPivot[0] = recieveBuffer[26];
-        PIDPivot[1] = recieveBuffer[27];
-        PIDPivot[2] = recieveBuffer[28];
-
-
-    }
-    else {
-
-    }
+		//Copy 3 int8_t PID Pivot Values
+		memcpy(&PIDPivot[0], &recieveBuffer[26], 3);
+	}
 }
 
+uint8_t* PacketIn::getArray() { 
+	return recieveBuffer;
+}
 
+int16_t* PacketIn::getThrusters() {
+	return thrusters;
+}
 
+uint8_t PacketIn::getCameraServo() { 
+	return cameraServo;
+}
 
-uint8_t * PacketIn::getArray() { return (uint8_t *) recieveBuffer; }
+uint8_t PacketIn::getSolenoids() { 
+	return solenoids;
+}
 
-int16_t * PacketIn::getThrusters() { return thrusters; }
+uint8_t PacketIn::getHydraulicsPump() { 
+	return hydraulicsPump; 
+}
 
-uint8_t PacketIn::getSolenoids() { return (uint8_t) solenoids; }
-uint8_t PacketIn::getHydraulicsPump() { return (uint8_t)  hydraulicsPump; }
-uint8_t PacketIn::getLeds() { return (uint8_t)  leds; }
-uint8_t PacketIn::getPIDControl() { return (uint8_t)  PIDControl; }
-int16_t * PacketIn::getPIDTuning() { return (int16_t *) PIDTuning; }
-int8_t * PacketIn::getPIDPivot() { return (int8_t *) PIDPivot; }
+uint8_t PacketIn::getLeds() {
+	return leds;
+}
 
+uint8_t PacketIn::getPIDControl() {
+	return PIDControl;
+}
 
+int16_t* PacketIn::getPIDTuning() {
+	return (int16_t *) PIDTuning; 
+}
+
+int8_t* PacketIn::getPIDPivot() { 
+	return PIDPivot;
+}
