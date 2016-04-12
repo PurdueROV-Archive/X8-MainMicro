@@ -1,4 +1,3 @@
-//put all of your #includes into main.h file
 #include "main.h"
 
 #include "print.h"
@@ -11,57 +10,60 @@
 #include "pi_controller.h"
 
 
-/*CAN2 GPIO Configuration    
-    PB5  ------> CAN2_RX
-    PB6  ------> CAN2_TX 
-		* CAN_HandleTypeDef hcan2 		 	*/
-
-/*I2C1 GPIO Configuration    
-    PB7  ------> I2C1_SDA
-    PB8  ------> I2C1_SCL 
-		* I2C_HandleTypeDef hi2c1;  		*/
-
-/*TIM5 GPIO Configuration    
-    PA0  ------> TIM5_CH1
-		* Main Camera servo
-		* TIM_OC_InitTypeDef sConfigOC;
-		* TIM_HandleTypeDef htim5
-		* TIM_CHANNEL_1
-
-    PA3  ------> TIM5_CH4
-		* Alternate camera servo
-		* TIM_OC_InitTypeDef sConfigOC;
-		* TIM_HandleTypeDef htim5
-		* TIM_CHANNEL_4						*/
-
-/*USART1 GPIO Configuration
-    PB10     ------> USART3_TX
-    PB11     ------> USART3_RX
-    	* UART_HandleTypeDef huart3;		*/
+/* CAN2 GPIO Configuration
+ * PB5  ------> CAN2_RX
+ * PB6  ------> CAN2_TX 
+ * CAN_HandleTypeDef hcan2
+ */
 
 
-/* 	USEFULL FUNCTIONS
+/* I2C1 GPIO Configuration
+ * PB7  ------> I2C1_SDA
+ * PB8  ------> I2C1_SCL 
+ * I2C_HandleTypeDef hi2c1;
+ */
 
-	RED; BLUE; GREEN; YELLOW
 
-	void LedOn(int ledNum);
-	void LedOff(int ledNum);
-	void LedToggle(int ledNum);
-*/
+/* TIM5 GPIO Configuration
+ * PA0  ------> TIM5_CH1
+ * Main Camera servo
+ * TIM_OC_InitTypeDef sConfigOC;
+ * TIM_HandleTypeDef htim5
+ * TIM_CHANNEL_1
+ *
+ * PA3  ------> TIM5_CH4
+ * Alternate camera servo
+ * TIM_OC_InitTypeDef sConfigOC;
+ * TIM_HandleTypeDef htim5
+ * TIM_CHANNEL_4
+ */
 
-/*
-	Example how to send can code
+/* USART1 GPIO Configuration
+ * PB10     ------> USART3_TX
+ * PB11     ------> USART3_RX
+ * UART_HandleTypeDef huart3;
+ */
 
-	CanHandle.pTxMsg->DLC = 3; //sets the size of the message in bytes. Max 8 bytes per message
 
-	//sets the information that is sent over the message
-	CanHandle.pTxMsg->Data[0] = 5;
-    CanHandle.pTxMsg->Data[1] = 246;
-    CanHandle.pTxMsg->Data[2] = 17;
+/* USEFULL FUNCTIONS
+ *
+ * RED; BLUE; GREEN; YELLOW
+ * void LedOn(int ledNum);
+ * void LedOff(int ledNum);
+ * void LedToggle(int ledNum);
+ */
 
-	HAL_CAN_Transmit(&hcan2, 10);  //sends the message
-*/
-
+/* Example how to send can code
+ *
+ * CanHandle.pTxMsg->DLC = 3; //sets the size of the message in bytes. Max 8 bytes per message
+ * Sets the information that is sent over the message
+ *
+ * CanHandle.pTxMsg->Data[0] = 5;
+ * CanHandle.pTxMsg->Data[1] = 246;
+ * CanHandle.pTxMsg->Data[2] = 17;
+ *
+ * HAL_CAN_Transmit(&hcan2, 10);  //sends the message
+ */
 
 
 /* Variables used in the motor controlling code */
@@ -75,7 +77,7 @@ PacketOut *packetOut;
 bool RECEIVED_NEW_DATA = 0;
 
 int main(void) {
-	//initializes all of the pins!
+	// Initializes all of the pins!
 	initEverything();
 
 	packet = new PacketIn();
@@ -103,17 +105,17 @@ int main(void) {
 	pressure.reset();
 	pressure.begin();
 
-    // PIController inits
+	// PIController inits
 	PIController piController = PIController();
 	piController.start();
 	piController.setNewRotation(vect3Make(0,0,0));
 	piController.setNewP(0.001);
 	piController.setNewI(0.001);
 
-	//Can Packet Size Init
+	// Can Packet Size Init
 	hcan2.pTxMsg->DLC = 8;
 
-	//Camera Servo Init
+	// Camera Servo Init
 	servo cameraServo = servo(&htim5, &sConfigOC, TIM_CHANNEL_1);
 	cameraServo.setStart(0.725);
 	cameraServo.setRange(1.39);
@@ -228,7 +230,7 @@ void HAL_CAN_RxCpltCallback(CAN_HandleTypeDef* CanHandle){
 
 	}
 
-	//restarts the interrupt
+	// Restarts the interrupt
 	HAL_CAN_Receive_IT(CanHandle, CAN_FIFO0);
 }
 
