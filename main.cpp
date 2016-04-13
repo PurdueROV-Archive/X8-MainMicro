@@ -10,21 +10,25 @@
 #include "pi_controller.h"
 
 
-/* CAN2 GPIO Configuration
+/*
+ * CAN2 GPIO Configuration
  * PB5  ------> CAN2_RX
  * PB6  ------> CAN2_TX 
  * CAN_HandleTypeDef hcan2
+ *
  */
 
-
-/* I2C1 GPIO Configuration
+/*
+ * I2C1 GPIO Configuration
  * PB7  ------> I2C1_SDA
  * PB8  ------> I2C1_SCL 
  * I2C_HandleTypeDef hi2c1;
+ *
  */
 
 
-/* TIM5 GPIO Configuration
+/*
+ * TIM5 GPIO Configuration
  * PA0  ------> TIM5_CH1
  * Main Camera servo
  * TIM_OC_InitTypeDef sConfigOC;
@@ -36,33 +40,43 @@
  * TIM_OC_InitTypeDef sConfigOC;
  * TIM_HandleTypeDef htim5
  * TIM_CHANNEL_4
+ *
  */
 
-/* USART1 GPIO Configuration
- * PB10     ------> USART3_TX
- * PB11     ------> USART3_RX
+/*
+ * USART1 GPIO Configuration
+ * PB10  ------> USART3_TX
+ * PB11  ------> USART3_RX
  * UART_HandleTypeDef huart3;
+ *
  */
 
 
-/* USEFULL FUNCTIONS
+/*
+ * USEFULL FUNCTIONS
  *
  * RED; BLUE; GREEN; YELLOW
  * void LedOn(int ledNum);
  * void LedOff(int ledNum);
  * void LedToggle(int ledNum);
+ *
  */
 
-/* Example how to send can code
+
+/*
+ * Example how to send can code
  *
- * CanHandle.pTxMsg->DLC = 3; //sets the size of the message in bytes. Max 8 bytes per message
- * Sets the information that is sent over the message
+ * Sets the size of the packet. Max 8
+ * CanHandle.pTxMsg->DLC = 8; 
  *
+ * Set up the data
  * CanHandle.pTxMsg->Data[0] = 5;
  * CanHandle.pTxMsg->Data[1] = 246;
  * CanHandle.pTxMsg->Data[2] = 17;
  *
- * HAL_CAN_Transmit(&hcan2, 10);  //sends the message
+ * Send the message over can
+ * HAL_CAN_Transmit(&hcan2, 10);
+ *
  */
 
 

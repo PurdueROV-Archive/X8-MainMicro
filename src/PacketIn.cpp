@@ -1,7 +1,3 @@
-//
-
-// Created by Brandon 2/2/2016.
-
 //CHANGES FOR FIRDAY:
 /*
  * The values passed to the thrustmapping (representing the thrust vector sent from
@@ -31,18 +27,18 @@
  * so you can put everything where it belongs on friday.
  * -Jason
  */
+
+
 #define PREMULTIPLY 1024
 #define X_DOWNSCALE 276
 #define Y_DOWNSCALE 765
 #define Z_DOWNSCALE 280
 
-
 #include "PacketIn.h"
 
 
-PacketIn::PacketIn() {
+PacketIn::PacketIn() {}
 
-}
 
 uint8_t PacketIn::checksum(uint8_t *bytes) {
     uint8_t crc = 0;
@@ -65,61 +61,61 @@ uint8_t PacketIn::checksum(uint8_t *bytes) {
 
 void PacketIn::recieve() {
 
-	if (PacketIn::checksum(recieveBuffer) == recieveBuffer[PACKET_IN_LENGTH - 2]) {
+    if (PacketIn::checksum(recieveBuffer) == recieveBuffer[PACKET_IN_LENGTH - 2]) {
 
-		//Copy 6 int16_t thruster values
-		memcpy(&thrusters[0], &recieveBuffer[2], 12);
+        //Copy 6 int16_t thruster values
+        memcpy(&thrusters[0], &recieveBuffer[2], 12);
 
 
-		//Extract 
-		cameraServo    = recieveBuffer[14];
-		solenoids      = recieveBuffer[15];
+        //Extract 
+        cameraServo    = recieveBuffer[14];
+        solenoids      = recieveBuffer[15];
         hydraulicsPump = recieveBuffer[16];
         leds           = recieveBuffer[17];
         thruster       = recieveBuffer[18];
         PIDControl     = recieveBuffer[19];
 
 
-		//Copy 3 int16_t PID Tuning Values
-		memcpy(&PIDTuning[0], &recieveBuffer[20], 6);
+        //Copy 3 int16_t PID Tuning Values
+        memcpy(&PIDTuning[0], &recieveBuffer[20], 6);
 
-		//Copy 3 int8_t PID Pivot Values
-		memcpy(&PIDPivot[0], &recieveBuffer[26], 3);
-	}
+        //Copy 3 int8_t PID Pivot Values
+        memcpy(&PIDPivot[0], &recieveBuffer[26], 3);
+    }
 }
 
 uint8_t* PacketIn::getArray() { 
-	return recieveBuffer;
+    return recieveBuffer;
 }
 
 int16_t* PacketIn::getThrusters() {
-	return thrusters;
+    return thrusters;
 }
 
 uint8_t PacketIn::getCameraServo() { 
-	return cameraServo;
+    return cameraServo;
 }
 
 uint8_t PacketIn::getSolenoids() { 
-	return solenoids;
+    return solenoids;
 }
 
 uint8_t PacketIn::getHydraulicsPump() { 
-	return hydraulicsPump; 
+    return hydraulicsPump; 
 }
 
 uint8_t PacketIn::getLeds() {
-	return leds;
+    return leds;
 }
 
 uint8_t PacketIn::getPIDControl() {
-	return PIDControl;
+    return PIDControl;
 }
 
 int16_t* PacketIn::getPIDTuning() {
-	return (int16_t *) PIDTuning; 
+    return (int16_t *) PIDTuning; 
 }
 
 int8_t* PacketIn::getPIDPivot() { 
-	return PIDPivot;
+    return PIDPivot;
 }

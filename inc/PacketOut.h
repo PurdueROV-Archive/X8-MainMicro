@@ -1,7 +1,3 @@
-//
-// Created by stewa on 2/6/2016.
-//
-
 #ifndef X8_MAINMICRO_PACKETOUT_H
 #define X8_MAINMICRO_PACKETOUT_H
 
@@ -11,19 +7,19 @@
 
 class PacketOut {
 public:
-	PacketOut();
+    PacketOut();
 
     void send();
     void setPressure(float data);
     void setThrusterStatus(uint32_t data);
     void setTemp(uint32_t data);
 
-	void setIMU_Lx(float data);
-	void setIMU_Ly(float data);
-	void setIMU_Lz(float data);
-	void setIMU_Rx(float data);
-	void setIMU_Ry(float data);
-	void setIMU_Rz(float data);
+    void setIMU_Lx(float data);
+    void setIMU_Ly(float data);
+    void setIMU_Lz(float data);
+    void setIMU_Rx(float data);
+    void setIMU_Ry(float data);
+    void setIMU_Rz(float data);
 
 
 private:
@@ -32,8 +28,5 @@ private:
 
     char checksum(char *bytes);
 };
-
-
-
 
 #endif //X8_MAINMICRO_PACKETOUT_H
