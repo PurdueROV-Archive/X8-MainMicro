@@ -1,8 +1,8 @@
 #include "main.h"
 
 #include "print.h"
-#include "PacketIn.h"
-#include "PacketOut.h"
+#include "packet_in.h"
+#include "packet_out.h"
 #include "matrices.h"
 #include "imu.h"
 #include "pressure.h"

@@ -34,7 +34,7 @@
 #define Y_DOWNSCALE 765
 #define Z_DOWNSCALE 280
 
-#include "PacketIn.h"
+#include "packet_in.h"
 
 
 PacketIn::PacketIn() {}

@@ -9,8 +9,8 @@ BUILD_DIR = build
 OBJECTS = main.o        \
 	src/stm32f4xx_it.o  \
 	src/print.o         \
-	src/PacketIn.o      \
-	src/PacketOut.o     \
+	src/packet_in.o      \
+	src/packet_out.o     \
 	src/init.o          \
 	src/pressure.o      \
 	src/servo.o         \
