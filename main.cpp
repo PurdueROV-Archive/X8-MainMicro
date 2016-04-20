@@ -150,7 +150,7 @@ int main(void) {
 
 			// Pressure Debug Test:
 			if (pressure_mbar > 500 && pressure_mbar < 1500) {
-				LedToggle(GREEN);
+				LedToggle(RED);
 			}
 			*/
 			
@@ -190,35 +190,35 @@ int main(void) {
 			hcan2.pTxMsg->Data[0] =	'L';
 			memcpy(&hcan2.pTxMsg->Data[1], &thrusters[0], 6);
 			hcan2.pTxMsg->Data[7] = packet->getHydraulicsPump();
-
 			
 			// Send the longitudinal forces
 			if (HAL_CAN_Transmit(&hcan2, 100) == HAL_OK) {
 				LedOn(BLUE);
-				LedOff(RED);
 			} else {
-				LedOn(RED);
 				LedOff(BLUE);
 			}
-
 
 			// Sets the info for the rotational forces
 			hcan2.pTxMsg->Data[0] =	'R';
 			memcpy(&hcan2.pTxMsg->Data[1], &thrusters[3], 6);
 			hcan2.pTxMsg->Data[7] = packet->getPIDControl(); //The PID Control byte
 
-
 			// Send the rotational forces
-			HAL_CAN_Transmit(&hcan2, 100); //send the rotational forces
+			if (HAL_CAN_Transmit(&hcan2, 100) == HAL_OK) {
+				LedOn(BLUE);
+			} else {
+				LedOff(BLUE);
+			}
+
+
+		    // Send packet data back up
+		    packetOut->send();
 
 			RECEIVED_NEW_DATA = false;
-
 		}
 
 		LedToggle(ORANGE);
 
-		// Send packet data back up
-		packetOut->send();
 
 		//Delay Loop 10ms
 		HAL_Delay(10);
