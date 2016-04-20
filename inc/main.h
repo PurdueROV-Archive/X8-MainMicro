@@ -7,8 +7,8 @@
 #include "print.h"
 #include <stdint.h>
 #include <string.h>
-#include <stm32f407xx.h>
 #include "init.h"
+#include <stm32f407xx.h>
 
 #define POW_CAN_ID  0x11
 #define APP_CAN_ID  0x12

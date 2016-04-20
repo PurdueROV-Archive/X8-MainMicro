@@ -413,50 +413,56 @@ void initDebugLeds(void) {
 }
 
 //turns on and turns off the led
-void LedOn(int ledNum) {
-    if (ledNum == 0) {
-        HAL_GPIO_WritePin(GPIOD, GPIO_PIN_11, GPIO_PIN_SET);
-    }
-    else if (ledNum == 1) {
-        HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12, GPIO_PIN_SET);
-    }
-    else if (ledNum == 2) {
-        HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13, GPIO_PIN_SET);
-    }
-    else if (ledNum == 3) {
-        HAL_GPIO_WritePin(GPIOD, GPIO_PIN_14, GPIO_PIN_SET);
-    }
-}
-
-//turns on and turns off the led
-void LedOff(int ledNum) {
-    if (ledNum == 0) {
-        HAL_GPIO_WritePin(GPIOD, GPIO_PIN_11, GPIO_PIN_RESET);
-    }
-    else if (ledNum == 1) {
-        HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12, GPIO_PIN_RESET);
-    }
-    else if (ledNum == 2) {
-        HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13, GPIO_PIN_RESET);
-    }
-    else if (ledNum == 3) {
-        HAL_GPIO_WritePin(GPIOD, GPIO_PIN_14, GPIO_PIN_RESET);
+void LedOn(int led) {
+    switch(led) {
+        case BLUE:
+            HAL_GPIO_WritePin(GPIOD, GPIO_PIN_11, GPIO_PIN_SET);
+            break;
+        case GREEN:
+            HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12, GPIO_PIN_SET);
+            break;
+        case RED:
+            HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13, GPIO_PIN_SET);
+            break;
+        case ORANGE:
+            HAL_GPIO_WritePin(GPIOD, GPIO_PIN_14, GPIO_PIN_SET);
+            break;
     }
 }
 
 //turns on and turns off the led
-void LedToggle(int ledNum) {
-    if (ledNum == 0) {
-        HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_11);
+void LedOff(int led) {
+    switch(led) {
+        case BLUE:
+            HAL_GPIO_WritePin(GPIOD, GPIO_PIN_11, GPIO_PIN_RESET);
+            break;
+        case GREEN:
+            HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12, GPIO_PIN_RESET);
+            break;
+        case RED:
+            HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13, GPIO_PIN_RESET);
+            break;
+        case ORANGE:
+            HAL_GPIO_WritePin(GPIOD, GPIO_PIN_14, GPIO_PIN_RESET);
+            break;
     }
-    else if (ledNum == 1) {
-        HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_12);
-    }
-    else if (ledNum == 2) {
-        HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_13);
-    }
-    else if (ledNum == 3) {
-        HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_14);
+}
+
+//turns on and turns off the led
+void LedToggle(int led) {
+    switch(led) {
+        case BLUE:
+            HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_11);
+            break;
+        case GREEN:
+            HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_12);
+            break;
+        case RED:
+            HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_13);
+            break;
+        case ORANGE:
+            HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_14);
+            break;
     }
 }
 

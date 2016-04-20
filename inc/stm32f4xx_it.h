@@ -1,13 +1,13 @@
-/*This file is used to include the function declarations of all interrupts that we will be using
-
-*/
+/*
+ * Includes all function declarations for interrupts
+ */
 
 /* Define to prevent recursive inclusion -------------------------------------*/
 #ifndef __STM32F4xx_IT_H
 #define __STM32F4xx_IT_H
 
 #ifdef __cplusplus
- extern "C" {
+extern "C" {
 #endif 
 
 /* Includes ------------------------------------------------------------------*/
