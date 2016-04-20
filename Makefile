@@ -5,7 +5,7 @@ DRIVER = $(LIB_DIR)/Drivers/STM32F4xx_HAL_Driver/Src
 BUILD_DIR = build
 
 
-#Add any source files that you use here.  Remember to end them with .o
+#Add any source files that you use here. Remember to end them with .o
 OBJECTS = main.o        \
 	src/stm32f4xx_it.o  \
 	src/print.o         \
@@ -98,7 +98,7 @@ compile: $(PROJECT).bin $(PROJECT).hex
 	@echo " ==> Compiled $(PROJECT).bin & $(PROJECT).hex"
 
 .c.o:
-	@$(CC)  $(CC_FLAGS) $(CC_SYMBOLS) -std=gnu99 $(INCLUDE_PATHS) -o $@ $<
+	@$(CC) $(CC_FLAGS) $(CC_SYMBOLS) -std=gnu99 $(INCLUDE_PATHS) -o $@ $<
 
 .cpp.o:
 	@$(CPP) $(CC_FLAGS) $(CC_SYMBOLS) -std=gnu++98 -fno-rtti $(INCLUDE_PATHS) -o $@ $<
@@ -109,7 +109,7 @@ $(LIB_OBJ): $(LIB_SRC)
 	@mv *.o ./$(BUILD_DIR)
 
 $(PROJECT).elf: $(OBJECTS)
-	@$(LD) $(LD_FLAGS) -T$(LINKER_SCRIPT) -o $(BUILD_DIR)/$@ $^  $(LD_SYS_LIBS) $(LD_SYS_LIBS)
+	@$(LD) $(LD_FLAGS) -T$(LINKER_SCRIPT) -o $(BUILD_DIR)/$@ $^ $(LD_SYS_LIBS) $(LD_SYS_LIBS)
 	@rm *.o
 	@rm src/*.o
 
