@@ -55,7 +55,6 @@ INCLUDE_PATHS =                                              \
 	-I./$(LIB_DIR)/Drivers/STM32F4xx_HAL_Driver/Inc          \
 	-I./$(LIB_DIR)/Drivers/STM32F4xx_HAL_Driver/Inc/Legacy   \
 	-I./$(LIB_DIR)/Middlewares/Third_Party/LwIP/system/arch  \
-	-I./Src                                                  \
 
 
 LINKER_SCRIPT = ./$(LIB_DIR)/Drivers/CMSIS/Device/ST/STM32F4xx/Source/Templates/STM32F407XG.ld
