@@ -180,11 +180,9 @@ int main(void) {
 			
 			// Send the longitudinal forces
 			if (HAL_CAN_Transmit(&hcan2, 100) == HAL_OK) {
-				LedOn(BLUE);
 				LedOff(RED);
 			} else {
 				LedOn(RED);
-				LedOff(BLUE);
 			}
 
 
