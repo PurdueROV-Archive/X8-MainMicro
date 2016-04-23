@@ -122,23 +122,21 @@ int main(void) {
 
 	while (1) {
 
-		if (RECEIVED_NEW_DATA) {
 
 			// IMU Sensor:
-			/* Commented out until I2C isn't locking up
+			// Commented out until I2C isn't locking up
 			imu.get_linear_accel(); // Gets linear movement
 			imu.retrieve_euler(); // Gets angular movement
-			*/
 
 			// Pressure Sensor:
-			/* Commented out until I2C isn't locking up
+			// Commented out until I2C isn't locking up
 			pressure_mbar = pressure.getPressure(ADC_4096); // Returns mbar pressure from sensor.
 
 			// Pressure Debug Test:
 			if (pressure_mbar > 500 && pressure_mbar < 1500) {
-				LedToggle(GREEN);
+				LedToggle(BLUE);
 			}
-			*/
+			
 			
 			
 			// PID Controller:
@@ -152,7 +150,7 @@ int main(void) {
 
 			// Update PacketOut Data:
 			packetOut->setThrusterStatus(1);
-			packetOut->setTemp(36);
+			packetOut->setTemp(pressure_mbar);
 
 			/*
 			packetOut->setPressure(pressure_mbar);
@@ -169,6 +167,8 @@ int main(void) {
 			// Commented out until full server testing is working
 			cameraServo.set((packet->getCameraServo() <= 128 ? 90 - (packet->getCameraServo() * (180 / 256)) : (packet->getCameraServo() * (180 / 256))));
 			*/
+
+		if (RECEIVED_NEW_DATA) {
 
 			int16_t* thrusters = packet->getThrusters();
 
