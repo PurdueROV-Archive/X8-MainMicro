@@ -184,6 +184,8 @@ int main(void) {
 			cameraServo.set((packet->getCameraServo() <= 128 ? 90 - (packet->getCameraServo() * (180 / 256)) : (packet->getCameraServo() * (180 / 256))));
 			*/
 
+
+
 			int16_t* thrusters = packet->getThrusters();
 
 			// Sets the info for the logitudinal forces

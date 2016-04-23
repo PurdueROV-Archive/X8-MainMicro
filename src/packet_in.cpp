@@ -44,6 +44,7 @@ uint8_t PacketIn::checksum(uint8_t *bytes) {
     uint8_t crc = 0;
     uint8_t val;
     uint8_t mix;
+
     for (int i = 1; i < PACKET_IN_LENGTH - 2; ++i) {
         val = bytes[i];
         for (int j = 8; j; --j) {
@@ -62,6 +63,8 @@ uint8_t PacketIn::checksum(uint8_t *bytes) {
 void PacketIn::recieve() {
 
     if (PacketIn::checksum(recieveBuffer) == recieveBuffer[PACKET_IN_LENGTH - 2]) {
+        LedOn(RED);
+
 
         //Copy 6 int16_t thruster values
         memcpy(&thrusters[0], &recieveBuffer[2], 12);
@@ -81,6 +84,8 @@ void PacketIn::recieve() {
 
         //Copy 3 int8_t PID Pivot Values
         memcpy(&PIDPivot[0], &recieveBuffer[26], 3);
+    } else {
+       LedOff(RED);
     }
 }
 
