@@ -180,22 +180,8 @@
   ******************************************************************************
   */
 
-
-
-
-
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f4xx_hal.h"
-
-void Delay(uint64_t i)
-{
-  uint64_t j = 0;
-
-HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12, GPIO_PIN_SET);
-
-  while(j < i)
-    j++;
-}
 
 /** @addtogroup STM32F4xx_HAL_Driver
   * @{
@@ -552,12 +538,6 @@ HAL_StatusTypeDef HAL_I2C_Master_Transmit(I2C_HandleTypeDef *hi2c, uint16_t DevA
     /* Clear ADDR flag */
     __HAL_I2C_CLEAR_ADDRFLAG(hi2c);
 
-      uint64_t ii = 0;
-
-    Delay(0xffffffff);
-
-    ii = 0;
-
     while(Size > 0)
     {
       /* Wait until TXE flag is set */
@@ -570,23 +550,13 @@ HAL_StatusTypeDef HAL_I2C_Master_Transmit(I2C_HandleTypeDef *hi2c, uint16_t DevA
       hi2c->Instance->DR = (*pData++);
       Size--;
 
-
-
-      Delay(0xffffffff);
-
-
       if((__HAL_I2C_GET_FLAG(hi2c, I2C_FLAG_BTF) == SET) && (Size != 0))
       {
         /* Write data to DR */
         hi2c->Instance->DR = (*pData++);
         Size--;
       }
-
-
-      Delay(0xffffffff);
-
     }
-
 
     /* Wait until TXE flag is set */
     if(I2C_WaitOnFlagUntilTimeout(hi2c, I2C_FLAG_TXE, RESET, Timeout) != HAL_OK)

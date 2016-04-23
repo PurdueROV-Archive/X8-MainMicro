@@ -39,12 +39,11 @@
  */
 
 
-#include "PacketOut.h"
+#include "packet_out.h"
 #include "main.h"
 
 //use constructor and add header and tail byte
-PacketOut::PacketOut() 
-{
+PacketOut::PacketOut() {
     Dataup[0]=0x12;
     Dataup[PACKET_OUT_LENGTH-1]=0x13;
 }
@@ -106,10 +105,7 @@ void PacketOut::setIMU_Rz(float data){
 
 void PacketOut::send() {
 
-    Dataup[PACKET_OUT_LENGTH-2]=checksum((char*)Dataup);
+    Dataup[PACKET_OUT_LENGTH-2] = checksum((char*)Dataup);
 
     HAL_UART_Transmit_DMA(&huart3, Dataup, PACKET_OUT_LENGTH);
 }
-
-
-

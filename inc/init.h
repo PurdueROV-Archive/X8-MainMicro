@@ -4,9 +4,6 @@
 
 #include "main.h"
 
-extern int canFlag;
-
-
 extern TIM_MasterConfigTypeDef sMasterConfig;
 extern TIM_OC_InitTypeDef sConfigOC;
 
@@ -52,9 +49,9 @@ void initCan(void);
 
 /*function for initializing and using leds */
 void initDebugLeds(void);
-void LedOn(int ledNum);
-void LedOff(int ledNum);
-void LedToggle(int ledNum);
+void LedOn(int led);
+void LedOff(int led);
+void LedToggle(int led);
 
 
 

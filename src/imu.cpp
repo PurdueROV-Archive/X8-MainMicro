@@ -267,5 +267,3 @@ uint8_t IMU::check_operating_mode(void) {
 
 	return dt[0];
 }
-
-

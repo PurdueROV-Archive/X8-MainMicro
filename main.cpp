@@ -1,8 +1,8 @@
 #include "main.h"
 
 #include "print.h"
-#include "PacketIn.h"
-#include "PacketOut.h"
+#include "packet_in.h"
+#include "packet_out.h"
 #include "matrices.h"
 #include "imu.h"
 #include "pressure.h"
@@ -10,21 +10,25 @@
 #include "pi_controller.h"
 
 
-/* CAN2 GPIO Configuration
+/*
+ * CAN2 GPIO Configuration
  * PB5  ------> CAN2_RX
  * PB6  ------> CAN2_TX 
  * CAN_HandleTypeDef hcan2
+ *
  */
 
-
-/* I2C1 GPIO Configuration
+/*
+ * I2C1 GPIO Configuration
  * PB7  ------> I2C1_SDA
  * PB8  ------> I2C1_SCL 
  * I2C_HandleTypeDef hi2c1;
+ *
  */
 
 
-/* TIM5 GPIO Configuration
+/*
+ * TIM5 GPIO Configuration
  * PA0  ------> TIM5_CH1
  * Main Camera servo
  * TIM_OC_InitTypeDef sConfigOC;
@@ -36,33 +40,43 @@
  * TIM_OC_InitTypeDef sConfigOC;
  * TIM_HandleTypeDef htim5
  * TIM_CHANNEL_4
+ *
  */
 
-/* USART1 GPIO Configuration
- * PB10     ------> USART3_TX
- * PB11     ------> USART3_RX
+/*
+ * USART1 GPIO Configuration
+ * PB10  ------> USART3_TX
+ * PB11  ------> USART3_RX
  * UART_HandleTypeDef huart3;
+ *
  */
 
 
-/* USEFULL FUNCTIONS
+/*
+ * USEFULL FUNCTIONS
  *
  * RED; BLUE; GREEN; YELLOW
  * void LedOn(int ledNum);
  * void LedOff(int ledNum);
  * void LedToggle(int ledNum);
+ *
  */
 
-/* Example how to send can code
+
+/*
+ * Example how to send can code
  *
- * CanHandle.pTxMsg->DLC = 3; //sets the size of the message in bytes. Max 8 bytes per message
- * Sets the information that is sent over the message
+ * Sets the size of the packet. Max 8
+ * CanHandle.pTxMsg->DLC = 8; 
  *
+ * Set up the data
  * CanHandle.pTxMsg->Data[0] = 5;
  * CanHandle.pTxMsg->Data[1] = 246;
  * CanHandle.pTxMsg->Data[2] = 17;
  *
- * HAL_CAN_Transmit(&hcan2, 10);  //sends the message
+ * Send the message over can
+ * HAL_CAN_Transmit(&hcan2, 10);
+ *
  */
 
 
@@ -122,21 +136,23 @@ int main(void) {
 
 	while (1) {
 
+		if (RECEIVED_NEW_DATA) {
 
 			// IMU Sensor:
-			// Commented out until I2C isn't locking up
+			/* Commented out until I2C isn't locking up
 			imu.get_linear_accel(); // Gets linear movement
 			imu.retrieve_euler(); // Gets angular movement
+			*/
 
 			// Pressure Sensor:
-			// Commented out until I2C isn't locking up
+			/* Commented out until I2C isn't locking up
 			pressure_mbar = pressure.getPressure(ADC_4096); // Returns mbar pressure from sensor.
 
 			// Pressure Debug Test:
 			if (pressure_mbar > 500 && pressure_mbar < 1500) {
-				LedToggle(BLUE);
+				LedToggle(RED);
 			}
-			
+			*/
 			
 			
 			// PID Controller:
@@ -150,7 +166,7 @@ int main(void) {
 
 			// Update PacketOut Data:
 			packetOut->setThrusterStatus(1);
-			packetOut->setTemp(pressure_mbar);
+			packetOut->setTemp(36);
 
 			/*
 			packetOut->setPressure(pressure_mbar);
@@ -168,7 +184,7 @@ int main(void) {
 			cameraServo.set((packet->getCameraServo() <= 128 ? 90 - (packet->getCameraServo() * (180 / 256)) : (packet->getCameraServo() * (180 / 256))));
 			*/
 
-		if (RECEIVED_NEW_DATA) {
+
 
 			int16_t* thrusters = packet->getThrusters();
 
@@ -176,33 +192,35 @@ int main(void) {
 			hcan2.pTxMsg->Data[0] =	'L';
 			memcpy(&hcan2.pTxMsg->Data[1], &thrusters[0], 6);
 			hcan2.pTxMsg->Data[7] = packet->getHydraulicsPump();
-
 			
 			// Send the longitudinal forces
 			if (HAL_CAN_Transmit(&hcan2, 100) == HAL_OK) {
-				LedOff(RED);
+				LedOn(BLUE);
 			} else {
-				LedOn(RED);
+				LedOff(BLUE);
 			}
-
 
 			// Sets the info for the rotational forces
 			hcan2.pTxMsg->Data[0] =	'R';
 			memcpy(&hcan2.pTxMsg->Data[1], &thrusters[3], 6);
 			hcan2.pTxMsg->Data[7] = packet->getPIDControl(); //The PID Control byte
 
-
 			// Send the rotational forces
-			HAL_CAN_Transmit(&hcan2, 100); //send the rotational forces
+			if (HAL_CAN_Transmit(&hcan2, 100) == HAL_OK) {
+				LedOn(BLUE);
+			} else {
+				LedOff(BLUE);
+			}
+
+
+		    // Send packet data back up
+		    packetOut->send();
 
 			RECEIVED_NEW_DATA = false;
-
 		}
 
 		LedToggle(ORANGE);
 
-		// Send packet data back up
-		packetOut->send();
 
 		//Delay Loop 10ms
 		HAL_Delay(10);
