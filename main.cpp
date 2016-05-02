@@ -172,7 +172,7 @@ int main(void) {
 			force_output.R = piController.getOutput();
              */
             
-            overseer->update(force_output, vect3Make(0,0,0), 256);
+            overseer->update(force_output, vect3Make(0,0,0), 255);
 			// Update PacketOut Data:
 			packetOut->setThrusterStatus(1);
 			packetOut->setTemp(36);
