@@ -9,6 +9,8 @@
 #include "servo.h"
 #include "pi_controller.h"
 
+#include "overseer.h"
+
 
 /*
  * CAN2 GPIO Configuration
@@ -87,6 +89,7 @@ int16_t * force_input;
 float pressure_mbar;
 PacketIn *packet;
 PacketOut *packetOut;
+Overseer *overseer;
 
 bool RECEIVED_NEW_DATA = 0;
 
@@ -96,6 +99,7 @@ int main(void) {
 
 	packet = new PacketIn();
 	packetOut = new PacketOut();
+    overseer = new Overseer();
 	
 	HAL_UART_Receive_DMA(&huart3, packet->getArray(), PACKET_IN_LENGTH);
 
@@ -133,6 +137,8 @@ int main(void) {
 	servo cameraServo = servo(&htim3, &sConfigOC, TIM_CHANNEL_1);
 	cameraServo.setStart(0.725);
 	cameraServo.setRange(1.39);
+    
+    overseer->update(vect6Make(0,0,0,0,0,0), vect3Make(0,0,0), 0);
 
 	while (1) {
 
@@ -161,9 +167,8 @@ int main(void) {
 			piController.sensorInput(vect3Make((int16_t) (imu.rX() * 1000), (int16_t) (imu.rY() * 1000), (int16_t) (imu.rZ() * 1000)),
 			vect3Make((int16_t) (imu.lX() * 1000), (int16_t) (imu.lY() * 1000), (int16_t) (imu.lZ() * 1000)), HAL_GetTick());
 			force_output.R = piController.getOutput();
-			
-
-
+            
+            overseer->update(force_output, vect3Make(0,0,0), packet->getThruster());
 			// Update PacketOut Data:
 			packetOut->setThrusterStatus(1);
 			packetOut->setTemp(36);
@@ -186,8 +191,12 @@ int main(void) {
 
 
 
-			int16_t* thrusters = packet->getThrusters();
-
+            //int16_t* thrusters = packet->getThrusters();
+            overseer->calculateAndPush();
+            
+            int16_t* thrusters = overseer->getThrusters();
+            
+            
 			// Sets the info for the logitudinal forces
 			hcan2.pTxMsg->Data[0] =	'L';
 			memcpy(&hcan2.pTxMsg->Data[1], &thrusters[0], 6);
