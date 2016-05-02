@@ -16,9 +16,7 @@ OBJECTS = main.o        \
 	src/servo.o         \
 	src/matrices.o      \
 	src/pi_controller.o \
-	src/imu.o \
-	src/overseer.o \
-	src/thrust_mapper.o
+	src/imu.o
 
 
 OBJECTS +=                                                                                  \

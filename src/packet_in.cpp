@@ -124,7 +124,3 @@ int16_t* PacketIn::getPIDTuning() {
 int8_t* PacketIn::getPIDPivot() { 
     return PIDPivot;
 }
-
-uint8_t PacketIn::getThruster() {
-    return thruster;
-}

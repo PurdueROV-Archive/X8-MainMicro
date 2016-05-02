@@ -9,8 +9,6 @@
 #include "servo.h"
 #include "pi_controller.h"
 
-#include "overseer.h"
-
 
 /*
  * CAN2 GPIO Configuration
@@ -89,7 +87,6 @@ int16_t * force_input;
 float pressure_mbar;
 PacketIn *packet;
 PacketOut *packetOut;
-Overseer *overseer;
 
 bool RECEIVED_NEW_DATA = 0;
 
@@ -99,7 +96,6 @@ int main(void) {
 
 	packet = new PacketIn();
 	packetOut = new PacketOut();
-    overseer = new Overseer();
 	
 	HAL_UART_Receive_DMA(&huart3, packet->getArray(), PACKET_IN_LENGTH);
 
@@ -137,43 +133,42 @@ int main(void) {
 	servo cameraServo = servo(&htim5, &sConfigOC, TIM_CHANNEL_1);
 	cameraServo.setStart(0.725);
 	cameraServo.setRange(1.39);
-    
-    overseer->update(vect6Make(0,0,0,0,0,0), vect3Make(0,0,0), 0);
 
 	while (1) {
 
 		if (RECEIVED_NEW_DATA) {
 
 			// IMU Sensor:
-			// Commented out until I2C isn't locking up
+			/* Commented out until I2C isn't locking up
 			imu.get_linear_accel(); // Gets linear movement
 			imu.retrieve_euler(); // Gets angular movement
-			
+			*/
 
 			// Pressure Sensor:
-			// Commented out until I2C isn't locking up
+			/* Commented out until I2C isn't locking up
 			pressure_mbar = pressure.getPressure(ADC_4096); // Returns mbar pressure from sensor.
 
 			// Pressure Debug Test:
 			if (pressure_mbar > 500 && pressure_mbar < 1500) {
 				LedToggle(RED);
-            }
-			
+			}
+			*/
 			
 			
 			// PID Controller:
-			// Commented out until IMU working
+			/* Commented out until IMU working
 			// Update piController's sensor data and compute its PID modulated output to the Rotational force vector.
 			piController.sensorInput(vect3Make((int16_t) (imu.rX() * 1000), (int16_t) (imu.rY() * 1000), (int16_t) (imu.rZ() * 1000)),
-			vect3Make((int16_t) (imu.lX() * 1000), (int16_t) (imu.lY() * 1000), (int16_t) (imu.lZ() * 1000)), HAL_GetTick());
+			vect3Make((int16_t) (imu.aX() * 1000), (int16_t) (imu.aY() * 1000), (int16_t) (imu.aZ() * 1000)), HAL_GetTick());
 			force_output.R = piController.getOutput();
-            
-            overseer->update(force_output, vect3Make(0,0,0), packet->getThruster());
+			*/
+
+
 			// Update PacketOut Data:
 			packetOut->setThrusterStatus(1);
 			packetOut->setTemp(36);
 
-			
+			/*
 			packetOut->setPressure(pressure_mbar);
 			packetOut->setIMU_Lx(imu.lX());	// Linear x 	
 			packetOut->setIMU_Ly(imu.lY());	// Linear y 	
@@ -181,7 +176,7 @@ int main(void) {
 			packetOut->setIMU_Rx(imu.rX());	// Rotational x 
 			packetOut->setIMU_Ry(imu.rY());	// Rotational y 
 			packetOut->setIMU_Rz(imu.rZ());	// Rotational z 
-			
+			*/
 
 
 			/*
@@ -191,12 +186,8 @@ int main(void) {
 
 
 
-            //int16_t* thrusters = packet->getThrusters();
-            overseer->calculateAndPush();
-            
-            int16_t* thrusters = overseer->getThrusters();
-            
-            
+			int16_t* thrusters = packet->getThrusters();
+
 			// Sets the info for the logitudinal forces
 			hcan2.pTxMsg->Data[0] =	'L';
 			memcpy(&hcan2.pTxMsg->Data[1], &thrusters[0], 6);
