@@ -166,8 +166,8 @@ void initPwm(void) {
     GPIO_InitStruct.Alternate = GPIO_AF1_TIM2;
     HAL_GPIO_Init(Sonar_Pwm_GPIO_Port, &GPIO_InitStruct);*/
 
-            __TIM5_CLK_ENABLE();
-            __TIM3_CLK_ENABLE();
+    __TIM5_CLK_ENABLE();
+    __TIM3_CLK_ENABLE();
 
     /**TIM5 GPIO Configuration    
     PA0     ------> TIM5_CH1
