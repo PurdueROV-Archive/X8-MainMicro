@@ -146,12 +146,14 @@ int main(void) {
 
 			// IMU Sensor:
 			// Commented out until I2C isn't locking up
+            
 			imu.get_linear_accel(); // Gets linear movement
 			imu.retrieve_euler(); // Gets angular movement
 			
 
 			// Pressure Sensor:
 			// Commented out until I2C isn't locking up
+        
 			pressure_mbar = pressure.getPressure(ADC_4096); // Returns mbar pressure from sensor.
 
 			// Pressure Debug Test:
@@ -164,9 +166,11 @@ int main(void) {
 			// PID Controller:
 			// Commented out until IMU working
 			// Update piController's sensor data and compute its PID modulated output to the Rotational force vector.
+            /*
 			piController.sensorInput(vect3Make((int16_t) (imu.rX() * 1000), (int16_t) (imu.rY() * 1000), (int16_t) (imu.rZ() * 1000)),
 			vect3Make((int16_t) (imu.lX() * 1000), (int16_t) (imu.lY() * 1000), (int16_t) (imu.lZ() * 1000)), HAL_GetTick());
 			force_output.R = piController.getOutput();
+             */
             
             overseer->update(force_output, vect3Make(0,0,0), packet->getThruster());
 			// Update PacketOut Data:
