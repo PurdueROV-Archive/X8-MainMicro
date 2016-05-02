@@ -230,7 +230,7 @@ void Overseer::doRamping(void)
 
 int16_t* Overseer::getThrusters()
 {
-    int16_t thrusters[8];
+    int16_t * thrusters = new int16_t(8);
     thrusters[0] = thrustMapper.thrust_map.a;
     thrusters[1] = thrustMapper.thrust_map.b;
     thrusters[2] = thrustMapper.thrust_map.c;
