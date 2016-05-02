@@ -200,7 +200,7 @@ int main(void) {
             
             int16_t* thrusters = overseer->getThrusters();
             
-            
+
 			// Sets the info for the logitudinal forces
 			hcan2.pTxMsg->Data[0] =	'L';
 			memcpy(&hcan2.pTxMsg->Data[1], &thrusters[0], 6);
@@ -279,6 +279,10 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *UartHandle){
 
 	force_input = packet->getThrusters();
 	force_output = vect6Make(force_input[0], force_input[1], force_input[2], force_input[3], force_input[4], force_input[5]);
+	// Scaling x and z Long for better ROV response (compensating for motors being directed unintuitively).
+	force_output.L.x *= 3;
+	force_output.L.z *= 4;
+	
 	//piController.setNewRotation(force_output.R);
 
 
