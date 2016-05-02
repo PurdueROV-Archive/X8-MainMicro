@@ -25,7 +25,7 @@ DMA_HandleTypeDef hdma_usart3_tx;
 
 
 TIM_HandleTypeDef htim2;
-TIM_HandleTypeDef htim5;
+TIM_HandleTypeDef htim3;
 
 //this function will call all of the other initialization functions
 void initEverything(void) {
@@ -167,25 +167,27 @@ void initPwm(void) {
     HAL_GPIO_Init(Sonar_Pwm_GPIO_Port, &GPIO_InitStruct);*/
 
             __TIM5_CLK_ENABLE();
+            __TIM3_CLK_ENABLE();
 
     /**TIM5 GPIO Configuration    
     PA0     ------> TIM5_CH1
     PA3     ------> TIM5_CH4 
     */
-    GPIO_InitStruct.Pin = Main_Camera_Servo_PWM_Pin | Alt_Camera_Servo_PWM_Pin;
-    GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
-    GPIO_InitStruct.Pull = GPIO_NOPULL;
-    GPIO_InitStruct.Speed = GPIO_SPEED_LOW;
-    GPIO_InitStruct.Alternate = GPIO_AF2_TIM5;
-    HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+    GPIO_InitStruct.Pin       = Main_Camera_Servo_PWM_Pin | Alt_Camera_Servo_PWM_Pin;
+    GPIO_InitStruct.Mode      = GPIO_MODE_AF_PP;
+    GPIO_InitStruct.Pull      = GPIO_NOPULL;
+    GPIO_InitStruct.Speed     = GPIO_SPEED_LOW;
+    GPIO_InitStruct.Alternate = GPIO_AF2_TIM3;
+    HAL_GPIO_Init(Main_Camera_Servo_PWM_GPIO_Port, &GPIO_InitStruct);
 
 
-    htim5.Instance = TIM5;
-    htim5.Init.Prescaler = SystemCoreClock / 1000000;
-    htim5.Init.CounterMode = TIM_COUNTERMODE_UP;
-    htim5.Init.Period = 3333;
-    htim5.Init.ClockDivision = 0;
-    HAL_TIM_PWM_Init(&htim5);
+    htim3.Instance           = TIM3;
+    htim3.Init.Prescaler     = SystemCoreClock / 1000000;
+    htim3.Init.CounterMode   = TIM_COUNTERMODE_UP;
+    htim3.Init.Period        = 3333;
+    htim3.Init.ClockDivision = 0;
+    HAL_TIM_PWM_Init(&htim3);
 
     /*sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
     sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
@@ -197,14 +199,14 @@ void initPwm(void) {
     sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
 
 
-    HAL_TIM_PWM_ConfigChannel(&htim5, &sConfigOC, TIM_CHANNEL_1);
+    HAL_TIM_PWM_ConfigChannel(&htim3, &sConfigOC, TIM_CHANNEL_1);
 
-    HAL_TIM_PWM_ConfigChannel(&htim5, &sConfigOC, TIM_CHANNEL_4);
+    HAL_TIM_PWM_ConfigChannel(&htim3, &sConfigOC, TIM_CHANNEL_3);
 
 
-    HAL_TIM_PWM_Start(&htim5, TIM_CHANNEL_1);
+    HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_1);
 
-    HAL_TIM_PWM_Start(&htim5, TIM_CHANNEL_4);
+    HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_3);
 
 }
 

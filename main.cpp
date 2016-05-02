@@ -130,7 +130,7 @@ int main(void) {
 	hcan2.pTxMsg->DLC = 8;
 
 	// Camera Servo Init
-	servo cameraServo = servo(&htim5, &sConfigOC, TIM_CHANNEL_1);
+	servo cameraServo = servo(&htim3, &sConfigOC, TIM_CHANNEL_1);
 	cameraServo.setStart(0.725);
 	cameraServo.setRange(1.39);
 
