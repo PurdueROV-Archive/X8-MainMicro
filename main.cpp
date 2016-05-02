@@ -172,7 +172,7 @@ int main(void) {
 			force_output.R = piController.getOutput();
              */
             
-            overseer->update(force_output, vect3Make(0,0,0), packet->getThruster());
+            overseer->update(force_output, vect3Make(0,0,0), 256);
 			// Update PacketOut Data:
 			packetOut->setThrusterStatus(1);
 			packetOut->setTemp(36);
@@ -181,7 +181,7 @@ int main(void) {
 			packetOut->setPressure(pressure_mbar);
 			packetOut->setIMU_Lx(imu.lX());	// Linear x 	
 			packetOut->setIMU_Ly(imu.lY());	// Linear y 	
-			packetOut->setIMU_Lz(imu.lZ());	// Linear z 	
+			packetOut->setIMU_Lz(imu.lZ());	// Linear z
 			packetOut->setIMU_Rx(imu.rX());	// Rotational x 
 			packetOut->setIMU_Ry(imu.rY());	// Rotational y 
 			packetOut->setIMU_Rz(imu.rZ());	// Rotational z 
@@ -277,8 +277,8 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *UartHandle){
 
 	packet->recieve();
 
-	//force_input = packet->getThrusters();
-	//force_output = vect6Make(force_input[0], force_input[1], force_input[2], force_input[3], force_input[4], force_input[5]);
+	force_input = packet->getThrusters();
+	force_output = vect6Make(force_input[0], force_input[1], force_input[2], force_input[3], force_input[4], force_input[5]);
 	//piController.setNewRotation(force_output.R);
 
 
