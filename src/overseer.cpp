@@ -77,12 +77,15 @@ void Overseer::calculateAndPush(void)
 {
 	thrustMapper.calculateThrustMap(target_force);
     int max = 0;
-    if ((max = max8(thrustMapper.thrust_map)) > THRUST_MAX)
+
+    if ((max = max8(thrustMapper.thrust_map)) > THRUST_MAX) {
         scaleOverflow(&thrustMapper.thrust_map, max);
-    else
+    } else {
         is_Overflowing = 0;
+    }
+
 	// send the thrustMapper.thrust_map to the motors (thrusters) here:
- sendToMotors();
+    sendToMotors();
 }
 
 void Overseer::sendToMotors(void)
