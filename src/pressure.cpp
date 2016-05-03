@@ -249,6 +249,13 @@ double Pressure::altitude(double P, double P0)
 }
 
 
+int32_t Pressure::depth()
+// Gives the depths in millimeters below the surface
+// Subtract one atmosphere of pressure ~1000 mmbar, could be calibrated for a few extra mm of precision
+{
+    return -(_pressure_actual - 1000);
+}
+
 
 
 
