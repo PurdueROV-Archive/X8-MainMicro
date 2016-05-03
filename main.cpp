@@ -28,7 +28,6 @@
  *
  */
 
-
 /*
  * TIM5 GPIO Configuration
  * PA0  ------> TIM5_CH1
@@ -146,14 +145,12 @@ int main(void) {
 
 			// IMU Sensor:
 			// Commented out until I2C isn't locking up
-            
 			imu.get_linear_accel(); // Gets linear movement
 			imu.retrieve_euler(); // Gets angular movement
 			
 
 			// Pressure Sensor:
 			// Commented out until I2C isn't locking up
-        
 			pressure_mbar = pressure.getPressure(ADC_4096); // Returns mbar pressure from sensor.
 
 			// Pressure Debug Test:
@@ -166,11 +163,11 @@ int main(void) {
 			// PID Controller:
 			// Commented out until IMU working
 			// Update piController's sensor data and compute its PID modulated output to the Rotational force vector.
-            /*
+
 			piController.sensorInput(vect3Make((int16_t) (imu.rX() * 1000), (int16_t) (imu.rY() * 1000), (int16_t) (imu.rZ() * 1000)),
 			vect3Make((int16_t) (imu.lX() * 1000), (int16_t) (imu.lY() * 1000), (int16_t) (imu.lZ() * 1000)), HAL_GetTick());
 			force_output.R = piController.getOutput();
-             */
+
             
             overseer->update(force_output, vect3Make(0,0,0), 255);
 			// Update PacketOut Data:
@@ -216,7 +213,7 @@ int main(void) {
 			// Sets the info for the rotational forces
 			hcan2.pTxMsg->Data[0] =	'R';
 			memcpy(&hcan2.pTxMsg->Data[1], &thrusters[3], 6);
-			hcan2.pTxMsg->Data[7] = packet->getPIDControl(); //The PID Control byte
+			//hcan2.pTxMsg->Data[7] = packet->getPIDControl(); //The PID Control byte
 
 			// Send the rotational forces
 			if (HAL_CAN_Transmit(&hcan2, 100) == HAL_OK) {
@@ -236,7 +233,7 @@ int main(void) {
 
 
 		//Delay Loop 10ms
-		HAL_Delay(10);
+		HAL_Delay(1);
 	}
 }
 
