@@ -12,9 +12,13 @@
 typedef struct {
 
 	// Proportional Constant = controller gain
-	double P;
+	float P_rot;
+	float P_Z;
 	// Integral Constant = controller gain / reset time
-	double I;
+	float I_rot;
+	float I_Z;
+
+
 
 } PIDConstants;
 
@@ -22,10 +26,16 @@ typedef struct {
 
 	// rotation position to keep ROV at (stabilize ROV at this rotation).
 	vect3 rot_ref;
-	// rotation position
 	vect3 rot_est;
-	// /_\ (delta) rotation velocity
-	vect3 rot_est_vel;
+	// rotation position
+	vect3 rot_error;
+	// /_\ (delta) rotation velocity, isn't used at the moment
+	// vect3 rot_est_vel;
+	
+	// Z depth reference and error
+	float Z_ref;
+	float Z_error;
+
 	// Last Force vector calculated from the PID controller (from the last time getOutput was called).
 	vect3 lastForce;
 	// Integral sum
@@ -60,16 +70,15 @@ class PIController
 		PIController(void);
 		void stop(void);
 		void start(void);
-		void setNewRotation(vect3 rot_ref);
+		void set_ref(vect3 rot_ref, float Z_ref);
 		void updateRotation(vect3 rot_ref);
-		void setNewP(double newP);
-		void setNewI(double newI);
-		void sensorInput(vect3 rot_est, vect3 rot_est_vel, uint32_t timems);
-		vect3 getOutput(void);
+		void set_PI(float newP_R, float newI_R, float newP_Z, float newI_Z, uint8_t state);
+		void sensorInput(vect3 rot_est, float Z_est, int32_t timems);
+		vect6 getOutput(vect6 inputThrust);
 
 	private:
 
-		int ON_OFF;
+		uint8_t ON_OFF;
 		PIDConstants consts;
 		PIDInputData data;
 
