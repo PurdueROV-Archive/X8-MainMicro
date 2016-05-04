@@ -5,6 +5,7 @@ Purdue IEEE ROV
 */
 
 #include "main.h"
+#include <math.h>
 
 #ifndef __MATRICES__H
 #define __MATRICES__H
@@ -99,4 +100,6 @@ matrix2_2 matMul_22x22(matrix2_2, matrix2_2);
 
 matrix2_2 invert2_2(matrix2_2);
 
+vect3 rotate2earth(vect3 vec, vect3 rot);
+vect3 rotate2body( vect3 vec, vect3 rot);
 #endif

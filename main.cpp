@@ -151,7 +151,7 @@ int main(void) {
 
 			// Pressure Sensor:
 			// Commented out until I2C isn't locking up
-			pressure_mbar = pressure.getPressure(ADC_4096); // Returns mbar pressure from sensor.
+			pressure_mbar = pressure.getPressure(ADC_512); // Returns mbar pressure from sensor. 512 ~ 0.5 mm error 1 ms read time
 
 			// Pressure Debug Test:
 			if (pressure_mbar > 500 && pressure_mbar < 1500) {
