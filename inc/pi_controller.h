@@ -38,8 +38,11 @@ typedef struct {
 
 	// Last Force vector calculated from the PID controller (from the last time getOutput was called).
 	vect3 lastForce;
+	float Z_lastForce;
 	// Integral sum
 	vect3 integralSum;
+	float Z_integralSum;
+
 	uint32_t lastTime;
 	uint32_t timeDiff;
 

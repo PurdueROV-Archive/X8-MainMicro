@@ -55,7 +55,7 @@ void PIController::set_ref(vect3 rot_ref, float Z_ref)
 	data.Z_ref = Z_ref;
 }
 
-void PIController::set_PI(float newP_R, float newI_R, float newP_Z, float newI_Z, uint8_t state)
+void PIController::set_PI(float newP_rot, float newI_rot, float newP_Z, float newI_Z, uint8_t state)
 {
 
 	// Sets new PI gains for the controller
@@ -121,7 +121,7 @@ void PIController::sensorInput(vect3 rot_est, float Z_est, int32_t timems)
 	data.lastTime = timems;
 	// if lastTime is 0, then this is the first update since the PI controller has been turned on.
 
-	data.rot_set = rot_est;
+	data.rot_est = rot_est;
 	data.rot_error = sub(data.rot_ref, rot_est);
 	//data.rot_error_vel = rot_est_vel;
 
@@ -147,7 +147,7 @@ void PIController::sensorInput(vect3 rot_est, float Z_est, int32_t timems)
 vect6 PIController::getOutput(vect6 FORCE)
 {
 	if (ON_OFF == OFF)
-		return data.rot_ref;
+		return FORCE;
 
 	if(ON_OFF == 0x01){
 		data.lastForce.x = data.CObias.x + consts.P_rot * data.rot_error.x + consts.I_rot * data.integralSum.x;
@@ -173,5 +173,5 @@ vect6 PIController::getOutput(vect6 FORCE)
 	}
 
 
-	return data.lastForce;
+	return FORCE;
 }
