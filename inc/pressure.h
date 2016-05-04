@@ -140,7 +140,7 @@ class Pressure
 
         double sealevel(double P, double A); // See instructions above for general use
         double altitude(double P, double A);
-
+        int32_t depth(void);
 
 
     private:

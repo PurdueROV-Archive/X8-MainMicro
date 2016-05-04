@@ -106,14 +106,17 @@ void PIController::sensorInput(vect3 rot_est, vect3 rot_est_vel, uint32_t timems
 	data.timeDiff = timems - data.lastTime;
 	data.lastTime = timems;
 	// if lastTime is 0, then this is the first update since the PI controller has been turned on.
+
+	data.rot_est = sub(data.rot_ref, rot_est);
+	//data.rot_est_vel = rot_est_vel;
+
 	if (data.lastTime != 0)
 	{
 		data.integralSum.x += data.rot_est.x * data.timeDiff;
 		data.integralSum.y += data.rot_est.y * data.timeDiff;
 		data.integralSum.z += data.rot_est.z * data.timeDiff;
 	}
-	data.rot_est = rot_est;
-	data.rot_est_vel = rot_est_vel;
+
 }
 
 // Computes the resultant force vector to achieve the desired rotational orientation using the PI Controller.
