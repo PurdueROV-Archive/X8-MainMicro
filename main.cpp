@@ -139,27 +139,31 @@ int main(void) {
     
     overseer->update(vect6Make(0,0,0,0,0,0), vect3Make(0,0,0), 0);
 
+
 	while (1) {
 
 		if (RECEIVED_NEW_DATA) {
 
 			// IMU Sensor:
 			// Commented out until I2C isn't locking up
-			imu.get_linear_accel(); // Gets linear movement
+			//imu.get_linear_accel(); // Gets linear movement
+			LedOn(BLUE);
 			imu.retrieve_euler(); // Gets angular movement
+			LedOff(BLUE);
 			
 
 			// Pressure Sensor:
 			// Commented out until I2C isn't locking up
+			LedOn(BLUE);
 			pressure_mbar = pressure.getPressure(ADC_512); // Returns mbar pressure from sensor. 512 ~ 0.5 mm error 1 ms read time
+			LedOff(BLUE);
 
 			// Pressure Debug Test:
 			if (pressure_mbar > 500 && pressure_mbar < 1500) {
-				LedToggle(RED);
+				LedOn(RED);
             }
-			
-			
-			
+
+
 			// PID Controller:
 			// Commented out until IMU working
 			// Update piController's sensor data and compute its PID modulated output to the Rotational force vector.
@@ -182,7 +186,7 @@ int main(void) {
 			packetOut->setIMU_Lz(imu.lZ());	// Linear z
 			packetOut->setIMU_Rx(imu.rX());	// Rotational x 
 			packetOut->setIMU_Ry(imu.rY());	// Rotational y 
-			packetOut->setIMU_Rz(imu.rZ());	// Rotational z 
+			packetOut->setIMU_Rz(imu.rZ());	// Rotational z
 			
 
 
@@ -204,24 +208,24 @@ int main(void) {
 			memcpy(&hcan2.pTxMsg->Data[1], &thrusters[0], 6);
 			hcan2.pTxMsg->Data[7] = packet->getHydraulicsPump();
 			
-			// Send the longitudinal forces
-			if (HAL_CAN_Transmit(&hcan2, 100) == HAL_OK) {
-				LedOn(BLUE);
-			} else {
-				LedOff(BLUE);
-			}
-
-			// Sets the info for the rotational forces
-			hcan2.pTxMsg->Data[0] =	'R';
-			memcpy(&hcan2.pTxMsg->Data[1], &thrusters[3], 6);
-			//hcan2.pTxMsg->Data[7] = packet->getPIDControl(); //The PID Control byte
-
-			// Send the rotational forces
-			if (HAL_CAN_Transmit(&hcan2, 100) == HAL_OK) {
-				LedOn(BLUE);
-			} else {
-				LedOff(BLUE);
-			}
+//			// Send the longitudinal forces
+//			if (HAL_CAN_Transmit(&hcan2, 100) == HAL_OK) {
+//				LedOn(BLUE);
+//			} else {
+//				LedOff(BLUE);
+//			}
+//
+//			// Sets the info for the rotational forces
+//			hcan2.pTxMsg->Data[0] =	'R';
+//			memcpy(&hcan2.pTxMsg->Data[1], &thrusters[3], 6);
+//			//hcan2.pTxMsg->Data[7] = packet->getPIDControl(); //The PID Control byte
+//
+//			// Send the rotational forces
+//			if (HAL_CAN_Transmit(&hcan2, 100) == HAL_OK) {
+//				LedOn(BLUE);
+//			} else {
+//				LedOff(BLUE);
+//			}
 
 
 		    // Send packet data back up

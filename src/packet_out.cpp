@@ -70,27 +70,27 @@ void PacketOut::setTemp(float data){
 }
 
 void PacketOut::setIMU_Lx(int16_t data){
-    memcpy(&packetData[11], &data, 4);
+    memcpy(&packetData[11], &data, 2);
 }
 
 void PacketOut::setIMU_Ly(int16_t data){
-    memcpy(&packetData[13], &data, 4);
+    memcpy(&packetData[13], &data, 2);
 }
 
 void PacketOut::setIMU_Lz(int16_t data){
-    memcpy(&packetData[15], &data, 4);
+    memcpy(&packetData[15], &data, 2);
 }
 
 void PacketOut::setIMU_Rx(int16_t data){
-    memcpy(&packetData[17], &data, 4);
+    memcpy(&packetData[17], &data, 2);
 }
 
 void PacketOut::setIMU_Ry(int16_t data){
-    memcpy(&packetData[19], &data, 4);
+    memcpy(&packetData[19], &data, 2);
 }
 
 void PacketOut::setIMU_Rz(int16_t data){
-    memcpy(&packetData[21], &data, 4);
+    memcpy(&packetData[21], &data, 2);
 }
 
 void PacketOut::send() {

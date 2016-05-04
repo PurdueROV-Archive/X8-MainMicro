@@ -80,7 +80,7 @@ class Overseer
         //Arduino_I2C_ESC motor(0x29); //[8];
         vect8 currentDeliveredThrust;
         int usePWM;
-        int16_t* thrusterValues;
+        int16_t thrusterValues[8];
 };
 
 #endif

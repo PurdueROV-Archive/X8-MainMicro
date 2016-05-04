@@ -57,9 +57,9 @@ bool IMU::retrieve_euler(void) {
 	HAL_I2C_Master_Receive_DMA(I2C_handler, (0x28 << 1), dt, 6);
     this->i2c_wait();
 
-	xAngle = ((char) dt[1] << 8 | (char) dt[0]);
-	yAngle = ((char) dt[3] << 8 | (char) dt[2]);
-	zAngle = ((char) dt[5] << 8 | (char) dt[4]);
+	zAngle = ((char) dt[1] << 8 | (char) dt[0]);
+	xAngle = ((char) dt[3] << 8 | (char) dt[2]);
+	yAngle = ((char) dt[5] << 8 | (char) dt[4]);
 
 	return true;
 }
