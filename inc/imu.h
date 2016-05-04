@@ -41,29 +41,31 @@ public:
     void get_linear_accel(void);
 
     // Rotational
-    double rX(void);
+    int16_t rX(void);
 
-    double rY(void);
+    int16_t rY(void);
 
-    double rZ(void);
+    int16_t rZ(void);
 
     // Linear
-    double lX(void);
+    int16_t lX(void);
 
-    double lY(void);
+    int16_t lY(void);
 
-    double lZ(void);
+    int16_t lZ(void);
 
 
 
 private:
 
     I2C_HandleTypeDef* I2C_handler;
-    double xAngle;
-    double yAngle;
-    double zAngle;
+    int16_t xAngle;
+    int16_t yAngle;
+    int16_t zAngle;
+
 	uint8_t dt[10];
-    double la[3];   // Linear Acceleration vector, [x,y,z].
+    int16_t la[3];   // Linear Acceleration vector, [x,y,z].
+
     uint8_t select_page(uint8_t page);
     void change_fusion_mode(uint8_t mode);
     uint8_t check_operating_mode(void);
@@ -72,6 +74,8 @@ private:
     uint8_t ready_flag;
     uint8_t  bootldr_rev_id;
     uint16_t sw_rev_id;
+
+    void i2c_wait(int8_t timeout = 5);
 };
 
 #endif

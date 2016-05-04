@@ -22,8 +22,8 @@
 #define MAX(x,y) ((x > y) ? (x) : (y))
 #define MIN(x,y) ((x > y) ? (y) : (x))
 
-#define Main_Camera_Servo_PWM_Pin       GPIO_PIN_0
-#define Main_Camera_Servo_PWM_GPIO_Port GPIOA
+#define Main_Camera_Servo_PWM_Pin       GPIO_PIN_4
+#define Main_Camera_Servo_PWM_GPIO_Port GPIOB
 #define Alt_Camera_Servo_PWM_Pin        GPIO_PIN_3
 #define Alt_Camera_Servo_PWM_GPIO_Port  GPIOA
 #define Sonar_DAC_Pin                   GPIO_PIN_4

@@ -1,41 +1,30 @@
 /* Packet index and corresponding values
  *
  * 00 	Header      0x12 - 18 decimal
- * 01 	Ths. Status 1 bit per thruster
- * 02  Pressure-1  32-bit float
- * 03  Pressure-2  32-bit float
- * 04  Pressure-3  32-bit float
- * 05  Pressure-4  32-bit float
- * 06  Temp-1      32-bit float
- * 07  Temp-2      32-bit float
- * 08  Temp-3      32-bit float
- * 09  Temp-4      32-bit float
- * 10  IMU Lx-1    32-bit float
- * 11  IMU Lx-2    32-bit float
- * 12  IMU Lx-3    32-bit float
- * 13  IMU Lx-4    32-bit float
- * 14  IMU Ly-1    32-bit float
- * 15  IMU Ly-2    32-bit float
- * 16  IMU Ly-3    32-bit float
- * 17  IMU Ly-4    32-bit float
- * 18  IMU Lz-1    32-bit float
- * 19  IMU Lz-2    32-bit float
- * 20  IMU Lz-3    32-bit float
- * 21  IMU Lz-4    32-bit float
- * 22  IMU Rx-1    32-bit float
- * 23  IMU Rx-2    32-bit float
- * 24  IMU Rx-3    32-bit float
- * 25  IMU Rx-4    32-bit float
- * 26  IMU Ry-1    32-bit float
- * 27  IMU Ry-2    32-bit float
- * 28  IMU Ry-3    32-bit float
- * 29  IMU Ry-4    32-bit float
- * 30  IMU Rz-1    32-bit float
- * 31  IMU Rz-2    32-bit float
- * 32  IMU Rz-3    32-bit float
- * 33  IMU Rz-4    32-bit float
- * 34  CRC8 Check  Use 0xD5 as polynomial
- * 35  Tail Byte   0x13 - 19 decimal
+ * 01   Packet Type 0x01 - Sensor Data
+ * 02 	Ths. Status 1 bit per thruster
+ * 03   Pressure-1  32-bit float
+ * 04   Pressure-2  32-bit float
+ * 05   Pressure-3  32-bit float
+ * 06   Pressure-4  32-bit float
+ * 07   Temp-1      32-bit float
+ * 08   Temp-2      32-bit float
+ * 09   Temp-3      32-bit float
+ * 10   Temp-4      32-bit float
+ * 11   IMU Lx-1    Signed int (16 bit)
+ * 12   IMU Lx-2    Signed int (16 bit)
+ * 13   IMU Ly-1    Signed int (16 bit)
+ * 14   IMU Ly-2    Signed int (16 bit)
+ * 15   IMU Lz-1    Signed int (16 bit)
+ * 16   IMU Lz-2    Signed int (16 bit)
+ * 17   IMU Rx-1    Signed int (16 bit)
+ * 18   IMU Rx-2    Signed int (16 bit)
+ * 19   IMU Ry-1    Signed int (16 bit)
+ * 20   IMU Ry-2    Signed int (16 bit)
+ * 21   IMU Rz-1    Signed int (16 bit)
+ * 22   IMU Rz-2    Signed int (16 bit)
+ * 23   CRC8 Check  Use 0xD5 as polynomial
+ * 24   Tail Byte   0x13 - 19 decimal
  */
 
 
@@ -44,8 +33,8 @@
 
 //use constructor and add header and tail byte
 PacketOut::PacketOut() {
-    Dataup[0]=0x12;
-    Dataup[PACKET_OUT_LENGTH-1]=0x13;
+    packetData[0]                   = 0x12;
+    packetData[PACKET_OUT_LENGTH-1] = 0x13;
 }
 
 //make checksum function
@@ -67,45 +56,46 @@ char PacketOut::checksum(char *bytes) {
     return crc;
 }
 
-void PacketOut::setThrusterStatus(uint32_t data){
-    memcpy(&Dataup[1], &data, 1);
+void PacketOut::setThrusterStatus(uint16_t data){
+    memcpy(&packetData[2], &data, 1);
 }
 
 void PacketOut::setPressure(float data){
-    memcpy(&Dataup[2], &data, 4);
+    memcpy(&packetData[3], &data, 4);
 }
 
-void PacketOut::setTemp(uint32_t data){
-    memcpy(&Dataup[6], &data, 4);
+void PacketOut::setTemp(float data){
+    memcpy(&packetData[7], &data, 4);
 }
 
-void PacketOut::setIMU_Lx(float data){
-    memcpy(&Dataup[10], &data, 4);
+void PacketOut::setIMU_Lx(int16_t data){
+    memcpy(&packetData[11], &data, 4);
 }
 
-void PacketOut::setIMU_Ly(float data){
-    memcpy(&Dataup[14], &data, 4);
+void PacketOut::setIMU_Ly(int16_t data){
+    memcpy(&packetData[13], &data, 4);
 }
 
-void PacketOut::setIMU_Lz(float data){
-    memcpy(&Dataup[18], &data, 4);
+void PacketOut::setIMU_Lz(int16_t data){
+    memcpy(&packetData[15], &data, 4);
 }
 
-void PacketOut::setIMU_Rx(float data){
-    memcpy(&Dataup[22], &data, 4);
+void PacketOut::setIMU_Rx(int16_t data){
+    memcpy(&packetData[17], &data, 4);
 }
 
-void PacketOut::setIMU_Ry(float data){
-    memcpy(&Dataup[26], &data, 4);
+void PacketOut::setIMU_Ry(int16_t data){
+    memcpy(&packetData[19], &data, 4);
 }
 
-void PacketOut::setIMU_Rz(float data){
-    memcpy(&Dataup[30], &data, 4);
+void PacketOut::setIMU_Rz(int16_t data){
+    memcpy(&packetData[21], &data, 4);
 }
 
 void PacketOut::send() {
+    //Compute checksum
+    packetData[PACKET_OUT_LENGTH-2] = checksum((char*) packetData);
 
-    Dataup[PACKET_OUT_LENGTH-2] = checksum((char*)Dataup);
-
-    HAL_UART_Transmit_DMA(&huart3, Dataup, PACKET_OUT_LENGTH);
+    //Send
+    HAL_UART_Transmit_DMA(&huart3, packetData, PACKET_OUT_LENGTH);
 }
