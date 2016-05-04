@@ -5,6 +5,7 @@
 #include "stm32f4xx_hal_dma.h"
 #include "stm32f4xx_hal_i2c.h"
 #include "main.h"
+#include "matrices.h"
 
 #define IMU_PAGE_ID             0x07
 #define IMU_EULER_H_LSB         0x1a
@@ -54,7 +55,7 @@ public:
 
     int16_t lZ(void);
 
-
+    vect3 get_rot(void);
 
 private:
 

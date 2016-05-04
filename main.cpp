@@ -124,10 +124,10 @@ int main(void) {
 
 	// PIController inits
 	PIController piController = PIController();
-	piController.start();
-	piController.setNewRotation(vect3Make(0,0,0));
-	piController.setNewP(0.001);
-	piController.setNewI(0.001);
+	//piController.start();
+	//piController.setNewRotation(vect3Make(0,0,0));
+	//piController.setNewP(0.001);
+	//piController.setNewI(0.001);
 
 	// Can Packet Size Init
 	hcan2.pTxMsg->DLC = 8;
@@ -164,9 +164,9 @@ int main(void) {
 			// Commented out until IMU working
 			// Update piController's sensor data and compute its PID modulated output to the Rotational force vector.
 
-			piController.sensorInput(vect3Make((int16_t) (imu.rX() * 1000), (int16_t) (imu.rY() * 1000), (int16_t) (imu.rZ() * 1000)),
-			vect3Make((int16_t) (imu.lX() * 1000), (int16_t) (imu.lY() * 1000), (int16_t) (imu.lZ() * 1000)), HAL_GetTick());
-			force_output.R = piController.getOutput();
+			piController.sensorInput(imu.get_rot(), pressure.depth() ,HAL_GetTick());
+			
+			force_output = piController.getOutput(force_output);
 
             
             overseer->update(force_output, vect3Make(0,0,0), 255);

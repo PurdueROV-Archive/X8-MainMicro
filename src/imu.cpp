@@ -114,6 +114,17 @@ int16_t IMU::lZ(void){
 	return la[2];
 }
 
+// Returns the rotation as a vect3
+vect3 IMU::get_rot(void){
+	vect3 output;
+
+	output.x = xAngle;
+	output.y = yAngle;
+	output.z = zAngle;
+
+	return output;
+}
+
 uint8_t IMU::select_page(uint8_t page) {
 	if (page != page_flag){
 		dt[0] = IMU_PAGE_ID;
