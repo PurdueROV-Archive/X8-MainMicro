@@ -72,8 +72,8 @@ class PIController
 	public:
 
 		PIController(void);
-		void stop(void);
-		void start(void);
+		//void stop(void);
+		//void start(void);
 		void set_ref(vect6 user_input);
 		void updateRotation(vect3 rot_ref);
 		void set_PI(int16_t* PIDTuning, uint8_t state);

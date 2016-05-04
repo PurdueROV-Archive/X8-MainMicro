@@ -37,6 +37,7 @@ int Pressure::reset(void)
 uint8_t Pressure::begin(void)
 // Initialize library for subsequent Pressure measurements
 {  
+    count = 0;
     uint8_t i;
     char data[2];
     char ack[8];
@@ -59,52 +60,19 @@ uint8_t Pressure::begin(void)
     }
     return 0;
 }
-    
 
-float Pressure::getTemperature(temperature_units units, precision _precision)
-// Return a temperature reading in either F or C.
-{
-    getMeasurements(_precision);
-    if (_temperature_actual == 0)
-        return 0;
-    float temperature_reported;
-    // If Fahrenheit is selected return the temperature converted to F
-    if(units == FAHRENHEIT) {
-        temperature_reported = _temperature_actual / 100.0;
-        temperature_reported = (((temperature_reported) * 9) / 5) + 32;
-        return temperature_reported;
-    }
-        
-    // If Celsius is selected return the temperature converted to C 
-    else {
-        temperature_reported = _temperature_actual / 100.0;
-        return temperature_reported;
-    }
-}
 
-float Pressure::getPressure(precision _precision)
-// Return a pressure reading units Pa.
-{
-    getMeasurements(_precision);
-    if (_pressure_actual == 0 )
-        return 0;
-    float pressure_reported;
-    pressure_reported = _pressure_actual;
-    pressure_reported = pressure_reported / 10.0;
-    return pressure_reported;
-}
-
-void Pressure::getMeasurements(precision _precision)
+float Pressure::convert2mBar(void)
 // private function used by getPressure and getTemperature. Performs ~90% of math in library.
 {
     
     //Retrieve ADC result
-    int32_t temperature_raw = getADCconversion(TEMPERATURE_, _precision);
-    int32_t pressure_raw = getADCconversion(PRESSURE_, _precision);
+    //int32_t temperature_raw = getADCconversion(TEMPERATURE, _precision);
+    //int32_t pressure_raw = getADCconversion(PRESSURE, _precision);
     
     //Create Variables for calculations
     int32_t temp_calc;
-    int32_t pressure_calc;
+
     
     int32_t dT;
         
@@ -147,42 +115,57 @@ void Pressure::getMeasurements(precision _precision)
     SENS = SENS - SENS2;
 
     // Now lets calculate the pressure
-    
-
-    pressure_calc = (((SENS * pressure_raw) / 2097152 ) - OFF) / 32768;
+    float pressure_calc;
+    pressure_calc = (float)(((SENS * pressure_raw) / 2097152.0 ) - OFF) / 327680.0;
     
     _temperature_actual = temp_calc ;
     _pressure_actual = pressure_calc ;
-    
+
+    return pressure_calc;
+
 }
 
-uint32_t Pressure::getADCconversion(measurement _measurement, precision _precision)
-// Retrieve ADC measurement from the device.  
-// Select measurement type and precision
-{   
-    uint32_t result;
-    
-    sendCommand(CMD_ADC_CONV + _measurement + _precision);
-    // Wait for conversion to complete
-    sensorWait(1); //general delay
-    switch( _precision )
-    { 
+void Pressure::ADC_begin(precision _precision){
+
+    /* Start a new conversion, make sure to spend
         case ADC_256 : sensorWait(1); break; 
         case ADC_512 : sensorWait(3); break; 
         case ADC_1024: sensorWait(4); break; 
         case ADC_2048: sensorWait(6); break; 
-        case ADC_4096: sensorWait(10); break; 
-    }   
+        case ADC_4096: sensorWait(10); break;
+        Doing other stuff before calling ADC_read to read the data 
+        */
+
+    measurement _measurement;
     
+    if(count == 0)
+        _measurement = TEMPERATURE_;
+    else
+        _measurement = PRESSURE_;
+
+    sendCommand(CMD_ADC_CONV + _measurement + _precision);
+}
+
+// Read the result conversion that begun with ADC_begin, see that function for time constraints.
+uint32_t Pressure::ADC_read(void){
+    uint32_t result;
+
     sendCommand(CMD_ADC_READ);
     char data[3];
     I2Cread(_address, data, 3);
 
     result = ((uint32_t)data[0] << 16) + ((uint32_t)(data[1] << 8)) + data[2];
     
+    if(count == 0)
+        temperature_raw = result;
+    else
+        pressure_raw = result;
+
+    count++;
+
     return result;
 
-} 
+}
 
 int Pressure::sendCommand(uint8_t command)
 {
@@ -229,23 +212,6 @@ int Pressure::I2Cread(int address, char* data, int length)
     }
 
     return I2C_DMA_ERROR;
-}
-
-
-double Pressure::sealevel(double P, double A)
-// Given a pressure P (mbar) taken at a specific altitude (meters),
-// return the equivalent pressure (mbar) at sea level.
-// This produces pressure readings that can be used for weather measurements.
-{
-    return(P/pow(1-(A/44330.0),5.255));
-}
-
-
-double Pressure::altitude(double P, double P0)
-// Given a pressure measurement P (mbar) and the pressure at a baseline P0 (mbar),
-// return altitude (meters) above baseline.
-{
-    return(44330.0*(1-pow(P/P0,1/5.255)));
 }
 
 

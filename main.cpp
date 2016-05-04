@@ -122,6 +122,9 @@ int main(void) {
 	pressure.reset();
 	pressure.begin();
 
+	pressure.ADC_begin( ADC_4096 );
+	HAL_Delay(10);
+
 	// PIController inits
 	PIController piController = PIController();
 	//piController.start();
@@ -144,18 +147,11 @@ int main(void) {
 
 		if (RECEIVED_NEW_DATA) {
 
-			// IMU Sensor:
-			// Commented out until I2C isn't locking up
-			//imu.get_linear_accel(); // Gets linear movement
-			LedOn(BLUE);
-			imu.retrieve_euler(); // Gets angular movement
-			LedOff(BLUE);
-			
-
 			// Pressure Sensor:
 			// Commented out until I2C isn't locking up
 			LedOn(BLUE);
-			pressure_mbar = pressure.getPressure(ADC_512); // Returns mbar pressure from sensor. 512 ~ 0.5 mm error 1 ms read time
+			pressure.ADC_read();
+			pressure_mbar = pressure.convert2mBar();
 			LedOff(BLUE);
 
 			// Pressure Debug Test:
@@ -163,6 +159,16 @@ int main(void) {
 				LedOn(RED);
             }
 
+			// IMU Sensor:
+			// Commented out until I2C isn't locking up
+			//imu.get_linear_accel(); // Gets linear movement
+			LedOn(BLUE);
+			imu.retrieve_euler(); // Gets angular movement
+			LedOff(BLUE);
+
+
+           	// THIS HAS TO BE THE LAST I2C THING for this line IN THE LOOP, add all other readings before.
+            pressure.ADC_begin(ADC_4096);
 
 			// PID Controller:
 			// Commented out until IMU working
