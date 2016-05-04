@@ -13,8 +13,10 @@ PIController::PIController(void)
 	data.Z_error = 0;
 
 	data.lastForce = vect3Make(0,0,0);
+	data.Z_lastForce = 0;
 	data.CObias = vect3Make(0,0,0);
 	data.integralSum = vect3Make(0,0,0);
+	data.Z_integralSum = 0;
 	data.lastTime = 0;
 	data.timeDiff = 0;
 
@@ -47,26 +49,74 @@ void PIController::start(void)
 	ON_OFF = OFF;
 }
 */
-// Sets new target rotation orientation.
-// Perform this method even when PI is off.
-void PIController::set_ref(vect3 rot_ref, float Z_ref)
-{
-	data.rot_ref = rot_ref;
-	data.Z_ref = Z_ref;
-}
 
-void PIController::set_PI(float newP_rot, float newI_rot, float newP_Z, float newI_Z, uint8_t state)
+void PIController::set_PI(int16_t* PIDTuning, uint8_t state)
 {
 
 	// Sets new PI gains for the controller
 	// Proportional constant
-	consts.P_rot = newP_rot;
-	consts.P_Z = newP_Z;
+	consts.P_rot = PIDTuning[0];
+	consts.P_Z = PIDTuning[1];
 	// Integral Constant = controller gain / reset time
-	consts.I_rot = newI_rot;
-	consts.I_Z = newI_Z;
+	consts.I_rot = PIDTuning[2];
+	consts.I_Z = PIDTuning[3];
 
+	// Check for changes in the bits. If something is turned on, reset the reference to the current value = "LOCK"
+	if((ON_OFF ^ state) & 0x01)
+		if(state & 0x01) //turned ON?
+			data.rot_ref.x = data.rot_est.x; // Set it to the latest estimate
+
+	if((ON_OFF ^ state) & 0x02)
+		if(state & 0x02) //turned ON?
+			data.rot_ref.y = data.rot_est.y; // Set it to the latest estimate
+
+	if((ON_OFF ^ state) & 0x04)
+		if(state & 0x04) //turned ON?
+			data.rot_ref.z = data.rot_est.z; // Set it to the latest estimate
+
+	if((ON_OFF ^ state) & 0x20)
+		if(state & 0x20) //turned ON?
+			data.Z_ref = data.Z_est; // Set it to the latest estimate
+
+	// Finnaly apply the full state
 	ON_OFF = state;
+}
+
+// Sets new target rotation orientation.
+// Target is in the force_input vector from the battle station, only read the parts that actually are stabilized
+void PIController::set_ref(vect6 user_input)
+{
+
+	if(ON_OFF == 0x01){
+		data.rot_ref.x += user_input.R.x/455;  //450 deg/s
+
+		if(data.rot_ref.x >= 1120) // if tilting more than 1120 degrees
+			data.rot_ref.x == 1120;
+		else if(data.rot_ref.x <= -1120)
+			data.rot_ref.x == -1120;
+	}
+
+	if(ON_OFF == 0x02){
+		data.rot_ref.y += user_input.R.y/455;
+
+		if(data.rot_ref.y >= 1120) // if tilting more than 1120 degrees
+			data.rot_ref.y == 1120;
+		else if(data.rot_ref.y <= -1120)
+			data.rot_ref.y == -1120;
+	}
+
+	if(ON_OFF == 0x04){
+		data.rot_ref.z += user_input.R.z/455;
+
+		if(data.rot_ref.z >= 5760) // if tilting more than 1120 degrees
+			data.rot_ref.z -= 5760;
+		else if(data.rot_ref.z <= 0)
+			data.rot_ref.z += 5760;
+	}
+
+	if(ON_OFF == 0x20){
+		data.Z_ref += user_input.L.z/3276.8; // 1 m/s as maximum speed
+	}
 }
 
 // When driving in stabilized mode, add the sent rotation
@@ -125,6 +175,7 @@ void PIController::sensorInput(vect3 rot_est, float Z_est, int32_t timems)
 	data.rot_error = sub(data.rot_ref, rot_est);
 	//data.rot_error_vel = rot_est_vel;
 
+	data.Z_est = Z_est;
 	data.Z_error = data.Z_ref - Z_est;
 
 	if (data.lastTime != 0)

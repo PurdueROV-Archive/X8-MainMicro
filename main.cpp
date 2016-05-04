@@ -163,7 +163,8 @@ int main(void) {
 			// PID Controller:
 			// Commented out until IMU working
 			// Update piController's sensor data and compute its PID modulated output to the Rotational force vector.
-
+            piController.set_PI( packet->getPIDTuning(), packet->getPIDControl() );
+            piController.set_ref( force_output );
 			piController.sensorInput(imu.get_rot(), pressure.depth() ,HAL_GetTick());
 			
 			force_output = piController.getOutput(force_output);

@@ -12,11 +12,11 @@
 typedef struct {
 
 	// Proportional Constant = controller gain
-	float P_rot;
-	float P_Z;
+	int P_rot;
+	int P_Z;
 	// Integral Constant = controller gain / reset time
-	float I_rot;
-	float I_Z;
+	int I_rot;
+	int I_Z;
 
 
 
@@ -34,6 +34,7 @@ typedef struct {
 	
 	// Z depth reference and error
 	float Z_ref;
+	float Z_est;
 	float Z_error;
 
 	// Last Force vector calculated from the PID controller (from the last time getOutput was called).
@@ -73,9 +74,9 @@ class PIController
 		PIController(void);
 		void stop(void);
 		void start(void);
-		void set_ref(vect3 rot_ref, float Z_ref);
+		void set_ref(vect6 user_input);
 		void updateRotation(vect3 rot_ref);
-		void set_PI(float newP_R, float newI_R, float newP_Z, float newI_Z, uint8_t state);
+		void set_PI(int16_t* PIDTuning, uint8_t state);
 		void sensorInput(vect3 rot_est, float Z_est, int32_t timems);
 		vect6 getOutput(vect6 inputThrust);
 

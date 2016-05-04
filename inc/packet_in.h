@@ -41,7 +41,7 @@ private:
     uint8_t leds;
     uint8_t thruster;
     uint8_t PIDControl;
-    int16_t PIDTuning[3];
+    int16_t PIDTuning[4];
     int8_t  PIDPivot[3];
 };
 
