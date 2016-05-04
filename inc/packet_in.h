@@ -6,7 +6,7 @@
 #include "main.h"
 
 
-#define PACKET_IN_LENGTH	31
+#define PACKET_IN_LENGTH	33
 #define HEADER              0x12
 #define TAIL                0x13
 

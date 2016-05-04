@@ -38,10 +38,11 @@ PacketOut::PacketOut() {
 }
 
 //make checksum function
-char PacketOut::checksum(char *bytes) {
+char PacketOut::checksum(char* bytes) {
     char crc = 0;
     char val;
     char mix;
+
     for (int i = 1; i < PACKET_OUT_LENGTH - 2; ++i) {
         val = bytes[i];
         for (int j = 8; j; --j) {
