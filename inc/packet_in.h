@@ -6,7 +6,7 @@
 #include "main.h"
 
 
-#define PACKET_IN_LENGTH	31
+#define PACKET_IN_LENGTH	33
 #define HEADER              0x12
 #define TAIL                0x13
 
@@ -41,7 +41,7 @@ private:
     uint8_t leds;
     uint8_t thruster;
     uint8_t PIDControl;
-    int16_t PIDTuning[3];
+    int16_t PIDTuning[4];
     int8_t  PIDPivot[3];
 };
 
