@@ -32,9 +32,7 @@ IMU::IMU(I2C_HandleTypeDef* handler) {
 	la[1] = 0.0;
 	la[2] = 0.0;
 	HAL_I2C_Master_Transmit_DMA(I2C_handler, (0x28 << 1), dt, 2);
-	printString("Wait.\r\n");
-	while (HAL_I2C_GetState(I2C_handler) != HAL_I2C_STATE_READY) 
-		printString("Waiting...\r\n");//(HAL_I2C_GetState(I2C_handler));//HAL_Delay(1);
+    this->i2c_wait();
 
 	uint8_t chip_mode = 0x08;
 	change_fusion_mode(chip_mode);
@@ -49,114 +47,70 @@ bool IMU::retrieve_euler(void) {
      * if you want to get new angle data
      */
 
-	uint8_t deg_or_rad;
-	int16_t x, y, z;
-
 	select_page(0);
-	dt[0] = IMU_UNIT_SEL;
-
-	// Request data? Unit
-	HAL_I2C_Master_Transmit_DMA(I2C_handler, (0x28 << 1), dt, 1);
-	// Received or ready to recive? Better to make sure we call it at a suitable rate than adding a delay here.
-	while (HAL_I2C_GetState(I2C_handler) != HAL_I2C_STATE_READY) HAL_Delay(1);
-
-	HAL_I2C_Master_Receive_DMA(I2C_handler, (0x28 << 1), dt, 1);
-	while (HAL_I2C_GetState(I2C_handler) != HAL_I2C_STATE_READY) HAL_Delay(1);
-
-	//HAL_Delay(50);
-	deg_or_rad = (char)dt[0] & 0x04;
 
 	dt[0] = IMU_EULER_H_LSB;
 
 	HAL_I2C_Master_Transmit_DMA(I2C_handler, (0x28 << 1), dt, 1);
-	while (HAL_I2C_GetState(I2C_handler) != HAL_I2C_STATE_READY) HAL_Delay(1);
+    this->i2c_wait();
 
 	HAL_I2C_Master_Receive_DMA(I2C_handler, (0x28 << 1), dt, 6);
-	while (HAL_I2C_GetState(I2C_handler) != HAL_I2C_STATE_READY) HAL_Delay(1);
+    this->i2c_wait();
 
-	//HAL_Delay(50);
+	xAngle = ((char) dt[1] << 8 | (char) dt[0]);
+	yAngle = ((char) dt[3] << 8 | (char) dt[2]);
+	zAngle = ((char) dt[5] << 8 | (char) dt[4]);
 
-	x = (char)dt[1] << 8 | (char)dt[0];
-	y = (char)dt[3] << 8 | (char)dt[2];
-	z = (char)dt[5] << 8 | (char)dt[4];
-
-	if (deg_or_rad) {
-		xAngle = (double)x / 900;
-		yAngle = (double)y / 900;
-		zAngle = (double)z / 900;
-	} else {
-		xAngle = (double)x / 16;
-		yAngle = (double)y / 16;
-		zAngle = (double)z / 16;
-	}
 	return true;
 }
 
 
 void IMU::get_linear_accel(void)
 {
-	uint8_t ms2_or_mg;
-	int16_t x,y,z;
-
 	select_page(0);
-	dt[0] = IMU_UNIT_SEL;
-	HAL_I2C_Master_Transmit_DMA(I2C_handler, (0x28 << 1), dt, 1);
-	while (HAL_I2C_GetState(I2C_handler) != HAL_I2C_STATE_READY) HAL_Delay(1);
-	HAL_I2C_Master_Receive_DMA(I2C_handler, (0x28 << 1), dt, 1);
-	while (HAL_I2C_GetState(I2C_handler) != HAL_I2C_STATE_READY) HAL_Delay(1);
-	if (dt[0] & 0x01) {
-		ms2_or_mg = 1; // mg
-	} else {
-		ms2_or_mg = 0; // m/s*s
-	}
+
 	dt[0] = IMU_LINEAR_ACC_X_LSB;
+
 	HAL_I2C_Master_Transmit_DMA(I2C_handler, (0x28 << 1), dt, 1);
-	while (HAL_I2C_GetState(I2C_handler) != HAL_I2C_STATE_READY) HAL_Delay(1);
+    this->i2c_wait();
+
 	HAL_I2C_Master_Receive_DMA(I2C_handler, (0x28 << 1), dt, 6);
-	while (HAL_I2C_GetState(I2C_handler) != HAL_I2C_STATE_READY) HAL_Delay(1);
-	x = dt[1] << 8 | dt[0];
-	y = dt[3] << 8 | dt[2];
-	z = dt[5] << 8 | dt[4];
-	if (ms2_or_mg) {
-		la[0] = (double)x;
-		la[1] = (double)y;
-		la[2] = (double)z;
-	} else {
-		la[0] = (double)x / 100;
-		la[1] = (double)y / 100;
-		la[2] = (double)z / 100;
-	}
+    this->i2c_wait();
+
+	la[0] = ((char) dt[1] << 8 | (char) dt[0]);
+	la[1] = ((char) dt[3] << 8 | (char) dt[2]);
+	la[2] = ((char) dt[5] << 8 | (char) dt[4]);
 }
 
 
 
 //returns the angle with respect to the X axis
-double IMU::rX(void){
+int16_t IMU::rX(void){
 	return xAngle;
 }
 
 //returns the angle with respect to the Y axis
-double IMU::rY(void){
+int16_t IMU::rY(void){
 	return yAngle;
 }
 
 //returns the angle with respect to the Z axis
-double IMU::rZ(void){
+int16_t IMU::rZ(void){
 	return zAngle;
 }
 
 //returns the linear acceleration with respect to the X axis.
-double IMU::lX(void){
+int16_t IMU::lX(void){
 	return la[0];
 }
 
 //returns the linear acceleration with respect to the Y axis.
-double IMU::lY(void){
+int16_t IMU::lY(void){
 	return la[1];
 }
 
 //returns the linear acceleration with respect to the Z axis.
-double IMU::lZ(void){
+int16_t IMU::lZ(void){
 	return la[2];
 }
 
@@ -168,16 +122,17 @@ uint8_t IMU::select_page(uint8_t page) {
 		} else {
 			dt[1] = 0;  // select page 0
 		}
+
 		HAL_I2C_Master_Transmit_DMA(I2C_handler, (0x28 << 1), dt, 2);
-		while (HAL_I2C_GetState(I2C_handler) != HAL_I2C_STATE_READY) HAL_Delay(1);
+        this->i2c_wait();
 
 		dt[0] = IMU_PAGE_ID;
 
 		HAL_I2C_Master_Transmit_DMA(I2C_handler, (0x28 << 1), dt, 1);
-		while (HAL_I2C_GetState(I2C_handler) != HAL_I2C_STATE_READY) HAL_Delay(1);
+        this->i2c_wait();
 
 		HAL_I2C_Master_Receive_DMA(I2C_handler, (0x28 << 1), dt, 1);
-		while (HAL_I2C_GetState(I2C_handler) != HAL_I2C_STATE_READY) HAL_Delay(1);
+        this->i2c_wait();
 
 		page_flag = dt[0];
 	}
@@ -190,10 +145,10 @@ void IMU::check_id(void) {
 	dt[0] = IMU_CHIP_ID;
 
 	HAL_I2C_Master_Transmit_DMA(I2C_handler, (0x28 << 1), dt, 1);
-	while (HAL_I2C_GetState(I2C_handler) != HAL_I2C_STATE_READY) HAL_Delay(1);
+    this->i2c_wait();
 
 	HAL_I2C_Master_Receive_DMA(I2C_handler, (0x28 << 1), dt, 7);
-	while (HAL_I2C_GetState(I2C_handler) != HAL_I2C_STATE_READY) HAL_Delay(1);
+    this->i2c_wait();
 
 	if (dt[0] == IMU_CHIP_ID) {
 		ready_flag = 1;
@@ -225,7 +180,7 @@ void IMU::change_fusion_mode(uint8_t mode) {
 			dt[1] = mode;
 
 			HAL_I2C_Master_Transmit_DMA(I2C_handler, (0x28 << 1), dt, 2);
-			while (HAL_I2C_GetState(I2C_handler) != HAL_I2C_STATE_READY) HAL_Delay(1);
+            this->i2c_wait();
 
 			HAL_Delay(19);    // wait 19mS
 			break;
@@ -238,14 +193,14 @@ void IMU::change_fusion_mode(uint8_t mode) {
 				dt[0] = IMU_OPR_MODE;
 				dt[1] = CONFIGMODE;
 				HAL_I2C_Master_Transmit_DMA(I2C_handler, (0x28 << 1), dt, 2);
-				while (HAL_I2C_GetState(I2C_handler) != HAL_I2C_STATE_READY) HAL_Delay(1);
+                this->i2c_wait();
 
 				HAL_Delay(19);    // wait 19mS
 			}
 			dt[0] = IMU_OPR_MODE;
 			dt[1] = mode;
 			HAL_I2C_Master_Transmit_DMA(I2C_handler, (0x28 << 1), dt, 2);
-			while (HAL_I2C_GetState(I2C_handler) != HAL_I2C_STATE_READY) HAL_Delay(1);
+            this->i2c_wait();
 
 			HAL_Delay(7);
 			break;
@@ -260,10 +215,20 @@ uint8_t IMU::check_operating_mode(void) {
 	dt[0] = IMU_OPR_MODE;
 
 	HAL_I2C_Master_Transmit_DMA(I2C_handler, (0x28 << 1), dt, 1);
-	while (HAL_I2C_GetState(I2C_handler) != HAL_I2C_STATE_READY) HAL_Delay(1);
+    this->i2c_wait();
 
 	HAL_I2C_Master_Receive_DMA(I2C_handler, (0x28 << 1), dt, 1);
-	while (HAL_I2C_GetState(I2C_handler) != HAL_I2C_STATE_READY) HAL_Delay(1);
+    this->i2c_wait();
 
 	return dt[0];
 }
+
+void IMU::i2c_wait(int8_t timeout /* = 5 */) {
+	while (HAL_I2C_GetState(I2C_handler) != HAL_I2C_STATE_READY
+           && timeout-- > 0) {
+        HAL_Delay(1);
+    }
+}
+
+
+

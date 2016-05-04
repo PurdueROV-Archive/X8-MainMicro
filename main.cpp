@@ -106,12 +106,12 @@ int main(void) {
 	packetOut->setThrusterStatus(1);
 	packetOut->setPressure(1.0);
 	packetOut->setTemp(36.0);
-	packetOut->setIMU_Lx(1.0);	// Linear x
-	packetOut->setIMU_Ly(1.0);	// Linear y
-	packetOut->setIMU_Lz(1.0);	// Linear z
-	packetOut->setIMU_Rx(1.0);	// Rotational x
-	packetOut->setIMU_Ry(1.0);	// Rotational y
-	packetOut->setIMU_Rz(1.0);	// Rotational z
+	packetOut->setIMU_Lx(1);	// Linear x
+	packetOut->setIMU_Ly(1);	// Linear y
+	packetOut->setIMU_Lz(1);	// Linear z
+	packetOut->setIMU_Rx(1);	// Rotational x
+	packetOut->setIMU_Ry(1);	// Rotational y
+	packetOut->setIMU_Rz(1);	// Rotational z
 
 
 	// IMU init
