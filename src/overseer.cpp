@@ -230,16 +230,16 @@ void Overseer::doRamping(void)
 
 int16_t* Overseer::getThrusters()
 {
-    thrusters[0] = thrustMapper.thrust_map.a;
-    thrusters[1] = thrustMapper.thrust_map.b;
-    thrusters[2] = thrustMapper.thrust_map.c;
-    thrusters[3] = thrustMapper.thrust_map.d;
-    thrusters[4] = thrustMapper.thrust_map.e;
-    thrusters[5] = thrustMapper.thrust_map.f;
-    thrusters[6] = thrustMapper.thrust_map.g;
-    thrusters[7] = thrustMapper.thrust_map.h;
+    thrusterValues[0] = thrustMapper.thrust_map.a;
+    thrusterValues[1] = thrustMapper.thrust_map.b;
+    thrusterValues[2] = thrustMapper.thrust_map.c;
+    thrusterValues[3] = thrustMapper.thrust_map.d;
+    thrusterValues[4] = thrustMapper.thrust_map.e;
+    thrusterValues[5] = thrustMapper.thrust_map.f;
+    thrusterValues[6] = thrustMapper.thrust_map.g;
+    thrusterValues[7] = thrustMapper.thrust_map.h;
     
-    return thrusters;
+    return thrusterValues;
 }
 
 

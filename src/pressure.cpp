@@ -189,26 +189,24 @@ int Pressure::sendCommand(uint8_t command)
     uint8_t dataOut[1] = {command};
     HAL_StatusTypeDef status = HAL_I2C_Master_Transmit_DMA(I2C_handle, _address, dataOut, 1);
 
-    if (status != HAL_OK)
+    if (status != HAL_OK) {
         int timeout = 5;
         while (HAL_I2C_GetState(I2C_handle) != HAL_I2C_STATE_READY
                && timeout-- > 0)
         {
-            // If receiving a code on terminal, cross-reference code with HAL_StatusTypeDef definition in stm32f4xx_hal_def.h
-            //printString("\r\n"); 
-            //printString("I2C sending code: ");
-            //printInt((uint8_t) HAL_I2C_GetState(I2C_handle));
             sensorWait(1);
         }
-    else 
+    } else {
         return I2C_DMA_OK;
+    }
+
     return I2C_DMA_ERROR;
 }
 
 
-void Pressure::sensorWait(double time)
 // Delay function.  This can be modified to work outside or change time delay's order of magnitude.
 // Currently measured in milli-seconds.
+void Pressure::sensorWait(double time)
 {
     HAL_Delay(time);
 }
@@ -219,18 +217,17 @@ int Pressure::I2Cread(int address, char* data, int length)
     HAL_StatusTypeDef status = HAL_I2C_Master_Receive_DMA(I2C_handle, address, (uint8_t*) data, length);
     sensorWait(5);
 
-    if (status != HAL_OK)
+    if (status != HAL_OK) {
         int timeout = 5;
         while (HAL_I2C_GetState(I2C_handle) != HAL_I2C_STATE_READY
                && timeout-- > 0)
-            // If receiving a code on terminal, cross-reference code with HAL_StatusTypeDef definition in stm32f4xx_hal_def.h
-            //printString("\r\n");
-            //printString("read code: ");
-            //printInt((uint8_t) HAL_I2C_GetState(I2C_handle));
+        {
             sensorWait(1);
         }
-    else 
+    } else {
         return I2C_DMA_OK;
+    }
+
     return I2C_DMA_ERROR;
 }
 
