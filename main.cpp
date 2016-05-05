@@ -207,6 +207,14 @@ int main(void) {
             overseer->calculateAndPush();
             
             int16_t* thrusters = overseer->getThrusters();
+
+            int8_t packet_thrusters[8] = {0,0,0,0,0,0,0,0};
+
+            for (int i = 0; i < 8; i++) {
+                packet_thrusters[i] = thrusters[i] / 256;
+            }
+
+            packetOut->setThrusters(packet_thrusters);
             
 
 			// Sets the info for the logitudinal forces
@@ -244,7 +252,8 @@ int main(void) {
 
 
 		//Delay Loop 10ms
-		HAL_Delay(1);
+        __HAL_UART_FLUSH_DRREGISTER(&huart3);
+		HAL_Delay(10);
 	}
 }
 
@@ -280,8 +289,9 @@ void HAL_UART_TxCpltCallback(UART_HandleTypeDef *UartHandle){
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *UartHandle){
 
 	//set the Serial to read more data again
-	HAL_UART_Receive_DMA(&huart3, (uint8_t *)packet->getArray(), PACKET_IN_LENGTH);
+    __HAL_UART_FLUSH_DRREGISTER(&huart3);
 
+	HAL_UART_Receive_DMA(&huart3, (uint8_t *)packet->getArray(), PACKET_IN_LENGTH);
 
 	packet->recieve();
 
@@ -299,4 +309,9 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *UartHandle){
 
 
 	LedToggle(GREEN);
+}
+
+void HAL_UART_ErrorCallback(UART_HandleTypeDef *UartHandle) {
+    LedToggle(BLUE);
+    __HAL_UART_FLUSH_DRREGISTER(&huart3);
 }
