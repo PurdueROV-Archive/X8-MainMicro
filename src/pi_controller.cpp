@@ -63,21 +63,28 @@ void PIController::set_PI(int16_t* PIDTuning, uint8_t state)
 
 	// Check for changes in the bits. If something is turned on, reset the reference to the current value = "LOCK"
 	if((ON_OFF ^ state) & 0x01)
-		if(state & 0x01) //turned ON?
+		if(state & 0x01){ //turned ON?
 			data.rot_ref.x = data.rot_est.x; // Set it to the latest estimate
+			data.integralSum.x = 0;
+		}
 
 	if((ON_OFF ^ state) & 0x02)
-		if(state & 0x02) //turned ON?
+		if(state & 0x02){ //turned ON?
 			data.rot_ref.y = data.rot_est.y; // Set it to the latest estimate
+			data.integralSum.y = 0;
+		}
 
 	if((ON_OFF ^ state) & 0x04)
-		if(state & 0x04) //turned ON?
+		if(state & 0x04){ //turned ON?
 			data.rot_ref.z = data.rot_est.z; // Set it to the latest estimate
+			data.integralSum.z = 0;
+		}
 
 	if((ON_OFF ^ state) & 0x20)
-		if(state & 0x20) //turned ON?
+		if(state & 0x20){ //turned ON?
 			data.Z_ref = data.Z_est; // Set it to the latest estimate
-
+			data.Z_integralSum = 0;
+			}
 	// Finnaly apply the full state
 	ON_OFF = state;
 }
@@ -119,48 +126,6 @@ void PIController::set_ref(vect6 user_input)
 	}
 }
 
-// When driving in stabilized mode, add the sent rotation
-// to the current one in local space thus rotate it first
-void PIController::updateRotation(vect3 rot_ref)
-{
-	float old_rot[3];
-	float d_rot[3];
-	float c, s; // One cosine and sine per rotation, reused.
-	
-	// Convert to radians
-	old_rot[0] = data.rot_ref.x/1000.0;
- 	old_rot[1] = data.rot_ref.y/1000.0;
- 	old_rot[2] = data.rot_ref.z/1000.0;
-	
-	// Convert to radians per second (max 45deg/s) 
-	d_rot[0] = rot_ref.x/4172200.0;
- 	d_rot[0] = rot_ref.x/4172200.0;
-	d_rot[0] = rot_ref.x/4172200.0;
- 
-	// Rotate around X
-	c = cos(old_rot[0]);
-	s = sin(old_rot[0]);
-	d_rot[1] = c*d_rot[1] - s*d_rot[2];
-	d_rot[2] = s*d_rot[1] + c*d_rot[2];
-
-	// Rotate around Y
-	c = cos(old_rot[1]);
-	s = sin(old_rot[1]);
-	d_rot[0] =  c*d_rot[0] + s*d_rot[2];
-	d_rot[2] = -s*d_rot[0] + c*d_rot[2];
-
-	// Rotate around Z
-	c = cos(old_rot[2]);
-	s = sin(old_rot[2]);
-	d_rot[1] =  c*d_rot[0] - s*d_rot[1];
-	d_rot[2] =  s*d_rot[0] + c*d_rot[1];
-
-	// Back to 1000 per radian
-	data.rot_ref.x += d_rot[0]*1000;
-	data.rot_ref.y += d_rot[1]*1000;
-	data.rot_ref.z += d_rot[2]*1000;
-}
-
 
 
 // Sets the fusion data from the sensors to the data structure.
@@ -172,8 +137,13 @@ void PIController::sensorInput(vect3 rot_est, float Z_est, int32_t timems)
 	// if lastTime is 0, then this is the first update since the PI controller has been turned on.
 
 	data.rot_est = rot_est;
-	data.rot_error = sub(data.rot_ref, rot_est);
-	//data.rot_error_vel = rot_est_vel;
+	data.rot_error.x = data.rot_ref.x - rot_est.x;
+	data.rot_error.y = data.rot_ref.y - rot_est.y;
+	data.rot_error.z = data.rot_ref.z - rot_est.z;
+
+	// If the angle is greater than 180deg remove one period and see it as negative.
+	if(data.rot_error.z > 2880)
+		data.rot_error.z -= 5760;
 
 	data.Z_est = Z_est;
 	data.Z_error = data.Z_ref - Z_est;
@@ -220,7 +190,10 @@ vect6 PIController::getOutput(vect6 FORCE)
 	if(ON_OFF == 0x20){
 		data.Z_lastForce = consts.P_Z * data.Z_error + consts.I_Z * data.Z_integralSum;
 
-		// Rotate this vector from earth frame up to bodyframe
+		vect3 Z_stabthrust = vect3Make(0,0,data.Z_lastForce); // Create thurst vector in earth frame
+		Z_stabthrust = rotate2body(Z_stabthrust, data.rot_est);
+
+		FORCE.L = add(FORCE.L, Z_stabthrust);
 	}
 
 

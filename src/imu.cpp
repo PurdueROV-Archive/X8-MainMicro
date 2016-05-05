@@ -61,6 +61,11 @@ bool IMU::retrieve_euler(void) {
 	xAngle = ((char) dt[3] << 8 | (char) dt[2]);
 	yAngle = ((char) dt[5] << 8 | (char) dt[4]);
 
+	if (yAngle > 0)
+		yAngle -= 2880;
+	else
+		yAngle += 2880;
+
 	return true;
 }
 

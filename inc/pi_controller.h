@@ -75,7 +75,7 @@ class PIController
 		//void stop(void);
 		//void start(void);
 		void set_ref(vect6 user_input);
-		void updateRotation(vect3 rot_ref);
+
 		void set_PI(int16_t* PIDTuning, uint8_t state);
 		void sensorInput(vect3 rot_est, float Z_est, int32_t timems);
 		vect6 getOutput(vect6 inputThrust);

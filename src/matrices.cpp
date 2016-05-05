@@ -185,7 +185,7 @@ matrix2_2 invert2_2(matrix2_2 m)
 
 // Rotate from local body frame (axis aligned with ROV body/IMU) to global earth frame
 // Uses Euler angles, beware of gimbal lock!
-// vector == rotate2body(rotate2earth(vector, rot), -rot)
+// vector == rotate2body(rotate2earth(vector, rot), rot)
 vect3 rotate2earth(vect3 vec, vect3 rot){
     float frot[3];
     float fvec[3];
@@ -236,9 +236,9 @@ vect3 rotate2body( vect3 vec, vect3 rot){
     float c, s; // One cosine and sine per rotation, reused.
     
     // Convert to floats in radians
-    frot[0] = rot.x/900.0;
-    frot[1] = rot.y/900.0;
-    frot[2] = rot.z/900.0;
+    frot[0] = -rot.x/900.0;  // We always have angles as body to earth so assuming that makes calling this funciton easier.
+    frot[1] = -rot.y/900.0;
+    frot[2] = -rot.z/900.0;
     
     // Convert rotating vector to float for precision, could stay as int lets just do this in float and don't bother about ints
     fvec[0] = vec.x;
