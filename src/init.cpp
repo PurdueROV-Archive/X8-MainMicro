@@ -1,5 +1,3 @@
-/*This folder will be used to hold all code used to initialize pins */
-
 #include "init.h"
 
 TIM_MasterConfigTypeDef sMasterConfig;
@@ -18,11 +16,9 @@ I2C_HandleTypeDef hi2c3;
 DMA_HandleTypeDef hdma_i2c1_rx;
 DMA_HandleTypeDef hdma_i2c1_tx;
 
-
 UART_HandleTypeDef huart3;
 DMA_HandleTypeDef hdma_usart3_rx;
 DMA_HandleTypeDef hdma_usart3_tx;
-
 
 TIM_HandleTypeDef htim2;
 TIM_HandleTypeDef htim3;
@@ -30,10 +26,11 @@ TIM_HandleTypeDef htim3;
 //this function will call all of the other initialization functions
 void initEverything(void) {
     /* GPIO Ports Clock Enable */
-            __GPIOA_CLK_ENABLE();
-            __GPIOB_CLK_ENABLE();
-            __GPIOC_CLK_ENABLE();
+    __GPIOA_CLK_ENABLE();
+    __GPIOB_CLK_ENABLE();
+    __GPIOC_CLK_ENABLE();
     __GPIOD_CLK_ENABLE();
+
     __HAL_RCC_GPIOA_CLK_ENABLE();
     __HAL_RCC_GPIOB_CLK_ENABLE();
     __HAL_RCC_GPIOC_CLK_ENABLE();
@@ -56,8 +53,6 @@ void initEverything(void) {
     //MX_GPIO_Init();
     MX_USART3_UART_Init();
 
-    //initPrint();  // For debug purposes...
-
     initI2C();
     initCan();
     initPwm();
@@ -79,11 +74,9 @@ void MX_USART3_UART_Init(void) {
 }
 
 void MX_GPIO_Init(void) {
-
     /* GPIO Ports Clock Enable */
-            __GPIOA_CLK_ENABLE();
-            __GPIOB_CLK_ENABLE();
-
+    __GPIOA_CLK_ENABLE();
+    __GPIOB_CLK_ENABLE();
 }
 
 
@@ -140,16 +133,12 @@ void HAL_UART_MspInit(UART_HandleTypeDef *huart) {
             while (1);
         }
 
-
         __HAL_LINKDMA(huart, hdmatx, hdma_usart3_tx);
-
 
         /* Peripheral interrupt init*/
         HAL_NVIC_SetPriority(USART3_IRQn, 0, 0);
         HAL_NVIC_EnableIRQ(USART3_IRQn);
-
     }
-
 }
 
 /* checked! */
@@ -181,7 +170,6 @@ void initPwm(void) {
     GPIO_InitStruct.Alternate = GPIO_AF2_TIM3;
     HAL_GPIO_Init(Main_Camera_Servo_PWM_GPIO_Port, &GPIO_InitStruct);
 
-
     htim3.Instance           = TIM3;
     htim3.Init.Prescaler     = SystemCoreClock / 1000000;
     htim3.Init.CounterMode   = TIM_COUNTERMODE_UP;
@@ -198,16 +186,13 @@ void initPwm(void) {
     sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
     sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
 
-
     HAL_TIM_PWM_ConfigChannel(&htim3, &sConfigOC, TIM_CHANNEL_1);
 
     HAL_TIM_PWM_ConfigChannel(&htim3, &sConfigOC, TIM_CHANNEL_3);
 
-
     HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_1);
 
     HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_3);
-
 }
 
 /* checked! */
@@ -226,11 +211,8 @@ void initI2C(void) {
     GPIO_InitStruct.Alternate = GPIO_AF4_I2C1;
     HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
-
-
-
     /* Peripheral clock enable */
-            __I2C1_CLK_ENABLE();
+    __I2C1_CLK_ENABLE();
 
     hi2c1.Instance = I2C1;
     hi2c1.Init.ClockSpeed = 100000;
@@ -270,13 +252,11 @@ void initI2C(void) {
     HAL_DMA_Init(&hdma_i2c1_tx);
 
     __HAL_LINKDMA(&hi2c1, hdmatx, hdma_i2c1_tx);
-
-
 }
 
 void MX_DMA_Init(void) {
     /* DMA controller clock enable */
-            __DMA1_CLK_ENABLE();
+    __DMA1_CLK_ENABLE();
 
     /* DMA interrupt init */
     HAL_NVIC_SetPriority(DMA1_Stream0_IRQn, 0, 0);
@@ -285,15 +265,13 @@ void MX_DMA_Init(void) {
     HAL_NVIC_EnableIRQ(DMA1_Stream6_IRQn);
 
     /* DMA controller clock enable */
-            __DMA1_CLK_ENABLE();
+    __DMA1_CLK_ENABLE();
 
     /* DMA interrupt init */
     HAL_NVIC_SetPriority(DMA1_Stream1_IRQn, 0, 0);
     HAL_NVIC_EnableIRQ(DMA1_Stream1_IRQn);
     HAL_NVIC_SetPriority(DMA1_Stream3_IRQn, 0, 0);
     HAL_NVIC_EnableIRQ(DMA1_Stream3_IRQn);
-
-
 }
 
 void initCan(void) {
@@ -322,7 +300,6 @@ void initCan(void) {
 
     hcan2.Instance = CAN2;
 
-
     hcan2.pTxMsg = &TxMessage;
     hcan2.pRxMsg = &RxMessage;
 
@@ -339,14 +316,12 @@ void initCan(void) {
     hcan2.Init.TXFP = DISABLE;
 
 
-
     if (HAL_CAN_Init(&hcan2) != HAL_OK) {
 
     }
 
     //configures the fileter for the can communication
     CAN_FilterConfTypeDef sFilterConfig;
-
 
     sFilterConfig.FilterNumber = 0;
     sFilterConfig.FilterMode = CAN_FILTERMODE_IDMASK;
@@ -363,8 +338,8 @@ void initCan(void) {
 
     }
 
-    //sets up the communication information
-    hcan2.pTxMsg->StdId = CAN_ID;  //the id of this microboard
+    // Sets up the communication information
+    hcan2.pTxMsg->StdId = CAN_ID;  // The id of this microboard
 
     hcan2.pTxMsg->RTR = CAN_RTR_DATA;
     hcan2.pTxMsg->IDE = CAN_ID_STD;
@@ -372,29 +347,26 @@ void initCan(void) {
     hcan2.pTxMsg->DLC = 1;
     hcan2.pTxMsg->Data[0] = 1;
 
-
     if (HAL_CAN_Receive_IT(&hcan2, CAN_FIFO0) != HAL_OK) {
 
     }
-
 }
 
 void HAL_MspInit(void) {
     HAL_NVIC_SetPriorityGrouping(NVIC_PRIORITYGROUP_4);
 
     HAL_NVIC_SetPriority(SysTick_IRQn, 0, 0);
-
 }
 
 
-//initialize the debugging leds
+// Initialize the debugging leds
 void initDebugLeds(void) {
     GPIO_InitTypeDef GPIO_InitStruct;
 
-    //enable the led clock
+    // Enable the led clock
     __HAL_RCC_GPIOD_CLK_ENABLE();
 
-    //configures the led pin
+    // Configures the led pin
     GPIO_InitStruct.Pin = GPIO_PIN_11;
     GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
     GPIO_InitStruct.Pull = GPIO_PULLUP;
@@ -409,70 +381,67 @@ void initDebugLeds(void) {
 
     GPIO_InitStruct.Pin = GPIO_PIN_14;
     HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
-
-    GPIO_InitStruct.Pin = GPIO_PIN_15;
-    HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
 }
 
-//turns on and turns off the led
+// Turns on and turns off the led
 void LedOn(int led) {
     switch(led) {
-        case BLUE:
+        case 11:
             HAL_GPIO_WritePin(GPIOD, GPIO_PIN_11, GPIO_PIN_SET);
             break;
-        case GREEN:
+        case 12:
             HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12, GPIO_PIN_SET);
             break;
-        case RED:
+        case 13:
             HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13, GPIO_PIN_SET);
             break;
-        case ORANGE:
+        case 14:
             HAL_GPIO_WritePin(GPIOD, GPIO_PIN_14, GPIO_PIN_SET);
             break;
     }
 }
 
-//turns on and turns off the led
+// Turns on and turns off the led
 void LedOff(int led) {
     switch(led) {
-        case BLUE:
+        case 11:
             HAL_GPIO_WritePin(GPIOD, GPIO_PIN_11, GPIO_PIN_RESET);
             break;
-        case GREEN:
+        case 12:
             HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12, GPIO_PIN_RESET);
             break;
-        case RED:
+        case 13:
             HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13, GPIO_PIN_RESET);
             break;
-        case ORANGE:
+        case 14:
             HAL_GPIO_WritePin(GPIOD, GPIO_PIN_14, GPIO_PIN_RESET);
             break;
     }
 }
 
-//turns on and turns off the led
+// Turns on and turns off the led
 void LedToggle(int led) {
     switch(led) {
-        case BLUE:
+        case 11:
             HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_11);
             break;
-        case GREEN:
+        case 12:
             HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_12);
             break;
-        case RED:
+        case 13:
             HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_13);
             break;
-        case ORANGE:
+        case 14:
             HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_14);
             break;
     }
 }
 
-//configures the system clcok
+// Configures the system clcok
 void SystemClock_Config(void) {
     RCC_OscInitTypeDef RCC_OscInitStruct;
 
-            __PWR_CLK_ENABLE();
+    __PWR_CLK_ENABLE();
 
     __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE1);
 
@@ -490,18 +459,15 @@ void SystemClock_Config(void) {
     HAL_NVIC_SetPriority(SysTick_IRQn, 0, 0);
 }
 
-//sets up the pins for can to be alternate functions
+// Sets up the pins for can to be alternate functions
 void HAL_CAN_MspInit(CAN_HandleTypeDef *hcan) {
 
     GPIO_InitTypeDef GPIO_InitStruct;
     if (hcan->Instance == CAN2) {
 
-
         /* Peripheral clock enable */
         __CAN2_CLK_ENABLE();
         __CAN1_CLK_ENABLE();
-
-
 
         /**CAN1 GPIO Configuration
         PD0     ------> CAN1_RX
@@ -522,7 +488,7 @@ void HAL_CAN_MspInit(CAN_HandleTypeDef *hcan) {
     }
 }
 
-//function used to handle errors
+// Function used to handle errors
 void Error_Handler(void) {
     while (1) {
     }

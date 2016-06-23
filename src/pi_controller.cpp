@@ -56,35 +56,40 @@ void PIController::set_PI(int16_t* PIDTuning, uint8_t state)
 	// Sets new PI gains for the controller
 	// Proportional constant
 	consts.P_rot = PIDTuning[0];
-	consts.P_Z = PIDTuning[1];
+	consts.I_rot = PIDTuning[1];
+
 	// Integral Constant = controller gain / reset time
-	consts.I_rot = PIDTuning[2];
+	consts.P_Z = PIDTuning[2];
 	consts.I_Z = PIDTuning[3];
 
 	// Check for changes in the bits. If something is turned on, reset the reference to the current value = "LOCK"
-	if((ON_OFF ^ state) & 0x01)
+	if((ON_OFF ^ state) & 0x01) {
 		if(state & 0x01){ //turned ON?
 			data.rot_ref.x = data.rot_est.x; // Set it to the latest estimate
 			data.integralSum.x = 0;
 		}
+    }
 
-	if((ON_OFF ^ state) & 0x02)
+	if((ON_OFF ^ state) & 0x02) {
 		if(state & 0x02){ //turned ON?
 			data.rot_ref.y = data.rot_est.y; // Set it to the latest estimate
 			data.integralSum.y = 0;
 		}
+    }
 
-	if((ON_OFF ^ state) & 0x04)
+	if((ON_OFF ^ state) & 0x04) {
 		if(state & 0x04){ //turned ON?
 			data.rot_ref.z = data.rot_est.z; // Set it to the latest estimate
 			data.integralSum.z = 0;
-		}
+		} 
+    }
 
-	if((ON_OFF ^ state) & 0x20)
+	if((ON_OFF ^ state) & 0x20) {
 		if(state & 0x20){ //turned ON?
 			data.Z_ref = data.Z_est; // Set it to the latest estimate
 			data.Z_integralSum = 0;
 			}
+    }
 	// Finnaly apply the full state
 	ON_OFF = state;
 }
@@ -94,7 +99,7 @@ void PIController::set_PI(int16_t* PIDTuning, uint8_t state)
 void PIController::set_ref(vect6 user_input)
 {
 
-	if(ON_OFF == 0x01){
+	if(ON_OFF & 0x01){
 		data.rot_ref.x += user_input.R.x/455;  //450 deg/s
 
 		if(data.rot_ref.x >= 1120) // if tilting more than 1120 degrees
@@ -103,7 +108,7 @@ void PIController::set_ref(vect6 user_input)
 			data.rot_ref.x == -1120;
 	}
 
-	if(ON_OFF == 0x02){
+	if(ON_OFF & 0x02){
 		data.rot_ref.y += user_input.R.y/455;
 
 		if(data.rot_ref.y >= 1120) // if tilting more than 1120 degrees
@@ -112,7 +117,7 @@ void PIController::set_ref(vect6 user_input)
 			data.rot_ref.y == -1120;
 	}
 
-	if(ON_OFF == 0x04){
+	if(ON_OFF & 0x04){
 		data.rot_ref.z += user_input.R.z/455;
 
 		if(data.rot_ref.z >= 5760) // if tilting more than 1120 degrees
@@ -121,7 +126,7 @@ void PIController::set_ref(vect6 user_input)
 			data.rot_ref.z += 5760;
 	}
 
-	if(ON_OFF == 0x20){
+	if(ON_OFF & 0x20){
 		data.Z_ref += user_input.L.z/3276.8; // 1 m/s as maximum speed
 	}
 }
@@ -170,24 +175,24 @@ vect6 PIController::getOutput(vect6 FORCE)
 	if (ON_OFF == OFF)
 		return FORCE;
 
-	if(ON_OFF == 0x01){
+	if(ON_OFF & 0x01){
 		data.lastForce.x = data.CObias.x + consts.P_rot * data.rot_error.x + consts.I_rot * data.integralSum.x;
 
 		FORCE.R.x = data.lastForce.x;
 	}
 
-	if(ON_OFF == 0x02){
+	if(ON_OFF & 0x02){
 		data.lastForce.y = data.CObias.y + consts.P_rot * data.rot_error.y + consts.I_rot * data.integralSum.y;
 
 		FORCE.R.y = data.lastForce.y;
 	}
-	if(ON_OFF == 0x04){
+	if(ON_OFF & 0x04){
 		data.lastForce.z = data.CObias.z + consts.P_rot * data.rot_error.z + consts.I_rot * data.integralSum.z;
 
 		FORCE.R.z = data.lastForce.z;
 	}
 
-	if(ON_OFF == 0x20){
+	if(ON_OFF & 0x20){
 		data.Z_lastForce = consts.P_Z * data.Z_error + consts.I_Z * data.Z_integralSum;
 
 		vect3 Z_stabthrust = vect3Make(0,0,data.Z_lastForce); // Create thurst vector in earth frame

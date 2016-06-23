@@ -1,4 +1,3 @@
-/* Put all of your #includes and #defines up here   */
 #include "imu.h"
 
 /*
@@ -12,12 +11,11 @@
  * which will receive and parse the angles and store them in the private variables
  * xAngle, yAngle, and zAngle
  * These variables are available to the user using the functions getX(), getY(), or getZ().
- *
  */
 
 IMU::IMU(I2C_HandleTypeDef* handler) {
 
-	/*this variable is what you plug into the send function */
+	// This variable is what you plug into the send function
 	I2C_handler = handler;
 
 	page_flag = 0xff;
@@ -38,7 +36,7 @@ IMU::IMU(I2C_HandleTypeDef* handler) {
 	change_fusion_mode(chip_mode);
 }
 
-// retrieves the data from the sensor and stores it into variables
+// Retrieves the data from the sensor and stores it into variables
 bool IMU::retrieve_euler(void) {
 
 	/* this function retrieves the data from the sensor and then stores it into
@@ -69,9 +67,7 @@ bool IMU::retrieve_euler(void) {
 	return true;
 }
 
-
-void IMU::get_linear_accel(void)
-{
+void IMU::get_linear_accel(void) {
 	select_page(0);
 
 	dt[0] = IMU_LINEAR_ACC_X_LSB;
@@ -87,40 +83,38 @@ void IMU::get_linear_accel(void)
 	la[2] = ((char) dt[5] << 8 | (char) dt[4]);
 }
 
-
-
-//returns the angle with respect to the X axis
-int16_t IMU::rX(void){
+// Returns the angle with respect to the X axis
+int16_t IMU::rX(void) {
 	return xAngle;
 }
 
-//returns the angle with respect to the Y axis
-int16_t IMU::rY(void){
+// Returns the angle with respect to the Y axis
+int16_t IMU::rY(void) {
 	return yAngle;
 }
 
-//returns the angle with respect to the Z axis
-int16_t IMU::rZ(void){
+// Returns the angle with respect to the Z axis
+int16_t IMU::rZ(void) {
 	return zAngle;
 }
 
-//returns the linear acceleration with respect to the X axis.
-int16_t IMU::lX(void){
+// Returns the linear acceleration with respect to the X axis.
+int16_t IMU::lX(void) {
 	return la[0];
 }
 
-//returns the linear acceleration with respect to the Y axis.
-int16_t IMU::lY(void){
+// Returns the linear acceleration with respect to the Y axis.
+int16_t IMU::lY(void) {
 	return la[1];
 }
 
-//returns the linear acceleration with respect to the Z axis.
-int16_t IMU::lZ(void){
+// Returns the linear acceleration with respect to the Z axis.
+int16_t IMU::lZ(void) {
 	return la[2];
 }
 
 // Returns the rotation as a vect3
-vect3 IMU::get_rot(void){
+vect3 IMU::get_rot(void) {
 	vect3 output;
 
 	output.x = xAngle;
@@ -134,9 +128,9 @@ uint8_t IMU::select_page(uint8_t page) {
 	if (page != page_flag){
 		dt[0] = IMU_PAGE_ID;
 		if (page == 1) {
-			dt[1] = 1;  // select page 1
+			dt[1] = 1;  // Select page 1
 		} else {
-			dt[1] = 0;  // select page 0
+			dt[1] = 0;  // Select page 0
 		}
 
 		HAL_I2C_Master_Transmit_DMA(I2C_handler, (0x28 << 1), dt, 2);
@@ -171,21 +165,25 @@ void IMU::check_id(void) {
 	} else {
 		ready_flag = 0;
 	}
+
 	if (dt[1] == IMU_ACC_ID) {
 		ready_flag |= 2;
 	}
+
 	if (dt[2] == IMU_MAG_ID) {
 		ready_flag |= 4;
 	}
+
 	if (dt[2] == IMU_MAG_ID) {
 		ready_flag |= 8;
 	}
+
 	bootldr_rev_id = dt[5] << 8 | dt[4];
 	sw_rev_id = dt[6];
 }
 
 void IMU::change_fusion_mode(uint8_t mode) {
-	/* Changes fusion mode to configure or send angles via I2C */
+	// Changes fusion mode to configure or send angles via I2C
 	uint8_t current_mode;
 
 	select_page(0);
@@ -204,29 +202,29 @@ void IMU::change_fusion_mode(uint8_t mode) {
 		case MODE_COMPASS:
 		case MODE_M4G:
 		case MODE_NDOF_FMC_OFF:
-		case MODE_NDOF:
-			if (current_mode != CONFIGMODE) {   // Can we change the mode directry?
-				dt[0] = IMU_OPR_MODE;
-				dt[1] = CONFIGMODE;
-				HAL_I2C_Master_Transmit_DMA(I2C_handler, (0x28 << 1), dt, 2);
+        case MODE_NDOF:
+            if (current_mode != CONFIGMODE) { // Can we change the mode directry?
+                dt[0] = IMU_OPR_MODE;
+                dt[1] = CONFIGMODE;
+                HAL_I2C_Master_Transmit_DMA(I2C_handler, (0x28 << 1), dt, 2);
                 this->i2c_wait();
 
-				HAL_Delay(19);    // wait 19mS
-			}
-			dt[0] = IMU_OPR_MODE;
-			dt[1] = mode;
-			HAL_I2C_Master_Transmit_DMA(I2C_handler, (0x28 << 1), dt, 2);
+                HAL_Delay(19); // Wait 19mS
+            }
+            dt[0] = IMU_OPR_MODE;
+            dt[1] = mode;
+            HAL_I2C_Master_Transmit_DMA(I2C_handler, (0x28 << 1), dt, 2);
             this->i2c_wait();
 
-			HAL_Delay(7);
-			break;
-		default:
+            HAL_Delay(7);
+            break;
+        default:
 			break;
 	}
 }
 
 uint8_t IMU::check_operating_mode(void) {
-	/* initialize operating mode, */
+	// Initialize operating mode
 	select_page(0);
 	dt[0] = IMU_OPR_MODE;
 

@@ -1,4 +1,3 @@
-/* The .h file that will store the function declarations of initialization functions */
 #ifndef __INIT_H
 #define __INIT_H
 
@@ -27,7 +26,7 @@ extern TIM_HandleTypeDef htim3;
 
 void initEverything(void);
 
-/* function declarations */
+// Function declarations
 void SystemClock_Config(void);
 void Error_Handler(void);
 
@@ -35,25 +34,23 @@ void Error_Handler(void);
 void MX_GPIO_Init(void);
 void MX_USART3_UART_Init(void);
 
-/* initializes timer settings for pwm */
+// Initializes timer settings for pwm
 void initPwm(void);
 
-/* configurres the I2C with DMA */
+// Configurres the I2C with DMA
 void initI2C(void);
 
-/* configures the DMA nested vector interrupt priorities */
+// Configures the DMA nested vector interrupt priorities
 void MX_DMA_Init(void);
 
-/* configures the can bus */
+// Configures the can bus
 void initCan(void);
 
-/*function for initializing and using leds */
+// Function for initializing and using leds
 void initDebugLeds(void);
 void LedOn(int led);
 void LedOff(int led);
 void LedToggle(int led);
-
-
 
 void HAL_MspInit(void);
 

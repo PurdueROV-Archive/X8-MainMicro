@@ -94,7 +94,7 @@ void PacketOut::setIMU_Rz(int16_t data){
 }
 
 void PacketOut::setThrusters(int8_t* data) {
-    memcpy(&packetData[23], &data, 8);
+    memcpy(&packetData[23], data, 8);
 }
 
 void PacketOut::send() {

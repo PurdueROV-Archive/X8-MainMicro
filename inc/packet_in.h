@@ -33,7 +33,7 @@ private:
 
     uint8_t checksum(uint8_t *bytes);
 
-    //Fields to fill in
+    // Fields to fill in
     int16_t thrusters[6];
     uint8_t cameraServo;
     uint8_t solenoids;
