@@ -181,3 +181,92 @@ matrix2_2 invert2_2(matrix2_2 m)
     result.two.a = -m.two.a*1024/det;
     return result;
 }
+
+
+// Rotate from local body frame (axis aligned with ROV body/IMU) to global earth frame
+// Uses Euler angles, beware of gimbal lock!
+// vector == rotate2body(rotate2earth(vector, rot), rot)
+vect3 rotate2earth(vect3 vec, vect3 rot){
+    float frot[3];
+    float fvec[3];
+    float c, s; // One cosine and sine per rotation, reused.
+    
+    // Convert to floats in radians
+    frot[0] = rot.x/900.0;
+    frot[1] = rot.y/900.0;
+    frot[2] = rot.z/900.0;
+    
+    // Convert rotating vector to float for precision, could stay as int lets just do this in float and don't bother about ints
+    fvec[0] = vec.x;
+    fvec[1] = vec.y;
+    fvec[2] = vec.z;
+ 
+    // Rotate around X
+    c = cos(frot[0]);
+    s = sin(frot[0]);
+    fvec[1] = c*fvec[1] - s*fvec[2];
+    fvec[2] = s*fvec[1] + c*fvec[2];
+
+    // Rotate around Y
+    c = cos(frot[1]);
+    s = sin(frot[1]);
+    fvec[0] =  c*fvec[0] + s*fvec[2];
+    fvec[2] = -s*fvec[0] + c*fvec[2];
+
+    // Rotate around Z
+    c = cos(frot[2]);
+    s = sin(frot[2]);
+    fvec[1] =  c*fvec[0] - s*fvec[1];
+    fvec[2] =  s*fvec[0] + c*fvec[1];
+
+    // Back to vect3
+    vec.x = fvec[0];
+    vec.y = fvec[1];
+    vec.z = fvec[2];
+
+    return vec;
+}
+
+// Rotate from earth to body frame
+// Difference from rotate2earth is that the rotation order is swaped.
+
+vect3 rotate2body( vect3 vec, vect3 rot){
+    float frot[3];
+    float fvec[3];
+    float c, s; // One cosine and sine per rotation, reused.
+    
+    // Convert to floats in radians
+    frot[0] = -rot.x/900.0;  // We always have angles as body to earth so assuming that makes calling this funciton easier.
+    frot[1] = -rot.y/900.0;
+    frot[2] = -rot.z/900.0;
+    
+    // Convert rotating vector to float for precision, could stay as int lets just do this in float and don't bother about ints
+    fvec[0] = vec.x;
+    fvec[1] = vec.y;
+    fvec[2] = vec.z;
+ 
+     // Rotate around Z
+    c = cos(frot[2]);
+    s = sin(frot[2]);
+    fvec[1] =  c*fvec[0] - s*fvec[1];
+    fvec[2] =  s*fvec[0] + c*fvec[1];
+
+    // Rotate around Y
+    c = cos(frot[1]);
+    s = sin(frot[1]);
+    fvec[0] =  c*fvec[0] + s*fvec[2];
+    fvec[2] = -s*fvec[0] + c*fvec[2];
+
+    // Rotate around X
+    c = cos(frot[0]);
+    s = sin(frot[0]);
+    fvec[1] = c*fvec[1] - s*fvec[2];
+    fvec[2] = s*fvec[1] + c*fvec[2];
+
+
+    // Back to vect3
+    vec.x = fvec[0];
+    vec.y = fvec[1];
+    vec.z = fvec[2];
+
+}

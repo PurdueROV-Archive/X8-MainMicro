@@ -3,29 +3,27 @@
 
 #include "main.h"
 
-#define PACKET_OUT_LENGTH 36
+#define PACKET_OUT_LENGTH 33
 
 class PacketOut {
 public:
     PacketOut();
 
     void send();
+    void setThrusterStatus(uint16_t data);
     void setPressure(float data);
-    void setThrusterStatus(uint32_t data);
-    void setTemp(uint32_t data);
+    void setTemp(float data);
 
-    void setIMU_Lx(float data);
-    void setIMU_Ly(float data);
-    void setIMU_Lz(float data);
-    void setIMU_Rx(float data);
-    void setIMU_Ry(float data);
-    void setIMU_Rz(float data);
+    void setIMU_Lx(int16_t data);
+    void setIMU_Ly(int16_t data);
+    void setIMU_Lz(int16_t data);
+    void setIMU_Rx(int16_t data);
+    void setIMU_Ry(int16_t data);
+    void setIMU_Rz(int16_t data);
 
-
+    void setThrusters(int8_t* data);
+    uint8_t packetData[PACKET_OUT_LENGTH];
 private:
-    char sendBuffer[PACKET_OUT_LENGTH];
-    uint8_t Dataup[PACKET_OUT_LENGTH];
-
     char checksum(char *bytes);
 };
 

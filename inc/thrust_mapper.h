@@ -3,8 +3,6 @@
 
 #include "matrices.h"
 
-
-
 // MapperMatrixIndex is used to give significance to the index of mapper_matrices.matrices
 typedef enum {
 	ALL = 0,
@@ -22,7 +20,6 @@ typedef enum {
 } MapperMatrixIndex;
 
 typedef struct {
-
 	MapperMatrixIndex currentMapperMatrix;
 
 	matrix8_6 all;
@@ -57,29 +54,25 @@ typedef struct {
  *	When the thrusters power should be changed (due to ramping timer, etc.):
  *	4. Get the most recent thrust_map via getThrustMap().
  */
-
-class ThrustMapper
-{	
-	public:
-		ThrustMapper(void);
-		void adjustPivotPosition(vect3 loc);
-		void calculateThrustMap(void);
-		void calculateThrustMap(vect6 target_vector);
-		void scaleNewtonsToInt(void);
-		void changeMapperMatrix(uint8_t enabled_thrusters);
-		vect6 getCurrentForceVector(void);
-		vect8 getThrustMap(void);
-		vect3 getPivotPosition(void);
-		void calcZeroForceVector(void);
-		vect8 thrust_map;
-    ThrustMapperMatrices getThrustMapperMatrices(void);
+class ThrustMapper {	
+    public:
+        ThrustMapper(void);
+        void adjustPivotPosition(vect3 loc);
+        void calculateThrustMap(void);
+        void calculateThrustMap(vect6 target_vector);
+        void scaleNewtonsToInt(void);
+        void changeMapperMatrix(uint8_t enabled_thrusters);
+        vect6 getCurrentForceVector(void);
+        vect8 getThrustMap(void);
+        vect3 getPivotPosition(void);
+        void calcZeroForceVector(void);
+        vect8 thrust_map;
+        ThrustMapperMatrices getThrustMapperMatrices(void);
 
 	private:
 		vect6 desired_force_vector;
 		vect3 pivotPosition;
 		ThrustMapperMatrices mapper_matrices;
-
 };
-
 
 #endif

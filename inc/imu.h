@@ -1,10 +1,10 @@
 #ifndef __IMU_H
 #define __IMU_H
 
-/* puts all of the #includes and # defines that you need here */
 #include "stm32f4xx_hal_dma.h"
 #include "stm32f4xx_hal_i2c.h"
 #include "main.h"
+#include "matrices.h"
 
 #define IMU_PAGE_ID             0x07
 #define IMU_EULER_H_LSB         0x1a
@@ -27,13 +27,7 @@
 
 class IMU {
 
-
 public:
-	/* Put function declarations that the user will
-	   want to use from the class here */
-
-
-/*constructor */
     IMU(I2C_HandleTypeDef* handler);
 
     bool retrieve_euler(void);
@@ -41,37 +35,36 @@ public:
     void get_linear_accel(void);
 
     // Rotational
-    double rX(void);
-
-    double rY(void);
-
-    double rZ(void);
+    int16_t rX(void);
+    int16_t rY(void);
+    int16_t rZ(void);
 
     // Linear
-    double lX(void);
+    int16_t lX(void);
+    int16_t lY(void);
+    int16_t lZ(void);
 
-    double lY(void);
-
-    double lZ(void);
-
-
+    vect3 get_rot(void);
 
 private:
-
     I2C_HandleTypeDef* I2C_handler;
-    double xAngle;
-    double yAngle;
-    double zAngle;
+    int16_t xAngle;
+    int16_t yAngle;
+    int16_t zAngle;
+
 	uint8_t dt[10];
-    double la[3];   // Linear Acceleration vector, [x,y,z].
+    int16_t la[3];   // Linear Acceleration vector, [x,y,z].
+
     uint8_t select_page(uint8_t page);
     void change_fusion_mode(uint8_t mode);
     uint8_t check_operating_mode(void);
     uint8_t page_flag;
     void check_id(void);
     uint8_t ready_flag;
-    uint8_t  bootldr_rev_id;
+    uint8_t bootldr_rev_id;
     uint16_t sw_rev_id;
+
+    void i2c_wait(int8_t timeout = 5);
 };
 
 #endif
