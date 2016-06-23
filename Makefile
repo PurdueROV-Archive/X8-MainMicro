@@ -18,6 +18,7 @@ OBJECTS = main.o        \
 	src/pi_controller.o \
 	src/imu.o \
 	src/overseer.o \
+	src/shiftRegister.o \
 	src/thrust_mapper.o
 
 

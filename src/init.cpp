@@ -56,6 +56,7 @@ void initEverything(void) {
     initI2C();
     initCan();
     initPwm();
+    //initShift();
 }
 
 /* USART1 init function */
@@ -350,6 +351,14 @@ void initCan(void) {
     if (HAL_CAN_Receive_IT(&hcan2, CAN_FIFO0) != HAL_OK) {
 
     }
+}
+
+void initShift(void) {
+    //GPIO_InitStruct.Pin = GPIO_PIN_5 | GPIO_PIN_4| GPIO_PIN_3;
+    //GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+    //GPIO_InitStruct.Pull = GPIO_PULLUP;
+    //GPIO_InitStruct.Speed = GPIO_SPEED_FAST;
+    //HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
 }
 
 void HAL_MspInit(void) {

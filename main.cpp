@@ -8,6 +8,7 @@
 #include "pressure.h"
 #include "servo.h"
 #include "pi_controller.h"
+#include "shiftRegister.h"
 
 #include "overseer.h"
 
@@ -77,6 +78,7 @@ PIController piController; //stabalization controller structure
 vect6 force_output;	//vector containing desired logitudinal rotational force for the ROV
 int16_t* force_input;
 float pressure_mbar;
+uint8_t shift_byte;
 PacketIn *packet;
 PacketOut *packetOut;
 Overseer *overseer;
@@ -109,6 +111,9 @@ int main(void) {
     overseer = new Overseer();
     /* Overseer */
 
+    /* Shift Register */
+    shiftRegister hydraulics(GPIOD, GPIO_PIN_5, GPIOD, GPIO_PIN_4, GPIOD, GPIO_PIN_3);
+    /* Shift Register */
 
 	/* IMU Init */
 	//IMU imu = IMU(&hi2c1);
@@ -200,6 +205,8 @@ int main(void) {
 
             packetOut->setThrusters(packet_thrusters);
 
+            hydraulics.control(shift_byte);
+
 			// Sets the info for the logitudinal forces
 			hcan2.pTxMsg->Data[0] =	'L';
 			memcpy(&hcan2.pTxMsg->Data[1], &thrusters[0], 4);
@@ -263,6 +270,8 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *UartHandle){
     __HAL_UART_FLUSH_DRREGISTER(&huart3);
 
 	HAL_UART_Receive_DMA(&huart3, (uint8_t*)packet->getArray(), PACKET_IN_LENGTH);
+
+	shift_byte = packet->getSolenoids();
 
 	packet->recieve();
 

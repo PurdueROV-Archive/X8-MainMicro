@@ -24,6 +24,8 @@ extern DMA_HandleTypeDef hdma_i2c1_tx;
 extern TIM_HandleTypeDef htim2;
 extern TIM_HandleTypeDef htim3;
 
+
+
 void initEverything(void);
 
 // Function declarations
@@ -45,6 +47,9 @@ void MX_DMA_Init(void);
 
 // Configures the can bus
 void initCan(void);
+
+// Configures the shift register pins
+void initShift(void);
 
 // Function for initializing and using leds
 void initDebugLeds(void);
