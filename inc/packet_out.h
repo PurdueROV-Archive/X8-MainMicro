@@ -23,10 +23,7 @@ public:
 
     void setThrusters(int8_t* data);
     uint8_t packetData[PACKET_OUT_LENGTH];
-
-
 private:
-
     char checksum(char *bytes);
 };
 

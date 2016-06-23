@@ -14,10 +14,10 @@
 #define APP_CAN_ID  0x12
 #define CAN_ID      0x13
 
-#define INSIDE_BLUE  11
-#define OUTSIDE_BLUE 14
-#define GREEN        12
-#define RED          13
+#define BLUE   11
+#define GREEN  12
+#define ORANGE 13
+#define RED    14
 
 #define MAX(x,y) ((x > y) ? (x) : (y))
 #define MIN(x,y) ((x > y) ? (y) : (x))
@@ -32,6 +32,5 @@
 #define Sonar_Pwm_GPIO_Port             GPIOA
 
 #define MOTOR_OK 0xAB
-
 
 #endif /* __MAIN_H */
