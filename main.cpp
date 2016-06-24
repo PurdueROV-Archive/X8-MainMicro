@@ -93,7 +93,6 @@ int main(void) {
 	packet = new PacketIn();
 	packetOut = new PacketOut();
 	
-	HAL_UART_Receive_DMA(&huart3, packet->getArray(), PACKET_IN_LENGTH);
 
     /* Set up packet */
 	packetOut->setThrusterStatus(1);
@@ -144,9 +143,19 @@ int main(void) {
     overseer->update(vect6Make(0,0,0,0,0,0), vect3Make(0,0,0), 0);
 
 	while (1) {
-		if (RECEIVED_NEW_DATA) {
-            __HAL_UART_GET_FLAG(&huart3, UART_FLAG_ORE);
-            __HAL_UART_FLUSH_DRREGISTER(&huart3);
+	    if (HAL_UART_Receive(&huart3, packet->getArray(), PACKET_IN_LENGTH, 100) != HAL_ERROR) {
+            packet->recieve();
+
+            force_input = packet->getThrusters();
+            force_output = vect6Make(force_input[0], force_input[1], force_input[2],
+                                     force_input[3], force_input[4], force_input[5]);
+
+            // Scaling x and z Long for better ROV response (compensating for motors being directed unintuitively).
+            force_output.L.x *= 3;
+            force_output.L.z *= 4;
+
+            //__HAL_UART_GET_FLAG(&huart3, UART_FLAG_ORE);
+            //__HAL_UART_FLUSH_DRREGISTER(&huart3);
 
             /* COMMENT OUT Pressure, IMU, PID
                     // Pressure Sensor:
@@ -194,19 +203,19 @@ int main(void) {
 
             overseer->calculateAndPush();
             
-            int16_t* thrusters = overseer->getThrusters();
+            //int16_t* thrusters = overseer->getThrusters();
 
             int8_t packet_thrusters[8] = {0,0,0,0,0,0,0,0};
 
-            for (int i = 0; i < 8; i++) {
-                packet_thrusters[i] = thrusters[i] / 256;
-            }
+            //for (int i = 0; i < 8; i++) {
+                //packet_thrusters[i] = thrusters[i] / 256;
+            //}
 
-            packetOut->setThrusters(packet_thrusters);
+            //packetOut->setThrusters(packet_thrusters);
 
 			// Sets the info for the logitudinal forces
 			hcan2.pTxMsg->Data[0] =	'L';
-			memcpy(&hcan2.pTxMsg->Data[1], &thrusters[0], 4);
+			memcpy(&hcan2.pTxMsg->Data[1], &packet_thrusters[0], 4);
             if (HAL_CAN_Transmit(&hcan2, 100) == HAL_OK) {
                 LedOn(BLUE);
             } else {
@@ -215,7 +224,7 @@ int main(void) {
 
 			// Sets the info for the rotational forces
 			hcan2.pTxMsg->Data[0] =	'R';
-			memcpy(&hcan2.pTxMsg->Data[1], &thrusters[4], 4);
+			memcpy(&hcan2.pTxMsg->Data[1], &packet_thrusters[4], 4);
             if (HAL_CAN_Transmit(&hcan2, 100) == HAL_OK) {
                 LedOn(BLUE);
             } else {
@@ -231,9 +240,9 @@ int main(void) {
         LedOn(ORANGE);
 
 		//Delay Loop 10ms
-        __HAL_UART_GET_FLAG(&huart3, UART_FLAG_ORE);
-        __HAL_UART_FLUSH_DRREGISTER(&huart3);
-		HAL_Delay(5);
+        //__HAL_UART_GET_FLAG(&huart3, UART_FLAG_ORE);
+        //__HAL_UART_FLUSH_DRREGISTER(&huart3);
+		//HAL_Delay(5);
 	}
 }
 
@@ -264,11 +273,12 @@ void HAL_UART_TxCpltCallback(UART_HandleTypeDef *UartHandle){
 // This is run when a serial message is received
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *UartHandle){
 
+    LedToggle(BLUE);
 	//set the Serial to read more data again
-    __HAL_UART_GET_FLAG(&huart3, UART_FLAG_ORE);
-    __HAL_UART_FLUSH_DRREGISTER(&huart3);
+    //__HAL_UART_GET_FLAG(&huart3, UART_FLAG_ORE);
+    //__HAL_UART_FLUSH_DRREGISTER(&huart3);
 
-	HAL_UART_Receive_DMA(&huart3, (uint8_t*)packet->getArray(), PACKET_IN_LENGTH);
+	//HAL_UART_Receive_DMA(&huart3, (uint8_t*)packet->getArray(), PACKET_IN_LENGTH);
 
 	packet->recieve();
 
