@@ -120,6 +120,10 @@ int main(void) {
 	//pressure.reset();
 	//pressure.begin();
 
+	/* Temperature Init */
+	Temp tempSensor(&hi2c1);
+	tempSensor.init();
+
 	//pressure.ADC_begin(ADC_4096);
 	//HAL_Delay(10);
 	/* Pressure Init */
@@ -149,6 +153,7 @@ int main(void) {
                     // Commented out until I2C isn't locking up
                     pressure.ADC_read();
                     pressure_mbar = pressure.convert2mBar();
+		    tempSensor.read();
 
                     // IMU Sensor:
                     // Commented out until I2C isn't locking up
@@ -158,6 +163,7 @@ int main(void) {
 
                     // THIS HAS TO BE THE LAST I2C THING for this line IN THE LOOP, add all other readings before.
                     pressure.ADC_begin(ADC_4096);
+		    tempSensor.ADC_begin();
 
                     // PID Controller:
                     // Commented out until IMU working
@@ -172,7 +178,7 @@ int main(void) {
                     overseer->update(force_output, vect3Make(0,0,0), 255);
                     // Update PacketOut Data:
                     packetOut->setThrusterStatus(255);
-                    packetOut->setTemp(36);
+                    packetOut->setTemp(tempSensor.getTemp());
 
                     
                     packetOut->setPressure(pressure_mbar);
