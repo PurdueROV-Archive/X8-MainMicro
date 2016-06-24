@@ -11,6 +11,9 @@
 
 #include "overseer.h"
 
+#undef FLASH_LATENCY_0
+#define FLASH_LATENCY_0 FLASH_LATENCY_5
+
 /*
  * CAN2 GPIO Configuration
  * PB5  ------> CAN2_RX
@@ -142,6 +145,7 @@ int main(void) {
 
 	while (1) {
 		if (RECEIVED_NEW_DATA) {
+            __HAL_UART_GET_FLAG(&huart3, UART_FLAG_ORE);
             __HAL_UART_FLUSH_DRREGISTER(&huart3);
 
             /* COMMENT OUT Pressure, IMU, PID
@@ -224,9 +228,10 @@ int main(void) {
 			RECEIVED_NEW_DATA = false;
 		}
 
-        LedToggle(ORANGE);
+        LedOn(ORANGE);
 
 		//Delay Loop 10ms
+        __HAL_UART_GET_FLAG(&huart3, UART_FLAG_ORE);
         __HAL_UART_FLUSH_DRREGISTER(&huart3);
 		HAL_Delay(5);
 	}
@@ -260,6 +265,7 @@ void HAL_UART_TxCpltCallback(UART_HandleTypeDef *UartHandle){
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *UartHandle){
 
 	//set the Serial to read more data again
+    __HAL_UART_GET_FLAG(&huart3, UART_FLAG_ORE);
     __HAL_UART_FLUSH_DRREGISTER(&huart3);
 
 	HAL_UART_Receive_DMA(&huart3, (uint8_t*)packet->getArray(), PACKET_IN_LENGTH);
@@ -279,6 +285,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *UartHandle){
 }
 
 void HAL_UART_ErrorCallback(UART_HandleTypeDef *UartHandle) {
-    LedOn(GREEN);
+    LedToggle(GREEN);
+    __HAL_UART_GET_FLAG(&huart3, UART_FLAG_ORE);
     __HAL_UART_FLUSH_DRREGISTER(&huart3);
 }
