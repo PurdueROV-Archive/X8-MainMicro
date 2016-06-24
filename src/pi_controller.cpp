@@ -176,24 +176,24 @@ vect6 PIController::getOutput(vect6 FORCE)
 		return FORCE;
 
 	if(ON_OFF & 0x01){
-		data.lastForce.x = data.CObias.x + consts.P_rot * data.rot_error.x + consts.I_rot * data.integralSum.x;
+		data.lastForce.x = data.CObias.x + consts.P_rot * data.rot_error.x + (consts.I_rot * data.integralSum.x) / 100;
 
 		FORCE.R.x = data.lastForce.x/100;
 	}
 
 	if(ON_OFF & 0x02){
-		data.lastForce.y = data.CObias.y + consts.P_rot * data.rot_error.y + consts.I_rot * data.integralSum.y;
+		data.lastForce.y = data.CObias.y + consts.P_rot * data.rot_error.y + (consts.I_rot * data.integralSum.y) / 100;
 
 		FORCE.R.y = data.lastForce.y/100;
 	}
 	if(ON_OFF & 0x04){
-		data.lastForce.z = data.CObias.z + consts.P_rot * data.rot_error.z + consts.I_rot * data.integralSum.z;
+		data.lastForce.z = data.CObias.z + consts.P_rot * data.rot_error.z + (consts.I_rot * data.integralSum.z) /100;
 
 		FORCE.R.z = data.lastForce.z/100;
 	}
 
 	if(ON_OFF & 0x20){
-		data.Z_lastForce = consts.P_Z * data.Z_error + consts.I_Z * data.Z_integralSum;
+		data.Z_lastForce = consts.P_Z * data.Z_error + (consts.I_Z * data.Z_integralSum) /100;
 
 		vect3 Z_stabthrust = vect3Make(0,0,data.Z_lastForce/100); // Create thurst vector in earth frame
 		Z_stabthrust = rotate2body(Z_stabthrust, data.rot_est);
