@@ -283,13 +283,14 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *UartHandle){
 	packet->recieve();
 
 	force_input = packet->getThrusters();
-	force_output = vect6Make(force_input[0], force_input[1], force_input[2],
-                             force_input[3], force_input[4], force_input[5]);
 
-	// Scaling x and z Long for better ROV response (compensating for motors being directed unintuitively).
+	force_output = vect6Make(force_input[0], force_input[1], force_input[2], force_input[3], force_input[4], force_input[5]);
+	// Scaling x and z Long for more responsive movement (compensating for motors being directed unintuitively).
 	force_output.L.x *= 3;
 	force_output.L.z *= 4;
-	
+
+	//piController.setNewRotation(force_output.R);
+
 	//Indicate that we have new data, so send out can messages and other things
 	RECEIVED_NEW_DATA = true;
 }
