@@ -111,21 +111,23 @@ int main(void) {
 
 
 	/* IMU Init */
-	//IMU imu = IMU(&hi2c1);
+	IMU imu = IMU(&hi2c1);
 	/* IMU Init */
 
-
-	/* Pressure Init */
-	//Pressure pressure = Pressure(ADDRESS_HIGH, &hi2c1);
-	//pressure.reset();
-	//pressure.begin();
 
 	/* Temperature Init */
 	Temp tempSensor(&hi2c1);
 	tempSensor.init();
+    tempSensor.ADC_begin();
+	/* Temperature Init */
 
-	//pressure.ADC_begin(ADC_4096);
-	//HAL_Delay(10);
+	/* Pressure Init */
+	Pressure pressure = Pressure(ADDRESS_HIGH, &hi2c1);
+	pressure.reset();
+	pressure.begin();
+
+	pressure.ADC_begin(ADC_4096);
+	HAL_Delay(10);
 	/* Pressure Init */
 
 
@@ -148,47 +150,43 @@ int main(void) {
 		if (RECEIVED_NEW_DATA) {
             __HAL_UART_FLUSH_DRREGISTER(&huart3);
 
-            /* COMMENT OUT Pressure, IMU, PID
-                    // Pressure Sensor:
-                    // Commented out until I2C isn't locking up
-                    pressure.ADC_read();
-                    pressure_mbar = pressure.convert2mBar();
-		    tempSensor.read();
+            // Pressure Sensor:
+            pressure.ADC_read();
+            pressure_mbar = pressure.convert2mBar();
 
-                    // IMU Sensor:
-                    // Commented out until I2C isn't locking up
-                    //imu.get_linear_accel(); // Gets linear movement
-                    imu.retrieve_euler(); // Gets angular movement
+            // IMU Sensor:
+            //imu.get_linear_accel(); // Gets linear movement
+            imu.retrieve_euler(); // Gets angular movement
 
 
-                    // THIS HAS TO BE THE LAST I2C THING for this line IN THE LOOP, add all other readings before.
-                    pressure.ADC_begin(ADC_4096);
-		    tempSensor.ADC_begin();
+            // THIS HAS TO BE THE LAST I2C THING for this line IN THE LOOP, add all other readings before.
+            pressure.ADC_begin(ADC_4096);
 
-                    // PID Controller:
-                    // Commented out until IMU working
-                    // Update piController's sensor data and compute its PID modulated output to the Rotational force vector.
-                    //
-                    piController.set_PI( packet->getPIDTuning(), packet->getPIDControl() );
-                    piController.set_ref( force_output );
-                    piController.sensorInput(imu.get_rot(), pressure.depth() ,HAL_GetTick());
-                    
-                    force_output = piController.getOutput(force_output);
-                    
-                    overseer->update(force_output, vect3Make(0,0,0), 255);
-                    // Update PacketOut Data:
-                    packetOut->setThrusterStatus(255);
-                    packetOut->setTemp(tempSensor.getTemp());
+            /*
+            // PID Controller:
+            // Commented out until IMU working
+            // Update piController's sensor data and compute its PID modulated output to the Rotational force vector.
+            piController.set_PI( packet->getPIDTuning(), packet->getPIDControl() );
+            piController.set_ref( force_output );
+            piController.sensorInput(imu.get_rot(), pressure.depth() ,HAL_GetTick());
+            
+            force_output = piController.getOutput(force_output);
+            
+            overseer->update(force_output, vect3Make(0,0,0), 255);
+            */
 
-                    
-                    packetOut->setPressure(pressure_mbar);
-                    packetOut->setIMU_Lx(force_output.R.x);	// Linear x 	
-                    packetOut->setIMU_Ly(force_output.R.y);	// Linear y 	
-                    packetOut->setIMU_Lz(force_output.R.z);	// Linear z
-                    packetOut->setIMU_Rx(imu.rX());	// Rotational x 
-                    packetOut->setIMU_Ry(imu.rY());	// Rotational y 
-                    packetOut->setIMU_Rz(imu.rZ());	// Rotational z
-            COMMENT OUT Pressure, IMU, PID */ 
+            // Update PacketOut Data:
+            packetOut->setThrusterStatus(255);
+            packetOut->setTemp(tempSensor.getTemp());
+
+            
+            packetOut->setPressure(pressure_mbar);
+            packetOut->setIMU_Lx(0);	// Linear x 	
+            packetOut->setIMU_Ly(0);	// Linear y 	
+            packetOut->setIMU_Lz(0);	// Linear z
+            packetOut->setIMU_Rx(imu.rX());	// Rotational x 
+            packetOut->setIMU_Ry(imu.rY());	// Rotational y 
+            packetOut->setIMU_Rz(imu.rZ());	// Rotational z
 			
             /* Camera Set */
 			//cameraServo.set(packet->getCameraServo());
@@ -208,7 +206,7 @@ int main(void) {
 
 			// Sets the info for the logitudinal forces
 			hcan2.pTxMsg->Data[0] =	'L';
-			memcpy(&hcan2.pTxMsg->Data[1], &thrusters[0], 4);
+			memcpy(&hcan2.pTxMsg->Data[1], &packet_thrusters[0], 4);
             if (HAL_CAN_Transmit(&hcan2, 100) == HAL_OK) {
                 LedOn(BLUE);
             } else {
@@ -217,7 +215,7 @@ int main(void) {
 
 			// Sets the info for the rotational forces
 			hcan2.pTxMsg->Data[0] =	'R';
-			memcpy(&hcan2.pTxMsg->Data[1], &thrusters[4], 4);
+			memcpy(&hcan2.pTxMsg->Data[1], &packet_thrusters[4], 4);
             if (HAL_CAN_Transmit(&hcan2, 100) == HAL_OK) {
                 LedOn(BLUE);
             } else {
