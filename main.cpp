@@ -11,9 +11,6 @@
 
 #include "overseer.h"
 
-#undef FLASH_LATENCY_0
-#define FLASH_LATENCY_0 FLASH_LATENCY_5
-
 /*
  * CAN2 GPIO Configuration
  * PB5  ------> CAN2_RX
@@ -93,6 +90,7 @@ int main(void) {
 	packet = new PacketIn();
 	packetOut = new PacketOut();
 	
+	HAL_UART_Receive_DMA(&huart3, packet->getArray(), PACKET_IN_LENGTH);
 
     /* Set up packet */
 	packetOut->setThrusterStatus(1);
@@ -113,17 +111,17 @@ int main(void) {
 
 
 	/* IMU Init */
-	//IMU imu = IMU(&hi2c1);
+	IMU imu = IMU(&hi2c1);
 	/* IMU Init */
 
 
 	/* Pressure Init */
-	//Pressure pressure = Pressure(ADDRESS_HIGH, &hi2c1);
-	//pressure.reset();
-	//pressure.begin();
+	Pressure pressure = Pressure(ADDRESS_HIGH, &hi2c1);
+	pressure.reset();
+	pressure.begin();
 
-	//pressure.ADC_begin(ADC_4096);
-	//HAL_Delay(10);
+	pressure.ADC_begin(ADC_4096);
+	HAL_Delay(10);
 	/* Pressure Init */
 
 
@@ -143,59 +141,46 @@ int main(void) {
     overseer->update(vect6Make(0,0,0,0,0,0), vect3Make(0,0,0), 0);
 
 	while (1) {
-	    if (HAL_UART_Receive(&huart3, packet->getArray(), PACKET_IN_LENGTH, 100) != HAL_ERROR) {
-            packet->recieve();
+		if (RECEIVED_NEW_DATA) {
+            __HAL_UART_FLUSH_DRREGISTER(&huart3);
 
-            force_input = packet->getThrusters();
-            force_output = vect6Make(force_input[0], force_input[1], force_input[2],
-                                     force_input[3], force_input[4], force_input[5]);
+            // Pressure Sensor:
+            pressure.ADC_read();
+            pressure_mbar = pressure.convert2mBar();
 
-            // Scaling x and z Long for better ROV response (compensating for motors being directed unintuitively).
-            force_output.L.x *= 3;
-            force_output.L.z *= 4;
-
-            //__HAL_UART_GET_FLAG(&huart3, UART_FLAG_ORE);
-            //__HAL_UART_FLUSH_DRREGISTER(&huart3);
-
-            /* COMMENT OUT Pressure, IMU, PID
-                    // Pressure Sensor:
-                    // Commented out until I2C isn't locking up
-                    pressure.ADC_read();
-                    pressure_mbar = pressure.convert2mBar();
-
-                    // IMU Sensor:
-                    // Commented out until I2C isn't locking up
-                    //imu.get_linear_accel(); // Gets linear movement
-                    imu.retrieve_euler(); // Gets angular movement
+            // IMU Sensor:
+            //imu.get_linear_accel(); // Gets linear movement
+            imu.retrieve_euler(); // Gets angular movement
 
 
-                    // THIS HAS TO BE THE LAST I2C THING for this line IN THE LOOP, add all other readings before.
-                    pressure.ADC_begin(ADC_4096);
+            // THIS HAS TO BE THE LAST I2C THING for this line IN THE LOOP, add all other readings before.
+            pressure.ADC_begin(ADC_4096);
 
-                    // PID Controller:
-                    // Commented out until IMU working
-                    // Update piController's sensor data and compute its PID modulated output to the Rotational force vector.
-                    //
-                    piController.set_PI( packet->getPIDTuning(), packet->getPIDControl() );
-                    piController.set_ref( force_output );
-                    piController.sensorInput(imu.get_rot(), pressure.depth() ,HAL_GetTick());
-                    
-                    force_output = piController.getOutput(force_output);
-                    
-                    overseer->update(force_output, vect3Make(0,0,0), 255);
-                    // Update PacketOut Data:
-                    packetOut->setThrusterStatus(255);
-                    packetOut->setTemp(36);
+            /*
+            // PID Controller:
+            // Commented out until IMU working
+            // Update piController's sensor data and compute its PID modulated output to the Rotational force vector.
+            piController.set_PI( packet->getPIDTuning(), packet->getPIDControl() );
+            piController.set_ref( force_output );
+            piController.sensorInput(imu.get_rot(), pressure.depth() ,HAL_GetTick());
+            
+            force_output = piController.getOutput(force_output);
+            
+            overseer->update(force_output, vect3Make(0,0,0), 255);
+            */
 
-                    
-                    packetOut->setPressure(pressure_mbar);
-                    packetOut->setIMU_Lx(force_output.R.x);	// Linear x 	
-                    packetOut->setIMU_Ly(force_output.R.y);	// Linear y 	
-                    packetOut->setIMU_Lz(force_output.R.z);	// Linear z
-                    packetOut->setIMU_Rx(imu.rX());	// Rotational x 
-                    packetOut->setIMU_Ry(imu.rY());	// Rotational y 
-                    packetOut->setIMU_Rz(imu.rZ());	// Rotational z
-            COMMENT OUT Pressure, IMU, PID */ 
+            // Update PacketOut Data:
+            packetOut->setThrusterStatus(255);
+            packetOut->setTemp(36);
+
+            
+            packetOut->setPressure(pressure_mbar);
+            packetOut->setIMU_Lx(0);	// Linear x 	
+            packetOut->setIMU_Ly(0);	// Linear y 	
+            packetOut->setIMU_Lz(0);	// Linear z
+            packetOut->setIMU_Rx(imu.rX());	// Rotational x 
+            packetOut->setIMU_Ry(imu.rY());	// Rotational y 
+            packetOut->setIMU_Rz(imu.rZ());	// Rotational z
 			
             /* Camera Set */
 			//cameraServo.set(packet->getCameraServo());
@@ -203,15 +188,15 @@ int main(void) {
 
             overseer->calculateAndPush();
             
-            //int16_t* thrusters = overseer->getThrusters();
+            int16_t* thrusters = overseer->getThrusters();
 
             int8_t packet_thrusters[8] = {0,0,0,0,0,0,0,0};
 
-            //for (int i = 0; i < 8; i++) {
-                //packet_thrusters[i] = thrusters[i] / 256;
-            //}
+            for (int i = 0; i < 8; i++) {
+                packet_thrusters[i] = thrusters[i] / 256;
+            }
 
-            //packetOut->setThrusters(packet_thrusters);
+            packetOut->setThrusters(packet_thrusters);
 
 			// Sets the info for the logitudinal forces
 			hcan2.pTxMsg->Data[0] =	'L';
@@ -237,12 +222,11 @@ int main(void) {
 			RECEIVED_NEW_DATA = false;
 		}
 
-        LedOn(ORANGE);
+        LedToggle(ORANGE);
 
 		//Delay Loop 10ms
-        //__HAL_UART_GET_FLAG(&huart3, UART_FLAG_ORE);
-        //__HAL_UART_FLUSH_DRREGISTER(&huart3);
-		//HAL_Delay(5);
+        __HAL_UART_FLUSH_DRREGISTER(&huart3);
+		HAL_Delay(5);
 	}
 }
 
@@ -273,12 +257,10 @@ void HAL_UART_TxCpltCallback(UART_HandleTypeDef *UartHandle){
 // This is run when a serial message is received
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *UartHandle){
 
-    LedToggle(BLUE);
 	//set the Serial to read more data again
-    //__HAL_UART_GET_FLAG(&huart3, UART_FLAG_ORE);
-    //__HAL_UART_FLUSH_DRREGISTER(&huart3);
+    __HAL_UART_FLUSH_DRREGISTER(&huart3);
 
-	//HAL_UART_Receive_DMA(&huart3, (uint8_t*)packet->getArray(), PACKET_IN_LENGTH);
+	HAL_UART_Receive_DMA(&huart3, (uint8_t*)packet->getArray(), PACKET_IN_LENGTH);
 
 	packet->recieve();
 
@@ -296,7 +278,6 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *UartHandle){
 }
 
 void HAL_UART_ErrorCallback(UART_HandleTypeDef *UartHandle) {
-    LedToggle(GREEN);
-    __HAL_UART_GET_FLAG(&huart3, UART_FLAG_ORE);
+    LedOn(GREEN);
     __HAL_UART_FLUSH_DRREGISTER(&huart3);
 }
