@@ -6,88 +6,35 @@ void NMI_Handler(void) {
 
 
 void HardFault_Handler(void) {
-    // Go to infinite loop when Hard Fault exception occurs
-    // Toggle LED's every 1/2 second
-
-    // Toggle's all LED's EXCEPT Blue
-
-    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_11, GPIO_PIN_RESET);
+    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_11, GPIO_PIN_SET);
     HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12, GPIO_PIN_RESET);
-    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13, GPIO_PIN_RESET);
-    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_14, GPIO_PIN_RESET);
-
-    while (1) {
-        HAL_Delay(500);
-
-        HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_12);
-        HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_13);
-        HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_14);
-    }
+    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13, GPIO_PIN_SET);
+    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_14, GPIO_PIN_SET);
 }
 
 void MemManage_Handler(void) {
-    // Go to infinite loop when Memory Manage exception occurs
-    // Toggle LED's every 1/2 second
-
-    // Toggle's all LED's EXCEPT Green
-    
-    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_11, GPIO_PIN_RESET);
+    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_11, GPIO_PIN_SET);
     HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12, GPIO_PIN_RESET);
-    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13, GPIO_PIN_RESET);
-    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_14, GPIO_PIN_RESET);
-
-    while (1) {
-        HAL_Delay(500);
-
-        HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_11);
-        HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_13);
-        HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_14);
-    }
+    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13, GPIO_PIN_SET);
+    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_14, GPIO_PIN_SET);
 }
 
 void BusFault_Handler(void) {
-    // Go to infinite loop when Bus Fault exception occurs
-    // Toggle LED's every 1/2 second
-
-    // Toggle's all LED's EXCEPT RED
-    
-    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_11, GPIO_PIN_RESET);
-    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12, GPIO_PIN_RESET);
+    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_11, GPIO_PIN_SET);
+    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12, GPIO_PIN_SET);
     HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13, GPIO_PIN_RESET);
-    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_14, GPIO_PIN_RESET);
-
-    while (1) {
-        HAL_Delay(500);
-
-        HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_11);
-        HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_12);
-        HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_14);
-    }
+    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_14, GPIO_PIN_SET);
 }
 
 void UsageFault_Handler(void) {
-    // Go to infinite loop when Usage Fault exception occurs
-    // Toggle LED's every 1/2 second
-
-    // Toggle's all LED's EXCEPT Orange
-    
-    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_11, GPIO_PIN_RESET);
-    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12, GPIO_PIN_RESET);
-    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13, GPIO_PIN_RESET);
+    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_11, GPIO_PIN_SET);
+    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12, GPIO_PIN_SET);
+    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13, GPIO_PIN_SET);
     HAL_GPIO_WritePin(GPIOD, GPIO_PIN_14, GPIO_PIN_RESET);
-
-    while (1) {
-        HAL_Delay(500);
-
-        HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_11);
-        HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_12);
-        HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_13);
-    }
 }
 
 
 void SVC_Handler(void) {
-    HAL_Delay(500);
     HAL_GPIO_WritePin(GPIOD, GPIO_PIN_11, GPIO_PIN_SET);
 }
 

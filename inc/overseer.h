@@ -70,6 +70,7 @@ class Overseer
         ThrustMapper getThrustMapper(void);
         vect6 getTargetForce(void);
         int areOverseerAndMapperCommunicating(void);
+        int16_t thruster_data[8] = {0,0,0,0,0,0,0,0};
 
 	private:
         ThrustersContainer thrusters;
