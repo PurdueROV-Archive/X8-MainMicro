@@ -6,6 +6,7 @@
 #include "matrices.h"
 #include "imu.h"
 #include "pressure.h"
+#include "temp.h"
 #include "servo.h"
 #include "pi_controller.h"
 

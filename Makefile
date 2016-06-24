@@ -9,15 +9,16 @@ BUILD_DIR = build
 OBJECTS = main.o        \
 	src/stm32f4xx_it.o  \
 	src/print.o         \
-	src/packet_in.o      \
-	src/packet_out.o     \
+	src/packet_in.o     \
+	src/packet_out.o    \
 	src/init.o          \
 	src/pressure.o      \
 	src/servo.o         \
 	src/matrices.o      \
 	src/pi_controller.o \
-	src/imu.o \
-	src/overseer.o \
+	src/imu.o           \
+	src/overseer.o      \
+	src/temp.o          \
 	src/thrust_mapper.o
 
 
