@@ -3,7 +3,7 @@
 
 #include "main.h"
 
-#define PACKET_OUT_LENGTH 25
+#define PACKET_OUT_LENGTH 33
 
 class PacketOut {
 public:
@@ -21,10 +21,9 @@ public:
     void setIMU_Ry(int16_t data);
     void setIMU_Rz(int16_t data);
 
-
-private:
+    void setThrusters(int8_t* data);
     uint8_t packetData[PACKET_OUT_LENGTH];
-
+private:
     char checksum(char *bytes);
 };
 

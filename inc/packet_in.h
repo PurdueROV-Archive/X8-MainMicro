@@ -1,15 +1,12 @@
 #ifndef X8_MAINMICRO_PACKET_H
 #define X8_MAINMICRO_PACKET_H
 
-
 //Buffer Size for Ethernet
 #include "main.h"
 
-
-#define PACKET_IN_LENGTH	33
+#define PACKET_IN_LENGTH	28
 #define HEADER              0x12
 #define TAIL                0x13
-
 
 class PacketIn {
 public:
@@ -20,29 +17,22 @@ public:
     int16_t* getThrusters();
     uint8_t  getCameraServo();
     uint8_t  getSolenoids();
-    uint8_t  getHydraulicsPump();
-    uint8_t  getLeds();
     uint8_t  getThruster();
     uint8_t  getPIDControl();
     int16_t* getPIDTuning();
-    int8_t*  getPIDPivot();
 
 private:
-
     uint8_t recieveBuffer[PACKET_IN_LENGTH];
 
     uint8_t checksum(uint8_t *bytes);
 
-    //Fields to fill in
+    // Fields to fill in
     int16_t thrusters[6];
     uint8_t cameraServo;
     uint8_t solenoids;
-    uint8_t hydraulicsPump;
-    uint8_t leds;
     uint8_t thruster;
     uint8_t PIDControl;
     int16_t PIDTuning[4];
-    int8_t  PIDPivot[3];
 };
 
 #endif //X8_MAINMICRO_PACKET_H

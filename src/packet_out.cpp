@@ -93,6 +93,10 @@ void PacketOut::setIMU_Rz(int16_t data){
     memcpy(&packetData[21], &data, 2);
 }
 
+void PacketOut::setThrusters(int8_t* data) {
+    memcpy(&packetData[23], data, 8);
+}
+
 void PacketOut::send() {
     //Compute checksum
     packetData[PACKET_OUT_LENGTH-2] = checksum((char*) packetData);

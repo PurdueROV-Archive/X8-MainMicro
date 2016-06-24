@@ -1,7 +1,6 @@
 #ifndef __IMU_H
 #define __IMU_H
 
-/* puts all of the #includes and # defines that you need here */
 #include "stm32f4xx_hal_dma.h"
 #include "stm32f4xx_hal_i2c.h"
 #include "main.h"
@@ -28,13 +27,7 @@
 
 class IMU {
 
-
 public:
-	/* Put function declarations that the user will
-	   want to use from the class here */
-
-
-/*constructor */
     IMU(I2C_HandleTypeDef* handler);
 
     bool retrieve_euler(void);
@@ -43,22 +36,17 @@ public:
 
     // Rotational
     int16_t rX(void);
-
     int16_t rY(void);
-
     int16_t rZ(void);
 
     // Linear
     int16_t lX(void);
-
     int16_t lY(void);
-
     int16_t lZ(void);
 
     vect3 get_rot(void);
 
 private:
-
     I2C_HandleTypeDef* I2C_handler;
     int16_t xAngle;
     int16_t yAngle;
@@ -73,7 +61,7 @@ private:
     uint8_t page_flag;
     void check_id(void);
     uint8_t ready_flag;
-    uint8_t  bootldr_rev_id;
+    uint8_t bootldr_rev_id;
     uint16_t sw_rev_id;
 
     void i2c_wait(int8_t timeout = 5);

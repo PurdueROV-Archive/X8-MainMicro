@@ -1,8 +1,6 @@
 #include "packet_in.h"
 
-
 PacketIn::PacketIn() {}
-
 
 uint8_t PacketIn::checksum(uint8_t* bytes) {
     uint8_t crc = 0;
@@ -23,29 +21,22 @@ uint8_t PacketIn::checksum(uint8_t* bytes) {
     return crc;
 }
 
-
 void PacketIn::recieve() {
 
     if (PacketIn::checksum(recieveBuffer) == recieveBuffer[PACKET_IN_LENGTH - 2]) {
         LedOn(RED);
 
-
         //Copy 6 int16_t thruster values
         memcpy(&thrusters[0], &recieveBuffer[2], 12);
 
         //Extract 
-        cameraServo    = recieveBuffer[14];
-        solenoids      = recieveBuffer[15];
-        hydraulicsPump = recieveBuffer[16];
-        leds           = recieveBuffer[17];
-        thruster       = recieveBuffer[18];
-        PIDControl     = recieveBuffer[19];
+        cameraServo = recieveBuffer[14];
+        solenoids   = recieveBuffer[15];
+        thruster    = recieveBuffer[16];
+        PIDControl  = recieveBuffer[17];
 
         //Copy 4 int16_t PID Tuning Values
-        memcpy(&PIDTuning[0], &recieveBuffer[20], 8);
-
-        //Copy 3 int8_t PID Pivot Values
-        memcpy(&PIDPivot[0], &recieveBuffer[28], 3);
+        memcpy(&PIDTuning[0], &recieveBuffer[18], 8);
     } else {
         LedOff(RED);
     }
@@ -60,19 +51,11 @@ int16_t* PacketIn::getThrusters() {
 }
 
 uint8_t PacketIn::getCameraServo() { 
-    return cameraServo;
+    return (cameraServo - (-128)) * (90 - (-90)) / (127 - (-128)) + (-90);
 }
 
 uint8_t PacketIn::getSolenoids() { 
     return solenoids;
-}
-
-uint8_t PacketIn::getHydraulicsPump() { 
-    return hydraulicsPump; 
-}
-
-uint8_t PacketIn::getLeds() {
-    return leds;
 }
 
 uint8_t PacketIn::getPIDControl() {
@@ -80,11 +63,7 @@ uint8_t PacketIn::getPIDControl() {
 }
 
 int16_t* PacketIn::getPIDTuning() {
-    return (int16_t *) PIDTuning; 
-}
-
-int8_t* PacketIn::getPIDPivot() { 
-    return PIDPivot;
+    return (int16_t*) PIDTuning; 
 }
 
 uint8_t PacketIn::getThruster() {

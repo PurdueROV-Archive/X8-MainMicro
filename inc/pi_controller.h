@@ -79,12 +79,12 @@ class PIController
 		void set_PI(int16_t* PIDTuning, uint8_t state);
 		void sensorInput(vect3 rot_est, float Z_est, int32_t timems);
 		vect6 getOutput(vect6 inputThrust);
+		PIDInputData data;
 
 	private:
 
 		uint8_t ON_OFF;
 		PIDConstants consts;
-		PIDInputData data;
 
 };
 
