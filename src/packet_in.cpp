@@ -21,10 +21,10 @@ uint8_t PacketIn::checksum(uint8_t* bytes) {
     return crc;
 }
 
-void PacketIn::recieve() {
+bool PacketIn::recieve() {
 
     if (PacketIn::checksum(recieveBuffer) == recieveBuffer[PACKET_IN_LENGTH - 2]) {
-        LedOn(RED);
+        LedOn(GREEN);
 
         //Copy 6 int16_t thruster values
         memcpy(&thrusters[0], &recieveBuffer[2], 12);
@@ -37,8 +37,10 @@ void PacketIn::recieve() {
 
         //Copy 4 int16_t PID Tuning Values
         memcpy(&PIDTuning[0], &recieveBuffer[18], 8);
+        return true;
     } else {
-        LedOff(RED);
+        LedOff(GREEN);
+        return false;
     }
 }
 

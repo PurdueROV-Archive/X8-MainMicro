@@ -12,7 +12,7 @@ class PacketIn {
 public:
     PacketIn();
 
-    void     recieve();
+    bool     recieve();
     uint8_t* getArray();
     int16_t* getThrusters();
     uint8_t  getCameraServo();

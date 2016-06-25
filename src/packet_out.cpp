@@ -34,6 +34,7 @@
 //use constructor and add header and tail byte
 PacketOut::PacketOut() {
     packetData[0]                   = 0x12;
+    packetData[1]                   = 0x01;
     packetData[PACKET_OUT_LENGTH-1] = 0x13;
 }
 
@@ -102,5 +103,5 @@ void PacketOut::send() {
     packetData[PACKET_OUT_LENGTH-2] = checksum((char*) packetData);
 
     //Send
-    HAL_UART_Transmit_DMA(&huart3, packetData, PACKET_OUT_LENGTH);
+    HAL_UART_Transmit(&huart3, packetData, PACKET_OUT_LENGTH, 100);
 }

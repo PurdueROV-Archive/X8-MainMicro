@@ -74,7 +74,6 @@
 
 
 /* Variables used in the motor controlling code */
-PIController piController; //stabalization controller structure
 vect6 force_output;	//vector containing desired logitudinal rotational force for the ROV
 int16_t* force_input;
 float pressure_mbar;
@@ -148,7 +147,7 @@ int main(void) {
 	cameraServo.setStart(0.725);
 	cameraServo.setRange(1.39);
     
-    overseer->update(vect6Make(0,0,0,0,0,0), vect3Make(0,0,0), 0);
+    int transmit_count = 0;
 
 	while (1) {
 		if (RECEIVED_NEW_DATA) {
@@ -175,8 +174,6 @@ int main(void) {
             piController.sensorInput(imu.get_rot(), pressure.depth() ,HAL_GetTick());
             
             force_output = piController.getOutput(force_output);
-            
-            overseer->update(force_output, vect3Make(0,0,0), 255);
             */
 
             // Update PacketOut Data:
@@ -196,15 +193,41 @@ int main(void) {
 			//cameraServo.set(packet->getCameraServo());
             /* Camera Set */
 
+            /*
+            overseer->update(force_output, vect3Make(0,0,0), 255);
+
             overseer->calculateAndPush();
             
             int16_t* thrusters = overseer->getThrusters();
 
             int8_t packet_thrusters[8] = {0,0,0,0,0,0,0,0};
-
             for (int i = 0; i < 8; i++) {
                 packet_thrusters[i] = thrusters[i] / 256;
             }
+
+            packet_thrusters[0] = packet->getThrusters()[0] / 256;
+            */
+            matrix8_6 matrix;
+            matrix.t1 = vect6Make(  272,   732,     0,     0,     0,  -131);
+            matrix.t2 = vect6Make(  272,  -732,     0,     0,     0,   131);
+            matrix.t3 = vect6Make( -272,   765,     0,     0,     0,   131);
+            matrix.t4 = vect6Make( -272,  -765,     0,     0,     0,  -131);
+            matrix.t5 = vect6Make(  -19,    14,   228,   181,   236,     0);
+            matrix.t6 = vect6Make(  -19,   -14,   228,  -181,   236,     0);
+            matrix.t7 = vect6Make(   19,    14,   284,   181,  -236,     0);
+            matrix.t8 = vect6Make(   19,   -14,   284,  -181,  -236,     0);
+
+            vect8 thruster_output = matMul_86x61(matrix, force_output);
+            int8_t packet_thrusters[8] = {
+                thruster_output.a / 256000,
+                thruster_output.b / 256000,
+                thruster_output.c / 256000,
+                thruster_output.d / 256000,
+                thruster_output.e / 256000,
+                thruster_output.f / 256000,
+                thruster_output.g / 256000,
+                thruster_output.h / 256000
+            };
 
             packetOut->setThrusters(packet_thrusters);
 
@@ -268,13 +291,13 @@ void HAL_UART_TxCpltCallback(UART_HandleTypeDef *UartHandle){
 
 // This is run when a serial message is received
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *UartHandle){
-
 	//set the Serial to read more data again
     __HAL_UART_FLUSH_DRREGISTER(&huart3);
 
-	HAL_UART_Receive_DMA(&huart3, (uint8_t*)packet->getArray(), PACKET_IN_LENGTH);
-
-	packet->recieve();
+	if (!packet->recieve()) {
+	    HAL_UART_Receive_DMA(&huart3, (uint8_t*)packet->getArray(), PACKET_IN_LENGTH);
+        return;
+    }
 
 	force_input = packet->getThrusters();
 
@@ -283,13 +306,13 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *UartHandle){
 	force_output.L.x *= 3;
 	force_output.L.z *= 4;
 
-	//piController.setNewRotation(force_output.R);
-
 	//Indicate that we have new data, so send out can messages and other things
 	RECEIVED_NEW_DATA = true;
+
+	HAL_UART_Receive_DMA(&huart3, (uint8_t*)packet->getArray(), PACKET_IN_LENGTH);
 }
 
 void HAL_UART_ErrorCallback(UART_HandleTypeDef *UartHandle) {
-    LedOn(GREEN);
+    LedOn(RED);
     __HAL_UART_FLUSH_DRREGISTER(&huart3);
 }

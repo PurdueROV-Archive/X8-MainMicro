@@ -49,8 +49,7 @@ Overseer::Overseer(void)
 // Gives new data to Overseer, and sets NEW_DATA_FLAG to NEW_DATA
 //
 // @note - Run in the interrupt. Does no calculations.
-void Overseer::update(vect6 force, vect3 pivotPos, uint8_t on_off)
-{
+void Overseer::update(vect6 force, vect3 pivotPos, uint8_t on_off) {
 	target_force = force;
 	thrustMapper.adjustPivotPosition(pivotPos);
 	thrustMapper.changeMapperMatrix(on_off);
@@ -62,80 +61,36 @@ void Overseer::update(vect6 force, vect3 pivotPos, uint8_t on_off)
 //
 // @returns - NEW_DATA_FLAG.
 // @note - Run in main while loop (not during interrupt).
-int Overseer::checkForUpdate(void)
-{
-	if (flag_NewData == NEW_DATA)
-  {
-    flag_NewData = NO_NEW_DATA;
+int Overseer::checkForUpdate(void) {
+	if (flag_NewData == NEW_DATA) {
+        flag_NewData = NO_NEW_DATA;
 		calculateAndPush();
-  }
+    }
 	return flag_NewData;
 }
 
 // Calculates the thrust for each motor, and pushes to the motors.
-void Overseer::calculateAndPush(void)
-{
+void Overseer::calculateAndPush(void) {
 	thrustMapper.calculateThrustMap(target_force);
     int max = 0;
 
     if ((max = max8(thrustMapper.thrust_map)) > THRUST_MAX) {
-        scaleOverflow(&thrustMapper.thrust_map, max);
+        //scaleOverflow(&thrustMapper.thrust_map, max);
     } else {
         is_Overflowing = 0;
     }
-
-	// send the thrustMapper.thrust_map to the motors (thrusters) here:
-    sendToMotors();
 }
 
-void Overseer::sendToMotors(void)
-{
-
-  //Serial.print("before");
-  //Arduino_I2C_ESC* motor0 = new Arduino_I2C_ESC(0x29);
-  //motor0->set(4300);
-  /*motors[1]->set(currentDeliveredThrust.b);
-  motors[2]->set(currentDeliveredThrust.c);
-  motors[3]->set(currentDeliveredThrust.d);
-  motors[4]->set(currentDeliveredThrust.e);
-  motors[5]->set(currentDeliveredThrust.f);
-  motors[6]->set(currentDeliveredThrust.g);
-  motors[7]->set(currentDeliveredThrust.h);*/
-  //Serial.print("after");
-/*  if (!usePWM)
-  {
-    motors[0].set(currentDeliveredThrust.a);
-    motors[1].set(currentDeliveredThrust.b);
-    motors[2].set(currentDeliveredThrust.c);
-    motors[3].set(currentDeliveredThrust.d);
-    motors[4].set(currentDeliveredThrust.e);
-    motors[5].set(currentDeliveredThrust.f);
-    motors[6].set(currentDeliveredThrust.g);
-    motors[7].set(currentDeliveredThrust.h);
-  }
-  else
-  {
-    
-  }
-  */
-   
-    
-    
-
-  /*for(int i = 0; i < 8; i++)
-  {
-    //Serial.print("Loop");
-    //motors[i]->update();
-  }*/
-
+void Overseer::sendToMotors(void) {
 }
 
 
 // Scales all thrust values by the maximum overflowing thrust, keeping the same force vector.
 void Overseer::scaleOverflow(vect8 * thrust_map, int32_t max)
 {
-    if (max < THRUST_MAX)
+    if (max < THRUST_MAX) {
         return;
+    }
 
     is_Overflowing = 1;
     float scale = (float) THRUST_MAX / max;
@@ -162,14 +117,12 @@ void Overseer::scaleOverflow(vect8 * thrust_map, int32_t max)
 
 
 // Will update information about the motors.
-void Overseer::updateFromThrusters(void)
-{
+void Overseer::updateFromThrusters(void) {
 	// Update Current
 	// Update Voltage
 }
 
-void Overseer::doRamping(void)
-{
+void Overseer::doRamping(void) {
     if (currentDeliveredThrust.a < thrustMapper.thrust_map.a) {
       currentDeliveredThrust.a += MIN(1024, thrustMapper.thrust_map.a - currentDeliveredThrust.a);
     } else {
@@ -217,15 +170,6 @@ void Overseer::doRamping(void)
     } else {
       currentDeliveredThrust.h += MAX(1024, thrustMapper.thrust_map.h - currentDeliveredThrust.h);
     }
-
-    //pseudo code
-    //if Tset > T
-        //T = T + min(1024,residual)
-    //else
-        //T = T - min(1024,residual)
-    
-    //send through CAN to motors
-    sendToMotors();
 }
 
 int16_t* Overseer::getThrusters() {
@@ -241,23 +185,19 @@ int16_t* Overseer::getThrusters() {
 
 
 // FOR DEBUGGING USE ONLY!!!
-vect8 Overseer::getThrust_Map(void)
-{
+vect8 Overseer::getThrust_Map(void) {
   return thrustMapper.thrust_map;
 }
 
-ThrustMapper Overseer::getThrustMapper(void)
-{
+ThrustMapper Overseer::getThrustMapper(void) {
   return thrustMapper;
 }
 
-vect6 Overseer::getTargetForce(void)
-{
+vect6 Overseer::getTargetForce(void) {
   return target_force;
 }
 
-int Overseer::areOverseerAndMapperCommunicating(void)
-{
+int Overseer::areOverseerAndMapperCommunicating(void) {
   vect6 currentForceVector = thrustMapper.getCurrentForceVector();
   
   return (target_force.L.x == currentForceVector.L.x && target_force.L.y == currentForceVector.L.y && target_force.L.z == currentForceVector.L.z && target_force.R.x == currentForceVector.R.x && target_force.R.y == currentForceVector.R.y && target_force.R.z == currentForceVector.R.z);

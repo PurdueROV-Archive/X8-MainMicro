@@ -38,7 +38,6 @@ ThrustMapper::ThrustMapper(void) {
 	mapper_matrices.matrices[0].t6 = vect6Make(  -14,   -18,   491,  -228,   175,     0);
 	mapper_matrices.matrices[0].t7 = vect6Make(   14,    18,   533,   228,  -174,     0);
 	mapper_matrices.matrices[0].t8 = vect6Make(    0,     0,     0,     0,     0,     0);
-    */
 
     mapper_matrices.matrices[1].t1 = vect6Make(    0,     0,     0,     0,     0,     0);
     mapper_matrices.matrices[1].t2 = vect6Make(    0, -1465,     0,     0,     0,   262);
@@ -138,6 +137,7 @@ ThrustMapper::ThrustMapper(void) {
     mapper_matrices.matrices[11].t6 = vect6Make(    0,     0,     0,     0,     0,     0);
     mapper_matrices.matrices[11].t7 = vect6Make(    0,     0,     0,     0,     0,     0);
     mapper_matrices.matrices[11].t8 = vect6Make(   14,   -18,   533,  -228,  -174,     0);
+    */
 
 
 	// Other inits here
@@ -175,11 +175,12 @@ void ThrustMapper::adjustPivotPosition(vect3 loc) {
 // Uses last set desired_force_vector to calculate and set the thrust_map.
 void ThrustMapper::calculateThrustMap(void) {
 	// Calculations:
+    mapper_matrices.currentMapperMatrix = ALL;
 	vect3 cross_result = cross(pivotPosition, desired_force_vector.R);
 	desired_force_vector.L.x += cross_result.x;
 	desired_force_vector.L.y += cross_result.y;
 	desired_force_vector.L.z += cross_result.z;
-	thrust_map = matMul_86x61(mapper_matrices.matrices[mapper_matrices.currentMapperMatrix], desired_force_vector);
+	thrust_map = matMul_86x61(mapper_matrices.matrices[0], desired_force_vector);
 }
 
 // Uses new target_vector as the desired_force_vector to calculate the thrust map.
@@ -187,11 +188,12 @@ void ThrustMapper::calculateThrustMap(vect6 target_vector) {
 	desired_force_vector = div6(target_vector,1024);
 
 	// Calculations:
+    mapper_matrices.currentMapperMatrix = ALL;
 	vect3 cross_result = cross(pivotPosition, desired_force_vector.R);
 	desired_force_vector.L.x += cross_result.x;
 	desired_force_vector.L.y += cross_result.y;
 	desired_force_vector.L.z += cross_result.z;
-	thrust_map = matMul_86x61(mapper_matrices.matrices[mapper_matrices.currentMapperMatrix], desired_force_vector);
+	thrust_map = matMul_86x61(mapper_matrices.matrices[0], desired_force_vector);
 }
 
 /*
